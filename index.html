@@ -40,6 +40,49 @@
         background-position: 0% 50%;
       }
     }
+
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0000FF;
+      color: white;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .loading-text {
+      margin: 20px;
+      font-family: monospace;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .loading-text div {
+      opacity: 0; /* Initially hidden */
+    }
+
+    /* Fade out animation */
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    .content-loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(15px); /* Creates blur effect */
+      background-color: rgba(0, 0, 0, 0.3); /* Slight gray tint */
+      z-index: 100;
+      transition: all 0.5s;
+    }
     
     .main-content {
       flex: 1;
@@ -490,6 +533,16 @@
   </style>
 </head>
 <body>
+
+  <div class="loading-screen">
+    <div class="loading-text">
+      <div id="copyright">copyright (c) 2025, ryan lettieri</div>
+      <div id="update">last update : fri may 26 2025</div>
+      <div id="path">//ryanlettieri-portfolio-25</div>
+      <div id="progress">loading : <span id="percentage">1</span>%</div>
+    </div>
+  </div>
+
   <div class="main-content">
     <div class="slideshow">
       <img src="images/slideshow1.png" alt="Slideshow Image 1" class="active">
@@ -520,6 +573,84 @@
   </div>
   
   <script>
+
+        // Loading screen animation
+    function startLoadingAnimation() {
+      const TOTAL_DURATION = 2000; // Total animation duration in ms (2 seconds)
+      
+      // Timing configuration (in percentages of total duration)
+      const TIMING = {
+        copyright: 5,      // When copyright text appears
+        update: 10,        // When update text appears
+        path: 15,          // When path text appears
+        progressStart: 20, // When loading progress starts
+        progressEnd: 80,   // When loading progress reaches 100%
+        fadeOut: 95        // When fade out begins
+      };
+      
+      // Convert percentage timings to actual milliseconds
+      const getTime = (percentage) => TOTAL_DURATION * (percentage / 100);
+      
+      // Get elements
+      const loadingScreen = document.querySelector('.loading-screen');
+      const copyright = document.getElementById('copyright');
+      const update = document.getElementById('update');
+      const path = document.getElementById('path');
+      const progress = document.getElementById('progress');
+      const percentage = document.getElementById('percentage');
+      
+      // Show elements sequentially
+      setTimeout(() => { copyright.style.opacity = 1; }, getTime(TIMING.copyright));
+      setTimeout(() => { update.style.opacity = 1; }, getTime(TIMING.update));
+      setTimeout(() => { path.style.opacity = 1; }, getTime(TIMING.path));
+      setTimeout(() => { progress.style.opacity = 1; }, getTime(TIMING.progressStart));
+      
+      // Handle progress percentage
+      const progressDuration = getTime(TIMING.progressEnd) - getTime(TIMING.progressStart);
+      const startTime = getTime(TIMING.progressStart);
+      let progressInterval;
+      
+      setTimeout(() => {
+        let count = 1;
+        progressInterval = setInterval(() => {
+          percentage.textContent = count;
+          if (count >= 100) clearInterval(progressInterval);
+          count++;
+        }, progressDuration / 100);
+      }, startTime);
+      
+      // Fade out loading screen
+      setTimeout(() => {
+        loadingScreen.style.animation = 'fadeOut 0.1s forwards';
+      }, getTime(TIMING.fadeOut));
+      
+      // Remove loading screen after animation completes
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, TOTAL_DURATION);
+    }
+
+    // Call this when DOM is loaded
+
+    // Content loading animation for work pages
+    function showContentLoading(contentWrapper) {
+      // Create simple blur overlay for just the content area
+      const loadingOverlay = document.createElement('div');
+      loadingOverlay.className = 'content-loading-overlay';
+      contentWrapper.appendChild(loadingOverlay);
+      
+      // Return function to remove the loading overlay
+      return function hideLoading() {
+        // Create transition effect
+        loadingOverlay.style.opacity = '0';
+        setTimeout(() => {
+          if (contentWrapper.contains(loadingOverlay)) {
+            contentWrapper.removeChild(loadingOverlay);
+          }
+        }, 500); // Fade out time
+      };
+    }
+
     // Slideshow functionality
     function startSlideshow() {
       const images = document.querySelectorAll('.slideshow img');
@@ -817,35 +948,78 @@ function setupNavigation() {
       });
     }
     
-    function openWorkPage(id, title) {
-      // Check if page already exists
-      let page = document.querySelector(`.work-page[data-id="${id}"]`);
+      function openWorkPage(id, title) {
+    // Check if page already exists
+    let page = document.querySelector(`.work-page[data-id="${id}"]`);
+    
+    if (!page) {
+      // Create new page
+      page = createWorkPage(id, title);
+      document.body.appendChild(page);
       
-      if (!page) {
-        // Create new page
-        page = createWorkPage(id, title);
-        document.body.appendChild(page);
-      }
+      // Get the content wrapper element
+      const contentWrapper = page.querySelector('.page-content-wrapper');
       
-      // Show this page, hide others
-      hideAllPages();
-      page.style.display = 'flex';
+      // Show loading animation
+      const hideLoading = showContentLoading(contentWrapper);
       
-      // Create or activate tab
-      activateTab(id, title);
+      // Simulate loading time for images and content
+      // You can replace this with actual image loading detection
+      setTimeout(() => {
+        // Create an array to hold all image elements
+        const images = Array.from(contentWrapper.querySelectorAll('img'));
+        let loadedImages = 0;
+        
+        // If there are no images, remove loading after a short delay
+        if (images.length === 0) {
+          setTimeout(hideLoading, 500);
+          return;
+        }
+        
+        // Add load event for each image
+        images.forEach(img => {
+          // For images that are already loaded or have errors
+          if (img.complete) {
+            loadedImages++;
+            if (loadedImages === images.length) hideLoading();
+          } else {
+            // For images still loading
+            img.addEventListener('load', () => {
+              loadedImages++;
+              if (loadedImages === images.length) hideLoading();
+            });
+            
+            img.addEventListener('error', () => {
+              loadedImages++;
+              if (loadedImages === images.length) hideLoading();
+            });
+          }
+        });
+        
+        // Fallback in case some images never load
+        setTimeout(hideLoading, 5000);
+      }, 100);
     }
     
+    // Show this page, hide others
+    hideAllPages();
+    page.style.display = 'flex';
+    
+    // Create or activate tab
+    activateTab(id, title);
+  }
+    
     function createWorkPage(id, title) {
-  const page = document.createElement('div');
-  page.className = 'work-page';
-  page.setAttribute('data-id', id);
-  
-  const header = document.createElement('div');
-  header.className = 'page-header';
-  header.innerHTML = `
-    <div>${title}</div>
-    <button class="close-button">×</button>
-  `;
+      const page = document.createElement('div');
+      page.className = 'work-page';
+      page.setAttribute('data-id', id);
+      
+      const header = document.createElement('div');
+      header.className = 'page-header';
+      header.innerHTML = `
+        <div>${title}</div>
+        <button class="close-button">×</button>
+      `;
   
   const contentWrapper = document.createElement('div');
   contentWrapper.className = 'page-content-wrapper';
@@ -1317,11 +1491,12 @@ function setupNavigation() {
     
     // Initialize everything when DOM is loaded
       document.addEventListener('DOMContentLoaded', () => {
+        startLoadingAnimation();
         startSlideshow();
         updateClock();
         setupNavigation();
         setupWorkPages();
-        setupAboutMenu(); // Add this line
+        setupAboutMenu();
       });
   </script>
 </body>
