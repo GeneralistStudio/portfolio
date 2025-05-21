@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.typekit.net/beg7yli.css">
+  <link rel="stylesheet" href="https://use.typekit.net/beg7yli.css">
+  <title>Windows 95-Style Website</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --font-primary: "cofo-sans-pixel", sans-serif;
+      --font-secondary: "argent-pixel-cf", sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(-45deg, #0078c8, #357646);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: var(--font-primary);
+    }
+    
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .slideshow {
+      width: 800px;
+      height: 600px;
+      position: relative;
+    }
+    
+    .slideshow img {
+      border-radius: 5px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 0s;
+    }
+    
+    .slideshow img.active {
+      opacity: 1;
+    }
+    
+    .title {
+      font-size: 25px;
+      color: white;
+      margin-top: 20px;
+      padding-left: 20vw;
+      padding-right: 20vw;
+      text-align: center;
+      font-family: "argent-pixel-cf", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+    
+    .nav-bar {
+      height: 45px;
+      background-color: #D0D2D3;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 100;
+    }
+    
+    .button {
+      background-color: #D0D2D3;
+      color: black;
+      padding: 5px 30px;
+      height: 100%;
+      border-width: 4px;
+      border-style: outset;
+      border-color: white white white white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    .button:hover {
+      background-color: #414042;
+      color: white;
+      border-color: #808184 black black #808184;
+    }
+    
+    .button.pressed {
+      background-color: rgb(231, 231, 231);
+      color: black;
+      border-color: #414042 white white #414042;
+    }
+
+    .button:active {
+      background-color: #D0D2D3;
+      color: black;
+      border-color: #414042 white white #414042;
+    }
+    
+    .work-menu {
+      position: absolute;
+      bottom: 45px;
+      left: 0;
+      background-color: #BCBEC0;
+      display: none;
+      flex-direction: column;
+      z-index: 200;
+    }
+    
+    .menu-header {
+      height: 25px;
+      background-color: #0700B1;
+      display: flex;
+      align-items: center;
+      padding-left: 25px;
+      color: white;
+    }
+    
+    .menu-footer {
+      height: 25px;
+      background-color: #D0D2D3;
+    }
+    
+    .menu-item {
+      height: 50px;
+      width: 300px;
+      display: flex;
+      align-items: center;
+      padding-left: 25px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: var(--font-secondary);
+      font-weight: 400;
+      font-size: 25px;
+    }
+    
+    .menu-item:hover {
+      background-color: #D0D2D3;
+      color: #0000FF;
+    }
+    
+    .menu-item.active {
+      background-color: #0000FF;
+      color: white;
+    }
+
+    
+    .work-page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 45px;
+      background-color: #D0D2D3;
+      display: none;
+      flex-direction: column;
+      z-index: 50;
+      overflow: hidden;
+    }
+    
+    .page-header {
+      height: 40px;
+      background-color: #0700B1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      color: white;
+    }
+    
+    .close-button {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    
+    .page-content-wrapper {
+      flex: 1;
+      padding: 5px 5px 0 5px;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .page-content {
+      height: 100%;
+      color: white;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 100px 20vw;
+      gap: 50px; /* Space between sections */
+    }
+    
+    .page-content img.logo {
+      max-width: 400px;
+      margin-bottom: 10px;
+    }
+    
+    .page-content img.main-image {
+      width: 100%;
+      max-width: 700px;
+      border-radius: 5px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .page-content img.main-image {
+      width: 100%;
+      max-width: 700px;
+      border-radius: 5px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    
+    .page-content .text {
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    .page-content-container {
+      margin: 100px 150px 100px 150px;
+      border: 1px solid white;
+      padding: 0;
+    }
+
+    .content-section {
+      border: 1px solid white;
+      margin: 0;
+      padding: 35px;
+      box-sizing: border-box;
+    }
+
+    .content-section.image-section {
+      position: relative;
+      padding: 0;
+    }
+
+    .content-section img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .content-label-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: -25px;
+      margin-bottom: 25px;
+      color: white;
+    }
+
+    .left-column {
+      text-align: left;
+    }
+
+    .right-column {
+      text-align: right;
+    }
+
+    .split-image-section {
+      display: flex;
+      gap: 20px; /* Space between the two image boxes */
+      margin: 0;
+      padding: 0;
+      background: none;
+      border: none; /* Remove the border from the container */
+    }
+
+    .image-box {
+      flex: 1; /* Each box takes equal space */
+      border: 1px solid white; /* Add border to each individual box */
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .image-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .title-section h2 {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .text-block {
+      max-width: 55ch;
+      font-size: 16px;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+    
+    .image-row {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .image-row img {
+      width: calc(50% - 5px);
+      height: auto;
+    }
+
+    .page-content.project-1 {
+      background: linear-gradient(0deg, #012e91, #000037);
+    }
+    
+    .page-content.project-2 {
+      background-image: url('images/bg.gif');
+      background-repeat: repeat;  /* Tiling in both directions */
+      background-size: auto; /* Keeps the original size of the GIF */
+    }
+    
+    .page-content.project-3 {
+      background: linear-gradient(135deg, #006600, #003300);
+    }
+    
+    .page-content.project-4 {
+      background-color: rgb(20, 20, 61);
+    }
+    
+    .page-content.project-5 {
+      background: linear-gradient(135deg, #990000, #660000);
+    }
+    
+    .tabs {
+      display: flex;
+      height: 100%; /* Ensure tabs container takes full height */
+    }
+    
+    .tab {
+      background-color: #D0D2D3;
+      color: black;
+      padding: 5px 30px;
+      height: 100%;
+      border-width: 4px;
+      border-style: outset;
+      border-color: white white white white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    .tab:hover {
+      background-color: #414042;
+      color: white;
+      border-color: #808184 black black #808184;
+    }
+    
+    .tab.pressed {
+      background-color: rgb(231, 231, 231);
+      color: black;
+      border-color: #414042 white white #414042;
+    }
+
+    .tab:active {
+      background-color: #D0D2D3;
+      color: black;
+      border-color: #414042 white white #414042;
+    }
+    
+    .clock {
+      margin-left: auto;
+      padding: 0 10px;
+      font-size: 18px;
+    }
+
+    .about-menu {
+      position: absolute;
+      bottom: 45px;
+      left: 0;
+      background-color: #BCBEC0;
+      display: none;
+      flex-direction: column;
+      z-index: 200;
+      width: 500px;
+    }
+
+    .about-section {
+      padding: 15px;
+    }
+
+    .about-header-image {
+      width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .about-content {
+      display: flex;
+      gap: 15px;
+    }
+
+    .about-image {
+      width: 200px;
+      height: auto;
+    }
+
+    .about-text {
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .about-text p {
+      margin-bottom: 10px;
+    }
+
+    .colophon-section {
+      padding: 15px;
+    }
+
+    .colophon-section p {
+      margin-bottom: 5px;
+    }
+
+    .page-link-container {
+      position: absolute;
+      top: 15px; /* Margin from top */
+      left: 15px; /* Margin from left */
+      z-index: 10; /* Make sure it's above the image */
+    }
+
+    /* Modify your project-link style to include the hover animation */
+    .project-link {
+      display: inline-block;
+      padding: 8px 15px;
+      border: 1px solid white;
+      background: rgba(0, 0, 0, 0.406);
+      text-decoration: none;
+      font-family: var(--font-primary);
+      font-size: 16px;
+      letter-spacing: 1px;
+      border-radius: 4px;
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .project-link:hover {
+      transform: scale(0.9);
+      cursor: ne-resize;
+    }
+
+    /* Different solid colors for each project */
+    .link-color-1 { color: #fadf9e; border-color: #fadf9e; }
+    .link-color-2 { color: #ffffff; border-color: #ffffff; }
+    .link-color-3 { color: #ffffff; border-color: #ffffff; }
+    .link-color-4 { color: #ff66cc; border-color: #ff66cc; }
+    .link-color-5 { color: #ff3333; border-color: #ff3333; }
+
+  </style>
+</head>
+<body>
+  <div class="main-content">
+    <div class="slideshow">
+      <img src="images/slideshow1.png" alt="Slideshow Image 1" class="active">
+      <img src="images/slideshow2.png" alt="Slideshow Image 2">
+      <img src="images/slideshow1.png" alt="Slideshow Image 3">
+      <img src="images/slideshow2.png" alt="Slideshow Image 4">
+      <img src="images/slideshow1.png" alt="Slideshow Image 5">
+    </div>
+    <h2 class="title">Ryan Lettieri builds immersive systems that turn abstract ideas into rich, explorable worlds through motion, visuals, and interaction.</h2>
+  </div>
+  
+  <div class="nav-bar">
+    <div class="button home pressed">home</div>
+    <div class="button work">work</div>
+    <div class="button about">about</div>
+    <div class="tabs"></div>
+    <div class="clock">00:00:00 AM</div>
+  </div>
+  
+  <div class="work-menu">
+    <div class="menu-header">work</div>
+    <div class="menu-item" data-id="1">SYMBIOTICA</div>
+    <div class="menu-item" data-id="2">OJAHARA</div>
+    <div class="menu-item" data-id="3">SWARM</div>
+    <div class="menu-item" data-id="4">TIDELANDS</div>
+    <div class="menu-item" data-id="5">ORKA</div>
+    <div class="menu-footer"></div>
+  </div>
+  
+  <script>
+    // Slideshow functionality
+    function startSlideshow() {
+      const images = document.querySelectorAll('.slideshow img');
+      let currentIndex = 0;
+      
+      setInterval(() => {
+        images[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].classList.add('active');
+      }, 2500);
+    }
+    
+    // Clock functionality
+    function updateClock() {
+      const clockElement = document.querySelector('.clock');
+      
+      setInterval(() => {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        hours = hours.toString().padStart(2, '0');
+        
+        clockElement.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+      }, 1000);
+    }
+    
+    // Navigation buttons functionality
+    function setupNavigation() {
+      const homeButton = document.querySelector('.button.home');
+      const workButton = document.querySelector('.button.work');
+      const aboutButton = document.querySelector('.button.about');
+      const workMenu = document.querySelector('.work-menu');
+      
+      homeButton.addEventListener('click', () => {
+        setActiveButton(homeButton);
+        hideAllPages();
+        workMenu.style.display = 'none';
+        // Reset all tabs to unpressed state
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.classList.remove('pressed');
+        });
+        // Immediately return home button to unpressed state after action
+        setTimeout(() => {
+          homeButton.classList.remove('pressed');
+        }, 100);
+      });
+      
+      workButton.addEventListener('click', () => {
+        if (workMenu.style.display === 'flex') {
+          workMenu.style.display = 'none';
+          workButton.classList.remove('pressed');
+        } else {
+          workMenu.style.display = 'flex';
+          setActiveButton(workButton);
+        }
+      });
+      
+      aboutButton.addEventListener('click', () => {
+        setActiveButton(aboutButton);
+        hideAllPages();
+        workMenu.style.display = 'none';
+      });
+      
+      // Close menu when clicking elsewhere
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('.work-menu') && 
+            !event.target.closest('.button.work')) {
+          workMenu.style.display = 'none';
+          workButton.classList.remove('pressed');
+        }
+      });
+    }
+    
+    function setActiveButton(button) {
+      document.querySelectorAll('.button').forEach(btn => {
+        btn.classList.remove('pressed');
+      });
+      button.classList.add('pressed');
+    }
+
+      // Add this to your existing JavaScript, near where you set up the navigation buttons
+
+      function setupAboutMenu() {
+      const aboutButton = document.querySelector('.button.about');
+      const aboutMenu = document.createElement('div');
+      aboutMenu.className = 'about-menu';
+      aboutMenu.style.display = 'none';
+      aboutMenu.innerHTML = `
+        <div class="menu-header">about</div>
+        <div class="about-section">
+          <img class="about-header-image" src="/api/placeholder/200/100" alt="About Header">
+          <div class="about-content">
+            <img class="about-image" src="images/about-primary.jpg" alt="About Image">
+            <div class="about-text">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.</p>
+              <p>Vivamus at risus eget ligula vulputate commodo. Donec eget libero eu dolor egestas consequat. Sed vel nulla vel eros gravida pellentesque.</p>
+              <p>Praesent auctor metus in semper scelerisque. Morbi ut dui non sapien venenatis faucibus.</p>
+            </div>
+          </div>
+        </div>
+        <div class="menu-header">colophon</div>
+        <div class="colophon-section">
+          <p>Website designed by: Ryan Lettieri</p>
+          <p>Fonts: Argent Pixel CF & CoFo Sans Pixel</p>
+          <p>Friends & collaborators:</p>
+          <p>Zoe Lee, Gary Li, Annie Chen, Louis Hand, Kai Geitzen, Lindsay Ju.</p>
+        </div>
+        <div class="menu-footer">
+          <div class="footer-border"></div>
+        </div>
+      `;
+      
+  document.body.appendChild(aboutMenu);
+  
+  // Update the about button click handler
+  aboutButton.addEventListener('click', () => {
+    if (aboutMenu.style.display === 'flex') {
+      aboutMenu.style.display = 'none';
+      aboutButton.classList.remove('pressed');
+    } else {
+      aboutMenu.style.display = 'flex';
+      setActiveButton(aboutButton);
+      // Hide work menu if it's open
+      document.querySelector('.work-menu').style.display = 'none';
+    }
+  });
+  
+  // Close menu when clicking elsewhere
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.about-menu') && 
+        !event.target.closest('.button.about')) {
+      aboutMenu.style.display = 'none';
+      aboutButton.classList.remove('pressed');
+    }
+  });
+}
+
+// Modify your existing setupNavigation function to remove the about button handler
+function setupNavigation() {
+  const homeButton = document.querySelector('.button.home');
+  const workButton = document.querySelector('.button.work');
+  const workMenu = document.querySelector('.work-menu');
+  
+  homeButton.addEventListener('click', () => {
+    setActiveButton(homeButton);
+    hideAllPages();
+    workMenu.style.display = 'none';
+    document.querySelector('.about-menu').style.display = 'none';
+    // Reset all tabs to unpressed state
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.classList.remove('pressed');
+    });
+    // Immediately return home button to unpressed state after action
+    setTimeout(() => {
+      homeButton.classList.remove('pressed');
+    }, 100);
+  });
+  
+  workButton.addEventListener('click', () => {
+    if (workMenu.style.display === 'flex') {
+      workMenu.style.display = 'none';
+      workButton.classList.remove('pressed');
+    } else {
+      workMenu.style.display = 'flex';
+      setActiveButton(workButton);
+      // Hide about menu if it's open
+      document.querySelector('.about-menu').style.display = 'none';
+    }
+  });
+  
+  // Close menu when clicking elsewhere
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.work-menu') && 
+        !event.target.closest('.button.work')) {
+      workMenu.style.display = 'none';
+      workButton.classList.remove('pressed');
+    }
+  });
+}
+
+    // Add this to your CSS styles// Add this to your existing JavaScript, near where you set up the navigation buttons
+
+    function setupAboutMenu() {
+      const aboutButton = document.querySelector('.button.about');
+      const aboutMenu = document.createElement('div');
+      aboutMenu.className = 'about-menu';
+      aboutMenu.style.display = 'none';
+      aboutMenu.innerHTML = `
+        <div class="menu-header">about</div>
+        <div class="about-section">
+          <img class="about-header-image" src="/api/placeholder/200/100" alt="About Header">
+          <div class="about-content">
+            <img class="about-image" src="images/about-primary.gif" alt="About Image">
+            <div class="about-text">
+              <p>Ryan Lettieri is a designer based in Providence, RI with a background in graphic design.</p>
+                <p>He creates immersive design systems that expand abstract ideas into rich, explorable worlds. Through visuals, motion, and interaction, he shapes experiences that feel cohesive and emotionally grounded.</p>
+            </div>
+          </div>
+        </div>
+        <div class="menu-header">colophon</div>
+        <div class="colophon-section">
+          <p>Website designed by: Ryan Lettieri</p>
+          <p>Fonts: Argent Pixel CF & CoFo Sans Pixel</p>
+          <p>Friends & collaborators:</p>
+          <p>Zoe Lee, Gary Li, Annie Chen, Louis Hand, Kai Geitzen, Lindsay Ju.</p>
+        </div>
+      `;
+      
+      document.body.appendChild(aboutMenu);
+      
+      // Update the about button click handler
+      aboutButton.addEventListener('click', () => {
+        if (aboutMenu.style.display === 'flex') {
+          aboutMenu.style.display = 'none';
+          aboutButton.classList.remove('pressed');
+        } else {
+          aboutMenu.style.display = 'flex';
+          setActiveButton(aboutButton);
+          // Hide work menu if it's open
+          document.querySelector('.work-menu').style.display = 'none';
+        }
+      });
+      
+      // Close menu when clicking elsewhere
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('.about-menu') && 
+            !event.target.closest('.button.about')) {
+          aboutMenu.style.display = 'none';
+          aboutButton.classList.remove('pressed');
+        }
+      });
+    }
+
+// Modify your existing setupNavigation function to remove the about button handler
+function setupNavigation() {
+  const homeButton = document.querySelector('.button.home');
+  const workButton = document.querySelector('.button.work');
+  const workMenu = document.querySelector('.work-menu');
+  
+  homeButton.addEventListener('click', () => {
+    setActiveButton(homeButton);
+    hideAllPages();
+    workMenu.style.display = 'none';
+    document.querySelector('.about-menu').style.display = 'none';
+    // Reset all tabs to unpressed state
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.classList.remove('pressed');
+    });
+    // Immediately return home button to unpressed state after action
+    setTimeout(() => {
+      homeButton.classList.remove('pressed');
+    }, 100);
+  });
+  
+  workButton.addEventListener('click', () => {
+    if (workMenu.style.display === 'flex') {
+      workMenu.style.display = 'none';
+      workButton.classList.remove('pressed');
+    } else {
+      workMenu.style.display = 'flex';
+      setActiveButton(workButton);
+      // Hide about menu if it's open
+      document.querySelector('.about-menu').style.display = 'none';
+    }
+  });
+  
+  // Close menu when clicking elsewhere
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.work-menu') && 
+        !event.target.closest('.button.work')) {
+      workMenu.style.display = 'none';
+      workButton.classList.remove('pressed');
+    }
+  });
+}
+    // Work pages functionality
+    function setupWorkPages() {
+      const menuItems = document.querySelectorAll('.menu-item');
+      
+      menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const id = item.getAttribute('data-id');
+          const title = item.textContent;
+          
+          openWorkPage(id, title);
+          document.querySelector('.work-menu').style.display = 'none';
+          // Set work button to unpressed when menu item is selected
+          document.querySelector('.button.work').classList.remove('pressed');
+        });
+      });
+    }
+    
+    function openWorkPage(id, title) {
+      // Check if page already exists
+      let page = document.querySelector(`.work-page[data-id="${id}"]`);
+      
+      if (!page) {
+        // Create new page
+        page = createWorkPage(id, title);
+        document.body.appendChild(page);
+      }
+      
+      // Show this page, hide others
+      hideAllPages();
+      page.style.display = 'flex';
+      
+      // Create or activate tab
+      activateTab(id, title);
+    }
+    
+    function createWorkPage(id, title) {
+  const page = document.createElement('div');
+  page.className = 'work-page';
+  page.setAttribute('data-id', id);
+  
+  const header = document.createElement('div');
+  header.className = 'page-header';
+  header.innerHTML = `
+    <div>${title}</div>
+    <button class="close-button">×</button>
+  `;
+  
+  const contentWrapper = document.createElement('div');
+  contentWrapper.className = 'page-content-wrapper';
+  
+  const content = document.createElement('div');
+  content.className = `page-content project-${id}`; // Add project-specific class here
+  
+  // Different content based on project ID
+  let projectContent = '';
+  
+  switch(id) {
+    case '1':
+      projectContent = `
+          <div class="content-section image-section">
+            <div class="page-link-container">
+              <a href="https://generaliststudio.github.io/alchemy/" target="_blank" class="project-link link-color-2">VIEW LIVE PROJECT</a>
+            </div>
+            <img src="images/symbiotica-cover.gif" alt="Symbiotica Main Image">
+          </div>
+          
+          <div class="content-label-section">
+            <div class="left-column">Architecture Project</div>
+            <div class="right-column">2023</div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>SYMBIOTICA</h2>
+            <div class="text-block">A modern residential complex featuring sustainable design principles and innovative use of space. This award-winning project incorporates green roofs, solar panels, and rainwater harvesting systems.</div>
+          </div>
+          
+          <div class="content-section image-section">
+            <img src="images/symbiotica-primary.gif" alt="Ojahara Primary Image">
+          </div>
+
+           <div class="split-image-section">
+            <div class="content-section image-box">
+              <img src="images/symbiotica-row1.gif" alt="Exterior View">
+            </div>
+            <div class="content-section image-box">
+              <img src="images/symbiotica-row2.gif" alt="Interior Common Area">
+            </div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>Environmental Impact</h2>
+            <div class="text-block">Completed in 2023, this project has set new standards for urban residential development with its focus on community spaces and environmental impact.</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/symbiotica-row3.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/symbiotica-row4.gif" alt="Ojahara Primary Image">
+          </div>
+      `;
+      break;
+    
+    case '2':
+      projectContent = `
+     <div class="content-section image-section">
+        <div class="page-link-container">
+          <a href="https://generaliststudio.github.io/alchemy/" target="_blank" class="project-link link-color-1">VIEW LIVE PROJECT</a>
+        </div>
+        <img src="images/ojahara-logo.gif" alt="Ojahara Logo">
+      </div>
+          
+          <div class="content-label-section">
+            <div class="left-column">Role: Creative Director, Motion Designer, Web Designer</div>
+            <div class="right-column">2023-2024</div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>OVERVIEW</h2>
+            <div class="text-block">To mark the release of Alchemy—a fantasy-laced single by the band Ojahara—I developed a cohesive visual system spanning a music video, launch graphics, and an interactive website.
+              </div>
+          </div>
+
+          <div class="split-image-section">
+            <div class="content-section image-box">
+              <img src="images/ojahara-row10.gif" alt="Exterior View">
+            </div>
+            <div class="content-section image-box">
+              <img src="images/ojahara-row11.gif" alt="Interior Common Area">
+            </div>
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Alchemy's music video</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-primary.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="split-image-section">
+            <div class="content-section image-box">
+              <img src="images/ojahara-split1.gif" alt="Exterior View">
+            </div>
+            <div class="content-section image-box">
+              <img src="images/ojahara-split2.gif" alt="Interior Common Area">
+            </div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-primary2.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Interactive launch-site</div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>VISUAL IDENTITY</h2>
+            <div class="text-block">Ben and Charlie, together as Ojahara, blend classic influences from nearly every decade into something unmistakably modern—cheeky, cinematic, and deeply unserious. When we met, they had a distinct sonic identity but no platform to express it visually. I helped change that.<br><br>
+              
+            Working alongside the band and a small team of collaborators, I led the development of a flexible, immersive identity system—one that channels the warmth of analog tech and vintage media through a lens of fantastical play.
+              </div>
+          </div>
+
+            <div class="split-image-section">
+            <div class="content-section image-box">
+              <img src="images/ojahara-split2_1.jpg" alt="Exterior View">
+            </div>
+            <div class="content-section image-box">
+              <img src="images/ojahara-split2_2.jpg" alt="Interior Common Area">
+            </div>
+          </div>
+
+           <div class="content-section image-section">
+            <img src="images/ojahara-row7.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">"Analog-ing" the video</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-row2.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Layering type on the video: After Effects</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-row0.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-row8.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Additional video expiriments for social media: After Effects</div>
+          </div>
+
+          <div class="content-section title-section">
+            <h2>WEB INTEGRATION</h2>
+            <div class="text-block">Ben and Charlie, together as Ojahara, blend classic influences from nearly every decade into something unmistakably modern—cheeky, cinematic, and deeply unserious. When we met, they had a distinct sonic identity but no platform to express it visually. I helped change that.
+              </div>
+          </div>
+          
+          <div class="content-section image-section">
+            <img src="images/ojahara-row5.jpg" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Digital sketch of the website: Figma, Illustrator</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-row6.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Prototyping JS card logic: GPT 4.0</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-row1.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-row4.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">High-fidelity website motion graphics: After Effects</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/ojahara-row3.gif" alt="Ojahara Primary Image">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Custom tarot-card game</div>
+          </div>
+
+          <div class="content-section title-section">
+            <h2>REFLECTION</h2>
+            <div class="text-block">Ben and Charlie, together as Ojahara, blend classic influences from nearly every decade into something unmistakably modern—cheeky, cinematic, and deeply unserious. When we met, they had a distinct sonic identity but no platform to express it visually. I helped change that.<br><br>
+              
+            Working alongside the band and a small team of collaborators, I led the development of a flexible, immersive identity system—one that channels the warmth of analog tech and vintage media through a lens of fantastical play.
+            </div>
+          </div>
+
+          </div>
+      `;
+      break;
+      
+    case '3':
+      projectContent = `
+          <div class="content-section image-section">
+           <div class="page-link-container">
+              <a href="https://generaliststudio.github.io/alchemy/" target="_blank" class="project-link link-color-1">VIEW LIVE PROJECT</a>
+            </div>
+            <img src="/api/placeholder/600/450" alt="App Interface">
+          </div>
+          
+          <div class="content-label-section">
+            <div class="left-column">Mobile Application</div>
+            <div class="right-column">2024</div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>SWARM</h2>
+            <div class="text-block">A health and wellness tracking application with AI-powered recommendations. This application uses machine learning to provide personalized nutrition and exercise plans based on user activity and goals.</div>
+          </div>
+          
+          <div class="content-section image-section">
+            <img src="images/chart.png" alt="Swarm Chart">
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>User Impact</h2>
+            <div class="text-block">Currently with over 1 million active users, the app has maintained a 4.8/5 rating across app stores.</div>
+          </div>
+      `;
+      break;
+      
+    case '4':
+      projectContent = `
+          <div class="content-section image-section">
+             <div class="page-link-container">
+              <a href="https://tidelands.earth" target="_blank" class="project-link link-color-3">VIEW LIVE PROJECT</a>
+            </div>
+            <img src="images/tidelands-primary.gif" alt="Tidelands Main Image">
+          </div>
+          
+          <div class="content-label-section">
+            <div class="left-column">Role: Web Designer, Futurist, Worldbuilder</div>
+            <div class="right-column">2025</div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>OVERVIEW</h2>
+            <div class="text-block">TIDELANDS 2100 explores a speculative climate future in Potter’s Pond, RI—reimagined as a resilient coastal community adapting to rising seas.<br><br>Tidelands.earth is its narrative home: a web platform layering flood data, modular aesthetics, and interactive cues as groundwork for a forthcoming XR world.
+          </div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/tidelands-row1.gif" alt="Tidelands Walkthrough">
+          </div>
+          
+          <div class="split-image-section">
+            <div class="content-section image-box">
+              <img src="images/tidelands-row2.gif" alt="Exterior View">
+            </div>
+            <div class="content-section image-box">
+              <img src="images/tidelands-row3.gif" alt="Interior Common Area">
+            </div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>PROCESS</h2>
+            <div class="text-block">I shaped the platform from sketch to prototype to final build—designing interactions, refining visuals, and ensuring mobile responsiveness for a stable, immersive experience.</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/tidelands-row8.png" alt="Tidelands Walkthrough">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Napkin Sketch</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/tidelands-row7.gif" alt="Tidelands Walkthrough">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Prototyping Interaction: GPT 4.0</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/tidelands-row4.gif" alt="Tidelands Walkthrough">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Translating to high fidelity mockup: Illustrator, Claude Artifacts</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/tidelands-row5.gif" alt="Tidelands Walkthrough">
+          </div>
+
+          <div class="content-label-section">
+            <div class="left-column">Bug fixes with mobility compatibility: Claude Sonnet</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/tidelands-row9.gif" alt="Tidelands Walkthrough">
+          </div>
+
+          <div class="content-section title-section">
+            <h2>NEXT STEPS</h2>
+            <div class="text-block">To begin building the world of TIDELANDS 2100, I'm starting in intentional low-res.<br><br>
+            Using real topographic data, I rendered a 1:1 model of Potter’s Pond in Minecraft—a speculative scaffold for the VR environment to come.
+            Its modular logic is a tool for spatial thinking: prototyping narrative architecture, testing ecological logics, and staying open to iteration.
+            </div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/tidelands-row11.gif" alt="Tidelands Walkthrough">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/tidelands-row10.gif" alt="Tidelands Walkthrough">
+          </div>
+
+          <div class="content-section title-section">
+            <h2>REFLECTION</h2>
+            <div class="text-block">
+            </div>
+          </div>
+
+      `;
+      break;
+      
+    case '5':
+      projectContent = `
+          <div class="content-section image-section">
+            <img src="/api/placeholder/600/450" alt="Brand Overview">
+          </div>
+          
+          <div class="content-label-section">
+            <div class="left-column">Brand Identity</div>
+            <div class="right-column">2024</div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>ORKA</h2>
+            <div class="text-block">Complete reimagining of a 50-year-old company's visual identity while respecting its heritage. This comprehensive rebrand included logo design, typography, color systems, packaging, and digital presence.</div>
+          </div>
+          
+          <div class="content-section split-image-section">
+            <img src="/api/placeholder/600/400" alt="Logo Evolution">
+            <img src="/api/placeholder/600/400" alt="Color Palette">
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>Research-Based Approach</h2>
+            <div class="text-block">Our research-based approach ensured we maintained brand recognition while positioning the company for contemporary markets.</div>
+          </div>
+      `;
+      break;
+      
+    default:
+      projectContent = `
+          <div class="content-section image-section">
+            <img src="/api/placeholder/600/450" alt="Project ${id} Main Image">
+          </div>
+          
+          <div class="content-label-section">
+            <div class="left-column">Creative Project</div>
+            <div class="right-column">2024</div>
+          </div>
+          
+          <div class="content-section title-section">
+            <h2>PROJECT ${id}</h2>
+            <div class="text-block">This is a detailed description of project ${id}. This project showcases various techniques and approaches to design and development.</div>
+          </div>
+          
+          <div class="content-section split-image-section">
+            <img src="/api/placeholder/600/400" alt="Project ${id} Detail 1">
+            <img src="/api/placeholder/600/400" alt="Project ${id} Detail 2">
+          </div>
+      `;
+  }
+  
+  content.innerHTML = projectContent;
+  contentWrapper.appendChild(content);
+  page.appendChild(header);
+  page.appendChild(contentWrapper);
+  
+  // Set up close button
+  const closeButton = header.querySelector('.close-button');
+  closeButton.addEventListener('click', () => {
+    closePage(id);
+  });
+  
+  return page;
+}
+    
+    function hideAllPages() {
+      document.querySelectorAll('.work-page').forEach(page => {
+        page.style.display = 'none';
+      });
+    }
+    
+    function activateTab(id, title) {
+      const tabsContainer = document.querySelector('.tabs');
+      
+      // Deactivate all tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('pressed');
+      });
+      
+      // Check if tab already exists
+      let tab = document.querySelector(`.tab[data-id="${id}"]`);
+      
+      if (!tab) {
+        // Create new tab
+        tab = document.createElement('div');
+        tab.className = 'tab';
+        tab.setAttribute('data-id', id);
+        tab.textContent = title;
+        
+        tab.addEventListener('click', () => {
+          openWorkPage(id, title);
+        });
+        
+        // Insert tab at the beginning of tabs container
+        if (tabsContainer.firstChild) {
+          tabsContainer.insertBefore(tab, tabsContainer.firstChild);
+        } else {
+          tabsContainer.appendChild(tab);
+        }
+      }
+      
+      // Activate this tab
+      tab.classList.add('pressed');
+    }
+    
+    function closePage(id) {
+      // Remove page
+      const page = document.querySelector(`.work-page[data-id="${id}"]`);
+      if (page) {
+        page.remove();
+      }
+      
+      // Remove tab
+      const tab = document.querySelector(`.tab[data-id="${id}"]`);
+      if (tab) {
+        tab.remove();
+      }
+      
+      // Show home or next available page
+      const nextPage = document.querySelector('.work-page');
+      if (nextPage) {
+        nextPage.style.display = 'flex';
+        const nextId = nextPage.getAttribute('data-id');
+        document.querySelector(`.tab[data-id="${nextId}"]`).classList.add('pressed');
+      } else {
+        document.querySelector('.button.home').click();
+      }
+    }
+    
+    // Initialize everything when DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        startSlideshow();
+        updateClock();
+        setupNavigation();
+        setupWorkPages();
+        setupAboutMenu(); // Add this line
+      });
+  </script>
+</body>
+</html>
