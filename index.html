@@ -141,31 +141,41 @@
       padding: 5px 30px;
       height: 100%;
       border-width: 4px;
-      border-style: outset;
-      border-color: white white white white;
+      border-style: solid;
+      border-color: #ffffff #999999 #999999 #ffffff;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 18px;
     }
-    
+
     .button:hover {
       background-color: #414042;
       color: white;
-      border-color: #808184 black black #808184;
-    }
-    
-    .button.pressed {
-      background-color: rgb(231, 231, 231);
-      color: black;
-      border-color: #414042 white white #414042;
+      border-color: #666666 #222222 #222222 #666666;
     }
 
     .button:active {
       background-color: #D0D2D3;
       color: black;
-      border-color: #414042 white white #414042;
+      border-color: #6b6b6b #afafaf #afafaf #6b6b6b;
+    }
+
+    .button.pressed {
+      background-color: rgb(231, 231, 231);
+      background-image: 
+        url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0h2v2h-2v-2ZM2,2h2v2h-2v-2Z' fill='%23D0D2D3'/%3E%3Cpath d='M2,0h2v2h-2v-2ZM0,2h2v2h-2v-2Z' fill='%23E7E7E7'/%3E%3C/svg%3E");
+      color: black;
+      border-color: #6b6b6b #afafaf #afafaf #6b6b6b
+    }
+
+    .button.pressed:active {
+      background-color: rgb(179, 179, 179);
+      background-image: 
+        url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0h2v2h-2v-2ZM2,2h2v2h-2v-2Z' fill='%23FFFFFF'/%3E%3Cpath d='M2,0h2v2h-2v-2ZM0,2h2v2h-2v-2Z' fill='%23A7A9AC'/%3E%3C/svg%3E");
+      color: black;
+      border-color: #999999 #EEEEEE #EEEEEE #999999;
     }
     
     .work-menu {
@@ -422,31 +432,41 @@
       padding: 5px 30px;
       height: 100%;
       border-width: 4px;
-      border-style: outset;
-      border-color: white white white white;
+      border-style: solid;
+      border-color: #EEEEEE #999999 #999999 #EEEEEE;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 18px;
     }
-    
+
     .tab:hover {
       background-color: #414042;
       color: white;
-      border-color: #808184 black black #808184;
-    }
-    
-    .tab.pressed {
-      background-color: rgb(231, 231, 231);
-      color: black;
-      border-color: #414042 white white #414042;
+      border-color: #666666 #222222 #222222 #666666;
     }
 
     .tab:active {
       background-color: #D0D2D3;
       color: black;
-      border-color: #414042 white white #414042;
+      border-color: #6b6b6b #afafaf #afafaf #6b6b6b;
+    }
+
+    .tab.pressed {
+      background-color: rgb(231, 231, 231);
+      background-image: 
+        url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0h2v2h-2v-2ZM2,2h2v2h-2v-2Z' fill='%23D0D2D3'/%3E%3Cpath d='M2,0h2v2h-2v-2ZM0,2h2v2h-2v-2Z' fill='%23E7E7E7'/%3E%3C/svg%3E");
+      color: black;
+      border-color: #6b6b6b #afafaf #afafaf #6b6b6b;
+    }
+
+    .tab.pressed:active {
+      background-color: rgb(179, 179, 179);
+      background-image: 
+        url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0h2v2h-2v-2ZM2,2h2v2h-2v-2Z' fill='%23FFFFFF'/%3E%3Cpath d='M2,0h2v2h-2v-2ZM0,2h2v2h-2v-2Z' fill='%23A7A9AC'/%3E%3C/svg%3E");
+      color: black;
+      border-color: #999999 #EEEEEE #EEEEEE #999999;
     }
     
     .clock {
@@ -561,7 +581,6 @@
   </div>
   
   <div class="nav-bar">
-    <div class="button home pressed">home</div>
     <div class="button work">work</div>
     <div class="button about">about</div>
     <div class="tabs"></div>
@@ -690,24 +709,8 @@
     
     // Navigation buttons functionality
     function setupNavigation() {
-      const homeButton = document.querySelector('.button.home');
       const workButton = document.querySelector('.button.work');
-      const aboutButton = document.querySelector('.button.about');
       const workMenu = document.querySelector('.work-menu');
-      
-      homeButton.addEventListener('click', () => {
-        setActiveButton(homeButton);
-        hideAllPages();
-        workMenu.style.display = 'none';
-        // Reset all tabs to unpressed state
-        document.querySelectorAll('.tab').forEach(tab => {
-          tab.classList.remove('pressed');
-        });
-        // Immediately return home button to unpressed state after action
-        setTimeout(() => {
-          homeButton.classList.remove('pressed');
-        }, 100);
-      });
       
       workButton.addEventListener('click', () => {
         if (workMenu.style.display === 'flex') {
@@ -716,13 +719,9 @@
         } else {
           workMenu.style.display = 'flex';
           setActiveButton(workButton);
+          // Hide about menu if it's open
+          document.querySelector('.about-menu').style.display = 'none';
         }
-      });
-      
-      aboutButton.addEventListener('click', () => {
-        setActiveButton(aboutButton);
-        hideAllPages();
-        workMenu.style.display = 'none';
       });
       
       // Close menu when clicking elsewhere
@@ -872,16 +871,17 @@ function setupNavigation() {
       
       document.body.appendChild(aboutMenu);
       
-      // Update the about button click handler
+      // About button click handler
       aboutButton.addEventListener('click', () => {
         if (aboutMenu.style.display === 'flex') {
           aboutMenu.style.display = 'none';
           aboutButton.classList.remove('pressed');
         } else {
           aboutMenu.style.display = 'flex';
-          setActiveButton(aboutButton);
+          aboutButton.classList.add('pressed');
           // Hide work menu if it's open
           document.querySelector('.work-menu').style.display = 'none';
+          document.querySelector('.button.work').classList.remove('pressed');
         }
       });
       
@@ -896,47 +896,35 @@ function setupNavigation() {
     }
 
 // Modify your existing setupNavigation function to remove the about button handler
-function setupNavigation() {
-  const homeButton = document.querySelector('.button.home');
-  const workButton = document.querySelector('.button.work');
-  const workMenu = document.querySelector('.work-menu');
-  
-  homeButton.addEventListener('click', () => {
-    setActiveButton(homeButton);
-    hideAllPages();
-    workMenu.style.display = 'none';
-    document.querySelector('.about-menu').style.display = 'none';
-    // Reset all tabs to unpressed state
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.classList.remove('pressed');
-    });
-    // Immediately return home button to unpressed state after action
-    setTimeout(() => {
-      homeButton.classList.remove('pressed');
-    }, 100);
-  });
-  
-  workButton.addEventListener('click', () => {
-    if (workMenu.style.display === 'flex') {
-      workMenu.style.display = 'none';
-      workButton.classList.remove('pressed');
-    } else {
-      workMenu.style.display = 'flex';
-      setActiveButton(workButton);
-      // Hide about menu if it's open
-      document.querySelector('.about-menu').style.display = 'none';
+    function setupNavigation() {
+      const workButton = document.querySelector('.button.work');
+      const workMenu = document.querySelector('.work-menu');
+      
+      workButton.addEventListener('click', () => {
+        if (workMenu.style.display === 'flex') {
+          workMenu.style.display = 'none';
+          workButton.classList.remove('pressed');
+        } else {
+          workMenu.style.display = 'flex';
+          workButton.classList.add('pressed');
+          // Hide about menu if it's open
+          const aboutMenu = document.querySelector('.about-menu');
+          if (aboutMenu) {
+            aboutMenu.style.display = 'none';
+            document.querySelector('.button.about').classList.remove('pressed');
+          }
+        }
+      });
+      
+      // Close menu when clicking elsewhere
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('.work-menu') && 
+            !event.target.closest('.button.work')) {
+          workMenu.style.display = 'none';
+          workButton.classList.remove('pressed');
+        }
+      });
     }
-  });
-  
-  // Close menu when clicking elsewhere
-  document.addEventListener('click', (event) => {
-    if (!event.target.closest('.work-menu') && 
-        !event.target.closest('.button.work')) {
-      workMenu.style.display = 'none';
-      workButton.classList.remove('pressed');
-    }
-  });
-}
     // Work pages functionality
     function setupWorkPages() {
       const menuItems = document.querySelectorAll('.menu-item');
@@ -1511,14 +1499,20 @@ function setupNavigation() {
         tab.remove();
       }
       
-      // Show home or next available page
+      // Show next available page or return to main content
       const nextPage = document.querySelector('.work-page');
       if (nextPage) {
         nextPage.style.display = 'flex';
         const nextId = nextPage.getAttribute('data-id');
         document.querySelector(`.tab[data-id="${nextId}"]`).classList.add('pressed');
       } else {
-        document.querySelector('.button.home').click();
+        // No more pages open - show main content and clear all button states
+        hideAllPages();
+        document.querySelectorAll('.button').forEach(btn => {
+          btn.classList.remove('pressed');
+        });
+        document.querySelector('.work-menu').style.display = 'none';
+        document.querySelector('.about-menu').style.display = 'none';
       }
     }
     
