@@ -79,7 +79,7 @@
       width: 100%;
       height: 100%;
       backdrop-filter: blur(15px); /* Creates blur effect */
-      background-color: rgba(0, 0, 0, 0.3); /* Slight gray tint */
+      background-color: rgba(38, 0, 255, 0.3); /* Slight gray tint */
       z-index: 100;
       transition: all 0.5s;
     }
@@ -315,6 +315,12 @@
     }
 
     .content-section img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .content-section video {
       width: 100%;
       height: auto;
       display: block;
@@ -948,66 +954,35 @@ function setupNavigation() {
       });
     }
     
-      function openWorkPage(id, title) {
-    // Check if page already exists
-    let page = document.querySelector(`.work-page[data-id="${id}"]`);
-    
-    if (!page) {
-      // Create new page
-      page = createWorkPage(id, title);
-      document.body.appendChild(page);
+        function openWorkPage(id, title) {
+      // Check if page already exists
+      let page = document.querySelector(`.work-page[data-id="${id}"]`);
       
-      // Get the content wrapper element
-      const contentWrapper = page.querySelector('.page-content-wrapper');
+      if (!page) {
+        // Create new page
+        page = createWorkPage(id, title);
+        document.body.appendChild(page);
+        
+        // Get the content wrapper element
+        const contentWrapper = page.querySelector('.page-content-wrapper');
+        
+        // Show loading animation
+        const hideLoading = showContentLoading(contentWrapper);
+        
+        // Much simpler loading - just wait a short time then hide
+        setTimeout(() => {
+          hideLoading();
+          contentWrapper.focus();
+        }, 200); // Fixed 800ms loading time
+      }
       
-      // Show loading animation
-      const hideLoading = showContentLoading(contentWrapper);
+      // Show this page, hide others
+      hideAllPages();
+      page.style.display = 'flex';
       
-      // Simulate loading time for images and content
-      // You can replace this with actual image loading detection
-      setTimeout(() => {
-        // Create an array to hold all image elements
-        const images = Array.from(contentWrapper.querySelectorAll('img'));
-        let loadedImages = 0;
-        
-        // If there are no images, remove loading after a short delay
-        if (images.length === 0) {
-          setTimeout(hideLoading, 500);
-          return;
-        }
-        
-        // Add load event for each image
-        images.forEach(img => {
-          // For images that are already loaded or have errors
-          if (img.complete) {
-            loadedImages++;
-            if (loadedImages === images.length) hideLoading();
-          } else {
-            // For images still loading
-            img.addEventListener('load', () => {
-              loadedImages++;
-              if (loadedImages === images.length) hideLoading();
-            });
-            
-            img.addEventListener('error', () => {
-              loadedImages++;
-              if (loadedImages === images.length) hideLoading();
-            });
-          }
-        });
-        
-        // Fallback in case some images never load
-        setTimeout(hideLoading, 5000);
-      }, 100);
+      // Create or activate tab
+      activateTab(id, title);
     }
-    
-    // Show this page, hide others
-    hideAllPages();
-    page.style.display = 'flex';
-    
-    // Create or activate tab
-    activateTab(id, title);
-  }
     
     function createWorkPage(id, title) {
       const page = document.createElement('div');
@@ -1037,7 +1012,9 @@ function setupNavigation() {
             <div class="page-link-container">
               <a href="https://generaliststudio.github.io/alchemy/" target="_blank" class="project-link link-color-2">VIEW LIVE PROJECT</a>
             </div>
-            <img src="images/symbiotica-cover.gif" alt="Symbiotica Main Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/symbiotica-cover.mp4" type="video/mp4">
+            </video>
           </div>
           
           <div class="content-label-section">
@@ -1051,15 +1028,21 @@ function setupNavigation() {
           </div>
           
           <div class="content-section image-section">
-            <img src="images/symbiotica-primary.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/symbiotica-primary.mp4" type="video/mp4">
+            </video>
           </div>
 
            <div class="split-image-section">
             <div class="content-section image-box">
-              <img src="images/symbiotica-row1.gif" alt="Exterior View">
+            <video autoplay muted loop playsinline>
+              <source src="images/symbiotica-row1.mp4" type="video/mp4">
+            </video>
             </div>
             <div class="content-section image-box">
-              <img src="images/symbiotica-row2.gif" alt="Interior Common Area">
+            <video autoplay muted loop playsinline>
+              <source src="images/symbiotica-row2.mp4" type="video/mp4">
+            </video>
             </div>
           </div>
           
@@ -1069,11 +1052,15 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/symbiotica-row3.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/symbiotica-row3.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-section image-section">
-            <img src="images/symbiotica-row4.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/symbiotica-row4.mp4" type="video/mp4">
+            </video>
           </div>
       `;
       break;
@@ -1100,10 +1087,14 @@ function setupNavigation() {
 
           <div class="split-image-section">
             <div class="content-section image-box">
-              <img src="images/ojahara-row10.gif" alt="Exterior View">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row10.mp4" type="video/mp4">
+            </video>
             </div>
             <div class="content-section image-box">
-              <img src="images/ojahara-row11.gif" alt="Interior Common Area">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row11.mp4" type="video/mp4">
+            </video>
             </div>
           </div>
 
@@ -1112,20 +1103,28 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-primary.gif" alt="Ojahara Primary Image">
+           <video autoplay muted loop playsinline>
+              <source src="images/ojahara-primary.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="split-image-section">
             <div class="content-section image-box">
-              <img src="images/ojahara-split1.gif" alt="Exterior View">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-split1.mp4" type="video/mp4">
+            </video>
             </div>
             <div class="content-section image-box">
-              <img src="images/ojahara-split2.gif" alt="Interior Common Area">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-split2.mp4" type="video/mp4">
+            </video>
             </div>
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-primary2.gif" alt="Ojahara Primary Image">
+           <video autoplay muted loop playsinline>
+              <source src="images/ojahara-primary2.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1150,7 +1149,9 @@ function setupNavigation() {
           </div>
 
            <div class="content-section image-section">
-            <img src="images/ojahara-row7.gif" alt="Ojahara Primary Image">
+           <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row7.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1158,7 +1159,9 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-row2.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row2.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1166,11 +1169,15 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-row0.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row0.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-row8.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row8.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1192,7 +1199,9 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-row6.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row6.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1200,11 +1209,15 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-row1.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row1.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-row4.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row4.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1212,7 +1225,9 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/ojahara-row3.gif" alt="Ojahara Primary Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/ojahara-row3.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1267,7 +1282,9 @@ function setupNavigation() {
              <div class="page-link-container">
               <a href="https://tidelands.earth" target="_blank" class="project-link link-color-3">VIEW LIVE PROJECT</a>
             </div>
-            <img src="images/tidelands-primary.gif" alt="Tidelands Main Image">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-primary.mp4" type="video/mp4">
+            </video>
           </div>
           
           <div class="content-label-section">
@@ -1282,15 +1299,21 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/tidelands-row1.gif" alt="Tidelands Walkthrough">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-row1.mp4" type="video/mp4">
+            </video>
           </div>
           
           <div class="split-image-section">
             <div class="content-section image-box">
-              <img src="images/tidelands-row2.gif" alt="Exterior View">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-row2.mp4" type="video/mp4">
+            </video>
             </div>
             <div class="content-section image-box">
-              <img src="images/tidelands-row3.gif" alt="Interior Common Area">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-row3.mp4" type="video/mp4">
+            </video>
             </div>
           </div>
           
@@ -1308,7 +1331,9 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/tidelands-row7.gif" alt="Tidelands Walkthrough">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-row7.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1316,7 +1341,9 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/tidelands-row4.gif" alt="Tidelands Walkthrough">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-row4.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1324,7 +1351,9 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/tidelands-row5.gif" alt="Tidelands Walkthrough">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-row5.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-label-section">
@@ -1332,7 +1361,9 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/tidelands-row9.gif" alt="Tidelands Walkthrough">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-row9.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-section title-section">
@@ -1348,7 +1379,9 @@ function setupNavigation() {
           </div>
 
           <div class="content-section image-section">
-            <img src="images/tidelands-row10.gif" alt="Tidelands Walkthrough">
+            <video autoplay muted loop playsinline>
+              <source src="images/tidelands-row10.mp4" type="video/mp4">
+            </video>
           </div>
 
           <div class="content-section title-section">
