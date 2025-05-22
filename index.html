@@ -572,10 +572,32 @@
     @media screen and (max-width: 768px) {
       /* Remove hover states on mobile */
       .button:hover,
-      .button.pressed,  
+      .button:active,
+      .button.pressed,
+      .button.pressed:active {
+        background-color: #D0D2D3;
+        background-image: none;
+        color: black;
+        border-color: #ffffff #999999 #999999 #ffffff;
+      }
+      
+      /* Reset tab states to default appearance on mobile */
       .tab:hover,
+      .tab:active,
       .tab.pressed,
-      .menu-item:hover,
+      .tab.pressed:active {
+        background-color: #D0D2D3;
+        background-image: none;
+        color: black;
+        border-color: #EEEEEE #999999 #999999 #EEEEEE;
+      }
+      
+      /* Keep menu item hover simple */
+      .menu-item:hover {
+        background-color: inherit;
+        color: inherit;
+      }
+      
       .project-link:hover {
         background-color: inherit;
         color: inherit;
