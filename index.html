@@ -561,6 +561,18 @@
 
     /* Mobile Responsive Styles */
     @media screen and (max-width: 768px) {
+      /* Remove hover states on mobile */
+      .button:hover,
+      .tab:hover,
+      .menu-item:hover,
+      .project-link:hover {
+        background-color: inherit;
+        color: inherit;
+        border-color: inherit;
+        transform: none;
+        cursor: default;
+      }
+      
       body {
         height: 100vh;
         height: 100dvh; /* Dynamic viewport height for mobile browsers */
@@ -607,14 +619,14 @@
       }
       
       .work-menu {
-        bottom: 50px; /* Account for taller mobile nav bar */
+        bottom: 50px;
         width: 100vw;
         left: 0;
         right: 0;
       }
       
       .menu-item {
-        height: 60px; /* Larger touch targets */
+        height: 60px;
         font-size: 20px;
         width: 100%;
       }
@@ -624,32 +636,41 @@
         width: 100vw;
         left: 0;
         right: 0;
+        max-height: calc(100vh - 50px);
+        overflow-y: auto;
       }
       
       .about-section {
-        padding: 20px;
+        padding: 15px;
       }
       
       .about-content {
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
+      }
+      
+      .about-header-image {
+        max-height: 80px;
+        width: auto;
+        object-fit: contain;
       }
       
       .about-image {
-        width: 100%;
-        max-width: 200px;
+        width: 120px;
+        height: auto;
+        align-self: center;
       }
       
       .colophon-section {
-        padding: 20px;
+        padding: 15px;
       }
       
       .work-page {
-        bottom: 50px; /* Account for mobile nav bar height */
+        bottom: 50px;
       }
       
       .page-header {
-        height: 50px; /* Larger touch target */
+        height: 50px;
         font-size: 18px;
       }
       
@@ -659,8 +680,8 @@
       }
       
       .page-content {
-        padding: 20px 15px;
-        gap: 30px;
+        padding: 30px 15px;
+        gap: 15px; /* Reduced gap between sections */
       }
       
       .page-content-container {
@@ -669,37 +690,68 @@
       
       .content-section {
         padding: 20px;
+        margin-bottom: 0; /* Remove default margin */
       }
       
-      .title-section h2 {
-        font-size: 18px;
-      }
-      
-      .text-block {
-        font-size: 14px;
-        line-height: 1.5;
-        max-width: none;
+      /* Specific spacing for content sections */
+      .content-section.image-section {
+        margin-bottom: 8px; /* Small gap after images */
       }
       
       .content-label-section {
-        margin: 15px 0;
+        margin-top: -5px; /* Pull labels closer to images */
+        margin-bottom: 20px; /* More space before next content */
         font-size: 12px;
         flex-direction: column;
         gap: 5px;
         text-align: left;
       }
       
+      .content-section.title-section {
+        margin-top: 10px; /* Small gap before text sections */
+      }
+      
+      .title-section h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      
+      .text-block {
+        font-size: 16px; /* Increased from 14px */
+        line-height: 1.6;
+        max-width: none;
+        margin-top: 0;
+      }
+      
       .right-column {
         text-align: left;
       }
       
+      /* Keep split images side by side on mobile */
       .split-image-section {
-        flex-direction: column;
+        display: flex;
         gap: 10px;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: none;
+        margin-bottom: 8px; /* Consistent with other images */
       }
       
       .image-box {
-        flex: none;
+        flex: 1;
+        border: 1px solid white;
+        padding: 0;
+        box-sizing: border-box;
+        overflow: hidden; /* Prevent content overflow */
+      }
+      
+      .image-box img,
+      .image-box video {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: none; /* Remove any inherited borders */
       }
       
       .page-link-container {
@@ -753,16 +805,24 @@
       }
       
       .page-content {
-        padding: 15px 10px;
+        padding: 20px 10px;
       }
       
       .content-section {
         padding: 15px;
       }
       
+      .text-block {
+        font-size: 15px; /* Slightly smaller on very small screens */
+      }
+      
       .project-link {
         font-size: 12px;
         padding: 8px 12px;
+      }
+      
+      .about-image {
+        width: 100px; /* Smaller on tiny screens */
       }
     }
 
