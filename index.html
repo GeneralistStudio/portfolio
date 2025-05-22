@@ -571,8 +571,10 @@
     /* Mobile Responsive Styles */
     @media screen and (max-width: 768px) {
       /* Remove hover states on mobile */
-      .button:hover,  
+      .button:hover,
+      .button.pressed,  
       .tab:hover,
+      .tab.pressed,
       .menu-item:hover,
       .project-link:hover {
         background-color: inherit;
@@ -580,16 +582,6 @@
         border-color: inherit;
         transform: none;
         cursor: default;
-      }
-      
-      .button.pressed,
-      .tab.pressed {
-        border-color: #D0D2D3 #999999 #999999 #D0D2D3 !important;
-      }
-  
-      .button.pressed:active,
-      .tab.pressed:active {
-        border-color: #999999 #D0D2D3 #D0D2D3 #999999 !important;
       }
 
       body {
@@ -765,6 +757,8 @@
         box-sizing: border-box;
         overflow: hidden;
         position: relative;
+        line-height: 0;
+        font-size: 0;
       }
 
       .image-box img,
@@ -775,16 +769,20 @@
         border: none !important;
         margin: 0 !important;
         padding: 0 !important;
-        position: relative;
-        top: 0;
-        left: 0;
+        vertical-align: top !important;
+        line-height: 0 !important;
+        font-size: 0 !important;
+        object-fit: cover;
       }
       
       /* Override any inherited content-section styling for image boxes */
       .content-section.image-box {
         padding: 0 !important;
         border: 1px solid white;
+        line-height: 0;
+        font-size: 0;
       }
+
       
       .page-link-container {
         top: 10px;
