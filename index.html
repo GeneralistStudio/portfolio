@@ -559,6 +559,15 @@
     .link-color-4 { color: #ff66cc; border-color: #ff66cc; }
     .link-color-5 { color: #ff3333; border-color: #ff3333; }
 
+    .button:focus,
+    .tab:focus,
+    .menu-item:focus,
+    .close-button:focus,
+    .project-link:focus {
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     /* Mobile Responsive Styles */
     @media screen and (max-width: 768px) {
       /* Remove hover states on mobile */
@@ -572,6 +581,13 @@
         transform: none;
         cursor: default;
       }
+      .button:focus,
+      .tab:focus,
+      .menu-item:focus,
+      .close-button:focus,
+      .project-link:focus {
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
       
       body {
         height: 100vh;
@@ -735,23 +751,28 @@
         padding: 0;
         background: none;
         border: none;
-        margin-bottom: 8px; /* Consistent with other images */
+        margin-bottom: 8px;
       }
-      
+
       .image-box {
         flex: 1;
         border: 1px solid white;
         padding: 0;
+        margin: 0;
         box-sizing: border-box;
-        overflow: hidden; /* Prevent content overflow */
+        overflow: hidden;
+        line-height: 0; /* Remove any line-height spacing */
       }
-      
+
       .image-box img,
       .image-box video {
         width: 100%;
         height: auto;
         display: block;
-        border: none; /* Remove any inherited borders */
+        border: none;
+        margin: 0;
+        padding: 0;
+        vertical-align: top; /* Remove baseline spacing */
       }
       
       .page-link-container {
