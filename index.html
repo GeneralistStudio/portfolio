@@ -428,30 +428,29 @@
       display: flex;
       height: 100%;
       flex-wrap: nowrap;
-      overflow: visible; /* Allow us to see what's happening */
-      flex: 1;
-      margin-right: 10px; /* Space before clock */
+      overflow: hidden;
+      flex: 1; /* Take remaining space */
+      max-width: calc(100% - 300px); /* Hard limit to prevent overflow */
     }
 
     .tab {
       background-color: #D0D2D3;
       color: black;
-      padding: 5px 15px 5px 30px; /* More left padding, less right */
       height: 100%;
       border-width: 4px;
       border-style: solid;
       border-color: #EEEEEE #999999 #999999 #EEEEEE;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start; /* Left align the text */
+      display: block; /* Change from flex to block */
+      line-height: 37px; /* Center text vertically (45px - 8px borders) */
+      text-align: center; /* Center text horizontally */
       font-size: 18px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       box-sizing: border-box;
-      flex-shrink: 0;
-      min-width: 40px;
+      padding: 0 15px; /* Simple horizontal padding */
+      min-width: 30px;
     }
 
     .tab:hover {
@@ -483,10 +482,10 @@
     }
     
     .clock {
+      margin-left: auto;
       padding: 0 10px;
       font-size: 18px;
-      flex-shrink: 0; /* Never shrink */
-      order: 3; /* Ensure it comes last */
+      flex-shrink: 0;
     }
 
     .about-menu {
@@ -577,6 +576,10 @@
         height: 100vh;
         height: 100dvh; /* Dynamic viewport height for mobile browsers */
       }
+
+      .clock {
+        display: none; /* Hide clock on mobile */
+      }
       
       .main-content {
         padding: 10px;
@@ -611,11 +614,6 @@
         padding: 5px 20px;
         font-size: 16px;
         min-width: 80px;
-      }
-      
-      .clock {
-        font-size: 14px;
-        padding: 0 8px;
       }
       
       .work-menu {
@@ -784,6 +782,8 @@
       }
       
       .tabs {
+        flex: 1; /* Take up all remaining space */
+        max-width: none; /* Remove width constraint */
         flex-wrap: nowrap; /* Changed from wrap */
         overflow: hidden; /* Hide overflow instead of wrapping */
       }
@@ -816,7 +816,12 @@
       }
       
       .clock {
-        font-size: 12px;
+        display: none;
+      }
+      
+      .tabs {
+        flex: 1;
+        max-width: none;
       }
       
       .menu-item {
@@ -1813,51 +1818,30 @@ function setupNavigation() {
     }
 
     function resizeTabs() {
-      const tabsContainer = document.querySelector('.tabs');
       const allTabs = document.querySelectorAll('.tab');
-      const navBar = document.querySelector('.nav-bar');
+      const tabsContainer = document.querySelector('.tabs');
       
       if (allTabs.length === 0) return;
       
-      // Reset all tabs to natural width first
+      // Get the actual available width of the tabs container
+      const availableWidth = tabsContainer.offsetWidth;
+      
+      // Reset tabs to auto width first
       allTabs.forEach(tab => {
         tab.style.width = 'auto';
-        tab.style.flexShrink = '0';
-        tab.style.padding = '5px 30px';
       });
       
-      // Calculate available space for tabs
-      const workButton = document.querySelector('.button.work');
-      const aboutButton = document.querySelector('.button.about');
-      const clock = document.querySelector('.clock');
-      
-      const workButtonWidth = workButton.offsetWidth;
-      const aboutButtonWidth = aboutButton.offsetWidth;
-      const clockWidth = clock.offsetWidth;
-      const navBarWidth = navBar.offsetWidth;
-      
-      // Available width for tabs
-      const availableWidth = navBarWidth - workButtonWidth - aboutButtonWidth - clockWidth - 40;
-      
-      // Calculate total width of all tabs at natural size
-      let totalTabsWidth = 0;
+      // Check total natural width
+      let totalWidth = 0;
       allTabs.forEach(tab => {
-        totalTabsWidth += tab.offsetWidth;
+        totalWidth += tab.offsetWidth;
       });
       
-      // Only resize if tabs exceed available space
-      if (totalTabsWidth > availableWidth) {
-        // Calculate equal width for all tabs
-        const tabWidth = Math.max(40, Math.floor(availableWidth / allTabs.length));
-        
-        // Apply equal width to all tabs
+      // Only resize if needed
+      if (totalWidth > availableWidth) {
+        const tabWidth = Math.floor(availableWidth / allTabs.length);
         allTabs.forEach(tab => {
-          tab.style.width = tabWidth + 'px';
-          tab.style.flexShrink = '1';
-          // Reduce padding for smaller tabs to maximize text space
-          if (tabWidth < 100) {
-            tab.style.padding = '5px 10px';
-          }
+          tab.style.width = Math.max(30, tabWidth) + 'px';
         });
       }
     }
