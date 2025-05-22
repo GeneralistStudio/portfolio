@@ -572,38 +572,38 @@
     @media screen and (max-width: 768px) {
       /* Remove hover states on mobile */
       .button:hover,
+      .tab:hover {
+        background-color: #D0D2D3 !important;
+        background-image: none !important;
+        color: black !important;
+        border-color: #ffffff #999999 #999999 #ffffff !important;
+      }
+      
+      .tab:hover {
+        border-color: #EEEEEE #999999 #999999 #EEEEEE !important;
+      }
+      
       .button:active,
+      .tab:active {
+        background-color: #D0D2D3 !important;
+        background-image: none !important;
+        color: black !important;
+        border-color: #ffffff #999999 #999999 #ffffff !important;
+      }
+      
+      .tab:active {
+        border-color: #EEEEEE #999999 #999999 #EEEEEE !important;
+      }
+      
+      /* Keep the pressed/selected state as-is (maintain desktop appearance) */
       .button.pressed,
-      .button.pressed:active {
-        background-color: #D0D2D3;
-        background-image: none;
-        color: black;
-        border-color: #ffffff #999999 #999999 #ffffff;
+      .tab.pressed {
+        /* These should keep their existing desktop styling */
       }
       
-      /* Reset tab states to default appearance on mobile */
-      .tab:hover,
-      .tab:active,
-      .tab.pressed,
+      .button.pressed:active,
       .tab.pressed:active {
-        background-color: #D0D2D3;
-        background-image: none;
-        color: black;
-        border-color: #EEEEEE #999999 #999999 #EEEEEE;
-      }
-      
-      /* Keep menu item hover simple */
-      .menu-item:hover {
-        background-color: inherit;
-        color: inherit;
-      }
-      
-      .project-link:hover {
-        background-color: inherit;
-        color: inherit;
-        border-color: inherit;
-        transform: none;
-        cursor: default;
+        /* These should keep their existing desktop styling */
       }
 
       body {
