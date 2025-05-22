@@ -581,16 +581,17 @@
         transform: none;
         cursor: default;
       }
-      .button:focus,
-      .tab:focus,
-      .menu-item:focus,
-      .close-button:focus,
-      .project-link:focus {
-        outline: none;
-        -webkit-tap-highlight-color: transparent;
-      }
-    
       
+      .button.pressed,
+      .tab.pressed {
+        border-color: #D0D2D3 #999999 #999999 #D0D2D3 !important;
+      }
+  
+      .button.pressed:active,
+      .tab.pressed:active {
+        border-color: #999999 #D0D2D3 #D0D2D3 #999999 !important;
+      }
+
       body {
         height: 100vh;
         height: 100dvh; /* Dynamic viewport height for mobile browsers */
@@ -759,22 +760,30 @@
       .image-box {
         flex: 1;
         border: 1px solid white;
-        padding: 0;
-        margin: 0;
+        padding: 0 !important;
+        margin: 0 !important;
         box-sizing: border-box;
         overflow: hidden;
-        line-height: 0; /* Remove any line-height spacing */
+        position: relative;
       }
 
       .image-box img,
       .image-box video {
-        width: 100%;
-        height: auto;
-        display: block;
-        border: none;
-        margin: 0;
-        padding: 0;
-        vertical-align: top; /* Remove baseline spacing */
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: relative;
+        top: 0;
+        left: 0;
+      }
+      
+      /* Override any inherited content-section styling for image boxes */
+      .content-section.image-box {
+        padding: 0 !important;
+        border: 1px solid white;
       }
       
       .page-link-container {
