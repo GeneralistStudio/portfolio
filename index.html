@@ -426,13 +426,17 @@
     
     .tabs {
       display: flex;
-      height: 100%; /* Ensure tabs container takes full height */
+      height: 100%;
+      flex-wrap: nowrap;
+      overflow: visible; /* Allow us to see what's happening */
+      flex: 1;
+      margin-right: 10px; /* Space before clock */
     }
-    
+
     .tab {
       background-color: #D0D2D3;
       color: black;
-      padding: 5px 30px;
+      padding: 5px 15px 5px 30px; /* More left padding, less right */
       height: 100%;
       border-width: 4px;
       border-style: solid;
@@ -440,13 +444,14 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start; /* Left align the text */
       font-size: 18px;
-      min-width: 0; /* Allow shrinking below content width */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       box-sizing: border-box;
+      flex-shrink: 0;
+      min-width: 40px;
     }
 
     .tab:hover {
@@ -478,9 +483,10 @@
     }
     
     .clock {
-      margin-left: auto;
       padding: 0 10px;
       font-size: 18px;
+      flex-shrink: 0; /* Never shrink */
+      order: 3; /* Ensure it comes last */
     }
 
     .about-menu {
@@ -778,14 +784,15 @@
       }
       
       .tabs {
-        flex-wrap: wrap;
-        overflow-x: auto;
+        flex-wrap: nowrap; /* Changed from wrap */
+        overflow: hidden; /* Hide overflow instead of wrapping */
       }
       
       .tab {
-        min-width: 100px;
+        min-width: 60px; /* Set minimum width */
         font-size: 14px;
-        padding: 5px 15px;
+        padding: 5px 10px; /* Smaller padding on mobile */
+        flex-shrink: 1; /* Allow shrinking on mobile */
       }
     }
 
@@ -1812,6 +1819,13 @@ function setupNavigation() {
       
       if (allTabs.length === 0) return;
       
+      // Reset all tabs to natural width first
+      allTabs.forEach(tab => {
+        tab.style.width = 'auto';
+        tab.style.flexShrink = '0';
+        tab.style.padding = '5px 30px';
+      });
+      
       // Calculate available space for tabs
       const workButton = document.querySelector('.button.work');
       const aboutButton = document.querySelector('.button.about');
@@ -1822,30 +1836,28 @@ function setupNavigation() {
       const clockWidth = clock.offsetWidth;
       const navBarWidth = navBar.offsetWidth;
       
-      // Available width for tabs (with some padding buffer)
-      const availableWidth = navBarWidth - workButtonWidth - aboutButtonWidth - clockWidth - 20;
+      // Available width for tabs
+      const availableWidth = navBarWidth - workButtonWidth - aboutButtonWidth - clockWidth - 40;
       
-      // Calculate width per tab
-      const tabWidth = Math.floor(availableWidth / allTabs.length);
-      
-      // Set minimum width to prevent tabs from becoming too small
-      const minTabWidth = 80;
-      const finalTabWidth = Math.max(tabWidth, minTabWidth);
-      
-      // Apply width to all tabs
+      // Calculate total width of all tabs at natural size
+      let totalTabsWidth = 0;
       allTabs.forEach(tab => {
-        tab.style.width = finalTabWidth + 'px';
-        tab.style.padding = '5px 10px'; // Reduce padding for smaller tabs
+        totalTabsWidth += tab.offsetWidth;
       });
       
-      // If tabs are still too wide, reduce font size
-      if (finalTabWidth < 120) {
+      // Only resize if tabs exceed available space
+      if (totalTabsWidth > availableWidth) {
+        // Calculate equal width for all tabs
+        const tabWidth = Math.max(40, Math.floor(availableWidth / allTabs.length));
+        
+        // Apply equal width to all tabs
         allTabs.forEach(tab => {
-          tab.style.fontSize = '14px';
-        });
-      } else {
-        allTabs.forEach(tab => {
-          tab.style.fontSize = '18px';
+          tab.style.width = tabWidth + 'px';
+          tab.style.flexShrink = '1';
+          // Reduce padding for smaller tabs to maximize text space
+          if (tabWidth < 100) {
+            tab.style.padding = '5px 10px';
+          }
         });
       }
     }
@@ -1863,7 +1875,7 @@ function setupNavigation() {
       window.addEventListener('resize', () => {
         resizeTabs();
       });
-      
+
   </script>
 </body>
 </html>
