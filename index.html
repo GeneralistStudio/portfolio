@@ -559,52 +559,8 @@
     .link-color-4 { color: #ff66cc; border-color: #ff66cc; }
     .link-color-5 { color: #ff3333; border-color: #ff3333; }
 
-    .button:focus,
-    .tab:focus,
-    .menu-item:focus,
-    .close-button:focus,
-    .project-link:focus {
-      outline: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
     /* Mobile Responsive Styles */
     @media screen and (max-width: 768px) {
-      /* Remove hover states on mobile */
-      .button:hover,
-      .tab:hover {
-        background-color: #D0D2D3 !important;
-        background-image: none !important;
-        color: black !important;
-        border-color: #ffffff #999999 #999999 #ffffff !important;
-      }
-      
-      .tab:hover {
-        border-color: #EEEEEE #999999 #999999 #EEEEEE !important;
-      }
-      
-      .button:active,
-      .tab:active {
-        background-color: #D0D2D3 !important;
-        background-image: none !important;
-        color: black !important;
-        border-color: #ffffff #999999 #999999 #ffffff !important;
-      }
-      
-      .tab:active {
-        border-color: #EEEEEE #999999 #999999 #EEEEEE !important;
-      }
-      
-      /* Keep the pressed/selected state as-is (maintain desktop appearance) */
-      .button.pressed,
-      .tab.pressed {
-        /* These should keep their existing desktop styling */
-      }
-      
-      .button.pressed:active,
-      .tab.pressed:active {
-        /* These should keep their existing desktop styling */
-      }
 
       body {
         height: 100vh;
