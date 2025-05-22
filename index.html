@@ -442,6 +442,11 @@
       align-items: center;
       justify-content: center;
       font-size: 18px;
+      min-width: 0; /* Allow shrinking below content width */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
     }
 
     .tab:hover {
@@ -1747,6 +1752,7 @@ function setupNavigation() {
         tab.className = 'tab';
         tab.setAttribute('data-id', id);
         tab.textContent = title;
+        tab.setAttribute('data-full-title', title); // Store full title
         
         tab.addEventListener('click', () => {
           openWorkPage(id, title);
@@ -1758,6 +1764,9 @@ function setupNavigation() {
         } else {
           tabsContainer.appendChild(tab);
         }
+        
+        // Resize tabs after adding new one
+        resizeTabs();
       }
       
       // Activate this tab
@@ -1775,6 +1784,8 @@ function setupNavigation() {
       const tab = document.querySelector(`.tab[data-id="${id}"]`);
       if (tab) {
         tab.remove();
+        // Resize remaining tabs after removal
+        resizeTabs();
       }
       
       // Show next available page or return to main content
@@ -1793,6 +1804,51 @@ function setupNavigation() {
         document.querySelector('.about-menu').style.display = 'none';
       }
     }
+
+    function resizeTabs() {
+      const tabsContainer = document.querySelector('.tabs');
+      const allTabs = document.querySelectorAll('.tab');
+      const navBar = document.querySelector('.nav-bar');
+      
+      if (allTabs.length === 0) return;
+      
+      // Calculate available space for tabs
+      const workButton = document.querySelector('.button.work');
+      const aboutButton = document.querySelector('.button.about');
+      const clock = document.querySelector('.clock');
+      
+      const workButtonWidth = workButton.offsetWidth;
+      const aboutButtonWidth = aboutButton.offsetWidth;
+      const clockWidth = clock.offsetWidth;
+      const navBarWidth = navBar.offsetWidth;
+      
+      // Available width for tabs (with some padding buffer)
+      const availableWidth = navBarWidth - workButtonWidth - aboutButtonWidth - clockWidth - 20;
+      
+      // Calculate width per tab
+      const tabWidth = Math.floor(availableWidth / allTabs.length);
+      
+      // Set minimum width to prevent tabs from becoming too small
+      const minTabWidth = 80;
+      const finalTabWidth = Math.max(tabWidth, minTabWidth);
+      
+      // Apply width to all tabs
+      allTabs.forEach(tab => {
+        tab.style.width = finalTabWidth + 'px';
+        tab.style.padding = '5px 10px'; // Reduce padding for smaller tabs
+      });
+      
+      // If tabs are still too wide, reduce font size
+      if (finalTabWidth < 120) {
+        allTabs.forEach(tab => {
+          tab.style.fontSize = '14px';
+        });
+      } else {
+        allTabs.forEach(tab => {
+          tab.style.fontSize = '18px';
+        });
+      }
+    }
     
     // Initialize everything when DOM is loaded
       document.addEventListener('DOMContentLoaded', () => {
@@ -1803,6 +1859,11 @@ function setupNavigation() {
         setupWorkPages();
         setupAboutMenu();
       });
+
+      window.addEventListener('resize', () => {
+        resizeTabs();
+      });
+      
   </script>
 </body>
 </html>
