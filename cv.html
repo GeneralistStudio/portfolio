@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Ryan Lettieri - CV</title>
+ <style>
+   * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+   }
+
+   body {
+     background-color: white;
+     color: black;
+     font-family: Arial, sans-serif;
+     line-height: 1.6;
+     padding: 50px;
+   }
+
+   a {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: black;
+    text-decoration: none;
+   }
+
+   a:hover {
+    text-decoration: underline;
+    cursor: ne-resize;
+   }
+
+   .cv-container {
+     max-width: 500px;
+     margin: 0 auto;
+     display: grid;
+     grid-template-columns: 1fr 1fr 1fr;
+     gap: 0px;
+     row-gap: 20px;
+   }
+
+   .col-1 {
+     grid-column: span 1;
+   }
+
+   .col-2 {
+     grid-column: span 2;
+   }
+
+   .col-3 {
+     grid-column: span 3;
+   }
+
+   .profile-image {
+     width: 120px;
+     height: 120px;
+     border-radius: 50%;
+     object-fit: cover;
+   }
+
+   h1 {
+     font-size: 1.4rem;
+     font-weight: medium;
+     margin-bottom: 0px;
+   }
+
+   h2 {
+     font-size: 0.9em;
+     font-weight: medium;
+     margin-bottom: 8px;
+   }
+
+   .position {
+     font-size: 0.9rem;
+     color: #666;
+   }
+
+   .body-text {
+     font-size: 0.9rem;
+     color: #666;
+     line-height: 1.6;
+   }
+
+   .date-range {
+     font-size: 0.9rem;
+     color: #808080;
+     margin-bottom: 16px;
+   }
+
+   .job-details {
+     font-size: 0.9rem;
+     line-height: 1.6;
+   }
+
+   .job-information {
+     font-size: 0.9rem;
+     color: #666;
+     line-height: 1.6;
+   }
+
+   .gap {
+     height: 24px;
+   }
+
+   @media (max-width: 768px) {
+     .cv-container {
+       grid-template-columns: 1fr;
+       gap: 20px;
+       padding: 20px;
+     }
+     
+     .col-1, .col-2, .col-3 {
+       grid-column: span 1;
+     }
+     
+     body {
+       padding: 20px;
+     }
+   }
+ </style>
+</head>
+<body>
+ <div class="cv-container">
+   <!-- Header Row -->
+   <div class="col-1">
+     <img src="images/profile.jpg" alt="Ryan Lettieri" class="profile-image">
+   </div>
+   <div class="col-2">
+     <h1>Ryan Lettieri</h1>
+     <p class="position">Designer & Creative Technologist</p>
+   </div>
+
+   <!-- About Section -->
+   <div class="col-3">
+     <h2>About</h2>
+     <p class="body-text">Ryan Lettieri is a designer based in Providence, RI with a background in graphic design. He creates immersive design systems that expand abstract ideas into rich, explorable worlds. Through visuals, motion, and interaction, he shapes experiences that feel cohesive and emotionally grounded.</p>
+   </div>
+   <div class="col-3" style="height: 40px;"></div>
+
+   <!-- Experience Section -->
+   <div class="col-1">
+     <h2>Experience</h2>
+   </div>
+   
+   <div class="col-2"></div>
+
+   <div class="col-1">
+     <p class="date-range">2023 — Now</p>
+   </div>
+   <div class="col-2">
+     <p class="job-details">Freelance Brand Designer</p>
+     <p class="job-information">Graphics and identity design for various clients including: Orka, Monks, Swarm, ECG Marketing, Nova, Intention.ly</p>
+   </div>
+
+   <div class="gap col-3"></div>
+
+   <div class="col-1">
+     <p class="date-range">2025 — Now</p>
+   </div>
+   <div class="col-2">
+    <p class="job-details">Web Designer & Worldbuilder, BEAM (Contract)</p>
+    <p class="job-information">Designed and built tidelands.earth, an interactive web platform exploring 
+      speculative climate futures through flood data visualization and immersive storytelling</p>
+   </div>
+
+   <div class="gap col-3"></div>
+
+   <div class="col-1">
+    <p class="date-range">2024 — 2025</p>
+  </div>
+  <div class="col-2">
+   <p class="job-details">Visual Game Designer, ThinkFun (Contract)</p>
+   <p class="job-information">Developed immersive educational games including Cold Case, combining 
+    archival research with graphic design to create playable historical worlds</p>
+  </div>
+
+  <div class="gap col-3"></div>
+
+   <div class="col-1">
+     <p class="date-range">2023 — 2024</p>
+   </div>
+   <div class="col-2">
+    <p class="job-details">Creative Director, Ojahara (Contract)</p>
+    <p class="job-information"> Led visual identity system spanning music video, web design, and launch graphics</p>
+   </div>
+   <div class="col-3" style="height: 20px;"></div>
+
+   <div class="gap col-3"></div>
+
+   <div class="col-1">
+     <p class="date-range">2023 — 2023</p>
+   </div>
+   <div class="col-2">
+    <p class="job-details">Visual Design Intern, Korn Ferry</p>
+    <p class="job-information">Developed comprehensive visual materials including pitch presentations and 
+      motion graphics for Fortune 500 clients to drive new business</p>
+   </div>
+   <div class="col-3" style="height: 20px;"></div>
+
+      <!-- Education Section -->
+   <div class="col-1">
+     <h2>Education</h2>
+   </div>
+   <div class="col-2"></div>
+
+   <div class="col-1">
+     <p class="date-range">2020 — 2024</p>
+   </div>
+   <div class="col-2">
+     <p class="job-details">BFA, Rhode Island School of Design</p>
+     <p class="job-information">Providence, RI</p>
+    <div class="col-3" style="height: 40px;"></div>
+   </div>
+
+    <!-- Side Projects Section -->
+    <div class="col-1">
+      <h2>Side Projects</h2>
+    </div>
+    <div class="col-2"></div>
+ 
+    <div class="col-1">
+      <p class="date-range">2025</p>
+    </div>
+    <div class="col-2">
+      <p class="job-details">BFA, Rhode Island School of Design</p>
+      <p class="job-information">Providence, RI</p>
+     <div class="col-3" style="height: 40px;"></div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="col-1">
+      <h2>Contact</h2>
+    </div>
+    <div class="col-2"></div>
+ 
+    <div class="col-1">
+      <p class="date-range">Email<br>Are.na</p>
+    </div>
+    <div class="col-2">
+      <p class="job-details"><a href="mailto:ryanlettieri@icloud.com">ryanlettieri@icloud.com</a></p>
+      <p class="job-details">ryan-lettieri</p>
+     <div class="col-3" style="height: 40px;"></div>
+    </div>
+
+
+
+ </div>
+</body>
+</html>
