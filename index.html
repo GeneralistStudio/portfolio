@@ -1997,7 +1997,7 @@ function setupNavigation() {
     const desktopIcons = [
       {
         name: 'Instagram',
-        image: 'images/heart.ico', // You'll need to add these images
+        image: 'images/heart.ico',
         link: 'https://www.instagram.com/rettieri/'
       },
       {
@@ -2059,6 +2059,7 @@ function setupNavigation() {
     function setupIconDragging() {
       let draggedIcon = null;
       let isDragging = false;
+      let hasDragged = false; // Track if actual dragging occurred
       let startX, startY, offsetX, offsetY;
       
       // Mouse events
@@ -2077,6 +2078,7 @@ function setupNavigation() {
         
         draggedIcon = target;
         isDragging = false;
+        hasDragged = false; // Reset drag state
         
         const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
         const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
@@ -2091,17 +2093,8 @@ function setupNavigation() {
         offsetX = clientX - rect.left;
         offsetY = clientY - rect.top;
         
-        // Debug logs
-        console.log('=== START DRAG DEBUG ===');
-        console.log('Screen size check - window.innerWidth:', window.innerWidth);
-        console.log('Mouse position:', { clientX, clientY });
-        console.log('Icon rect:', rect);
-        console.log('Calculated offset:', { offsetX, offsetY });
-        console.log('Icon computed style position:', window.getComputedStyle(draggedIcon).position);
-        console.log('Icon parent container:', draggedIcon.parentElement.className);
-        console.log('========================');
-        
-        e.preventDefault();
+        // Only prevent default if we're actually starting to drag
+        // Don't prevent it immediately to allow clicks to work
       }
       
       function drag(e) {
@@ -2116,18 +2109,16 @@ function setupNavigation() {
         // Start dragging if moved more than 5px
         if (!isDragging && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
           isDragging = true;
+          hasDragged = true; // Mark that actual dragging occurred
           draggedIcon.classList.add('dragging');
           draggedIcon.style.position = 'fixed';
           draggedIcon.style.zIndex = '1000';
+          e.preventDefault(); // Now prevent default since we're dragging
         }
         
         if (isDragging) {
           const newLeft = clientX - offsetX;
           const newTop = clientY - offsetY;
-          
-          // Debug logs for dragging
-          console.log('Dragging - Mouse:', { clientX, clientY });
-          console.log('Dragging - Setting position to:', { newLeft, newTop });
           
           draggedIcon.style.left = newLeft + 'px';
           draggedIcon.style.top = newTop + 'px';
@@ -2137,14 +2128,21 @@ function setupNavigation() {
       
       function endDrag(e) {
         if (draggedIcon) {
-          if (isDragging) {
+          if (hasDragged) {
+            // If we actually dragged, clean up with a delay
             setTimeout(() => {
-              draggedIcon.classList.remove('dragging');
-            }, 100);
+              if (draggedIcon) {
+                draggedIcon.classList.remove('dragging');
+              }
+            }, 50); // Reduced timeout
+          } else {
+            // If we didn't drag, remove dragging class immediately
+            draggedIcon.classList.remove('dragging');
           }
           
           draggedIcon = null;
           isDragging = false;
+          hasDragged = false;
         }
       }
     }
