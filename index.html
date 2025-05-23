@@ -506,7 +506,7 @@
     }
 
     .about-header-image {
-      width: 100%;
+      width: 75%;
       height: auto;
       margin-bottom: 15px;
     }
@@ -518,7 +518,7 @@
 
     .about-image {
       width: 200px;
-      height: auto;
+      height: 200px;
     }
 
     .about-text {
@@ -966,11 +966,11 @@
     <div class="slideshow">
       <video src="images/symbiotica-cover.mp4" data-project="1" data-title="SYMBIOTICA" autoplay muted loop playsinline class="active"></video>
       <video src="images/tidelands-primary.mp4" alt="Slideshow Video 2" data-project="4" data-title="TIDELANDS" autoplay muted loop playsinline></video>
-      <video src="images/ojahara-row0.mp4" alt="Slideshow Video 3" data-project="2" data-title="OJAHARA" autoplay muted loop playsinline></video>
+      <video src="images/ojahara-row8.mp4" alt="Slideshow Video 3" data-project="2" data-title="OJAHARA" autoplay muted loop playsinline></video>
       <video src="images/tidelands-row10.mp4" alt="Slideshow Video 4" data-project="4" data-title="TIDELANDS" autoplay muted loop playsinline></video>
       <video src="images/symbiotica-primary.mp4" alt="Slideshow Video 5" data-project="1" data-title="SYMBIOTICA" autoplay muted loop playsinline></video>
     </div>
-    <h2 class="title">Ryan Lettieri builds immersive systems that turn abstract ideas into rich, explorable worlds through motion, visuals, and interaction.</h2>
+    <h2 class="title">Ryan Lettieri is a visual designer that builds rich, explorable worlds through motion, visuals, and interaction.</h2>
   </div>
 
   <div class="desktop-icons">
@@ -1170,9 +1170,9 @@
       aboutMenu.innerHTML = `
         <div class="menu-header">about</div>
         <div class="about-section">
-          <img class="about-header-image" src="/api/placeholder/200/100" alt="About Header">
+          <img class="about-header-image" src="images/about-header.webp" alt="About Header">
           <div class="about-content">
-            <img class="about-image" src="images/about-primary.jpg" alt="About Image">
+            <img class="about-image" src="images/profile-photo.webp" alt="About Image">
             <div class="about-text">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.</p>
               <p>Vivamus at risus eget ligula vulputate commodo. Donec eget libero eu dolor egestas consequat. Sed vel nulla vel eros gravida pellentesque.</p>
@@ -1182,7 +1182,7 @@
         </div>
         <div class="menu-header">colophon</div>
         <div class="colophon-section">
-          <p>Website designed by: Ryan Lettieri</p>
+          <p>This website was custom designed and coded</p>
           <p>Fonts: Argent Pixel CF & CoFo Sans Pixel</p>
           <p>Friends & collaborators:</p>
           <p>Zoe Lee, Gary Li, Annie Chen, Louis Hand, Kai Geitzen, Lindsay Ju.</p>
@@ -1270,9 +1270,9 @@ function setupNavigation() {
       aboutMenu.innerHTML = `
         <div class="menu-header">about</div>
         <div class="about-section">
-          <img class="about-header-image" src="/api/placeholder/200/100" alt="About Header">
+          <img class="about-header-image" src="images/about-header.webp" alt="About Header">
           <div class="about-content">
-            <img class="about-image" src="images/about-primary.gif" alt="About Image">
+            <img class="about-image" src="images/profile-photo.webp" alt="About Image">
             <div class="about-text">
               <p>Ryan Lettieri is a designer based in Providence, RI with a background in graphic design.</p>
                 <p>He creates immersive design systems that expand abstract ideas into rich, explorable worlds. Through visuals, motion, and interaction, he shapes experiences that feel cohesive and emotionally grounded.</p>
@@ -1281,10 +1281,13 @@ function setupNavigation() {
         </div>
         <div class="menu-header">colophon</div>
         <div class="colophon-section">
-          <p>Website designed by: Ryan Lettieri</p>
+          <p>This website was custom designed and coded</p>
           <p>Fonts: Argent Pixel CF & CoFo Sans Pixel</p>
           <p>Friends & collaborators:</p>
-          <p>Zoe Lee, Gary Li, Annie Chen, Louis Hand, Kai Geitzen, Lindsay Ju.</p>
+          <p><a href="https://zoemiyako.com/">Zoe Lee,</a> <a href="https://garyjli.squarespace.com/">Gary Li,</a> <a href="https://www.beamstudio.earth/">Annie Chen,</a> <a href="https://louishand.squarespace.com/">Louis Hand,</a> <a href="https://kaigietzen.com/">Kai Geitzen,</a> <a href="https://lindsayxju.cargo.site/">Lindsay Ju.</a></p>
+        </div>
+        <div class="menu-footer">
+          <div class="footer-border"></div>
         </div>
       `;
       
@@ -1665,30 +1668,83 @@ function setupNavigation() {
       
     case '3':
       projectContent = `
-          <div class="content-section image-section">
-           <div class="page-link-container">
-              <a href="https://generaliststudio.github.io/alchemy/" target="_blank" class="project-link link-color-1">VIEW LIVE PROJECT</a>
-            </div>
-            <img src="/api/placeholder/600/450" alt="App Interface">
-          </div>
-          
-          <div class="content-label-section">
-            <div class="left-column">Mobile Application</div>
-            <div class="right-column">2024</div>
-          </div>
-          
+        
           <div class="content-section title-section">
-            <h2>SWARM</h2>
-            <div class="text-block">A health and wellness tracking application with AI-powered recommendations. This application uses machine learning to provide personalized nutrition and exercise plans based on user activity and goals.</div>
+            <h2>FROM THE ARCHIVES...</h2>
+            <div class="text-block">Here you will find (in no particular order) projects, ideas, and expiriments that didn't make the cut, but are still near and dear to me.</div>
           </div>
           
           <div class="content-section image-section">
             <img src="images/chart.png" alt="Swarm Chart">
           </div>
+
+          <div class="content-section image-section">
+            <img src="images/swarm-row1.webp" alt="Swarm Chart">
+          </div>
           
           <div class="content-section title-section">
-            <h2>User Impact</h2>
-            <div class="text-block">Currently with over 1 million active users, the app has maintained a 4.8/5 rating across app stores.</div>
+            <h2>SWARM BUG REPELLENT</h2>
+            <div class="text-block">Designed branding graphics for the world of Swarm, a bug repellent built for Gen Z consumers, taking clues from modern skincare and vintage camping gear.</div>
+          </div>
+
+          <div class="split-image-section">
+            <div class="content-section image-box">
+              <img src="images/orka-row1.webp" alt="Exterior View">
+            </div>
+            <div class="content-section image-box">
+              <img src="images/orka-row2.webp" alt="Interior Common Area">
+            </div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/orka-row4.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/orka-row3.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section title-section">
+            <h2>ORKA BEVERAGE CO.</h2>
+            <div class="text-block">Designed apparel graphics and custom-made jersey for Orka Beverage Company, an energy drink startup with viral marketing. The world I paint combines classic sports ephemera and the absurdity of Adult Swim cartoons.</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/generalist-row1.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/generalist-row2.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/generalist-row3.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section title-section">
+            <h2>GENERALIST.ONLINE</h2>
+            <div class="text-block">With the help of some friends, I started a small design and apparel business to support some our ambitious creative endeavours. I designed and implimented a custom shop and studio website, taking clues from street wear to A24.</div>
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/nads-row1.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/nads-row2.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/nads-row3.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section image-section">
+            <img src="images/nads-row4.webp" alt="Swarm Chart">
+          </div>
+
+          <div class="content-section title-section">
+            <h2>NADS: THE DOCUMENTARY</h2>
+            <div class="text-block">Designed graphics and merchandise for the most attended party is RISD's recent history. I also currently serve as a producer and designer for the Nads Documentary, most recently designing the film's website. GO NADS!</div>
           </div>
 
           <div class="project-navigation">
@@ -2013,7 +2069,7 @@ function setupNavigation() {
       {
         name: 'CV',
         image: 'images/vaporwave-disc.ico',
-        link: 'mailto:ryanlettieri@icloud.com'
+        link: 'cv.html'
       }
     ];
 

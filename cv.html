@@ -22,7 +22,7 @@
    a {
     font-size: 0.9rem;
     line-height: 1.6;
-    color: black;
+    color: inherit;
     text-decoration: none;
    }
 
@@ -53,8 +53,8 @@
    }
 
    .profile-image {
-     width: 120px;
-     height: 120px;
+     width: 140px;
+     height: 140px;
      border-radius: 50%;
      object-fit: cover;
    }
@@ -103,6 +103,24 @@
      height: 24px;
    }
 
+   .contact-button {
+      display: inline-block;
+      background-color: #f0f0f0;
+      color: #666;
+      padding: 4px 12px;
+      border-radius: 50px; /* Creates 100% rounded edges */
+      text-decoration: none;
+      font-size: 0.8rem;
+      margin-top: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .contact-button:hover {
+      background-color: #e0e0e0;
+    }
+
    @media (max-width: 768px) {
      .cv-container {
        grid-template-columns: 1fr;
@@ -124,11 +142,12 @@
  <div class="cv-container">
    <!-- Header Row -->
    <div class="col-1">
-     <img src="images/profile.jpg" alt="Ryan Lettieri" class="profile-image">
+     <img src="images/profile-photo.webp" alt="Ryan Lettieri" class="profile-image">
    </div>
    <div class="col-2">
      <h1>Ryan Lettieri</h1>
-     <p class="position">Designer & Creative Technologist</p>
+     <p class="position">Designer, Worldbuiler, Web, Motion — he/him</p>
+     <p class="position"><a href="https://www.ryanlettieri.com" class="contact-button">ryanlettieri.com</a></p>
    </div>
 
    <!-- About Section -->
@@ -150,7 +169,7 @@
    </div>
    <div class="col-2">
      <p class="job-details">Freelance Brand Designer</p>
-     <p class="job-information">Graphics and identity design for various clients including: Orka, Monks, Swarm, ECG Marketing, Nova, Intention.ly</p>
+     <p class="job-information">Graphics and identity design for various clients including: Orka Energy Drink, Monks, Swarm, ECG Marketing, Nova, Intention.ly</p>
    </div>
 
    <div class="gap col-3"></div>
@@ -213,21 +232,6 @@
     <div class="col-3" style="height: 40px;"></div>
    </div>
 
-    <!-- Side Projects Section -->
-    <div class="col-1">
-      <h2>Side Projects</h2>
-    </div>
-    <div class="col-2"></div>
- 
-    <div class="col-1">
-      <p class="date-range">2025</p>
-    </div>
-    <div class="col-2">
-      <p class="job-details">BFA, Rhode Island School of Design</p>
-      <p class="job-information">Providence, RI</p>
-     <div class="col-3" style="height: 40px;"></div>
-    </div>
-
     <!-- Contact Section -->
     <div class="col-1">
       <h2>Contact</h2>
@@ -238,7 +242,7 @@
       <p class="date-range">Email<br>Are.na</p>
     </div>
     <div class="col-2">
-      <p class="job-details"><a href="mailto:ryanlettieri@icloud.com">ryanlettieri@icloud.com</a></p>
+      <p class="job-details"><a href="mailto:ryanlettieri@icloud.com">ryanlettieri@icloud.com↗</a></p>
       <p class="job-details">ryan-lettieri</p>
      <div class="col-3" style="height: 40px;"></div>
     </div>
