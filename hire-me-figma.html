@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://use.typekit.net/beg7yli.css">
+    <link rel="stylesheet" href="https://use.typekit.net/beg7yli.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlined Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+        --font-primary: "cofo-sans-pixel", sans-serif;
+        --font-secondary: "argent-pixel-cf", sans-serif;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100vh;
+            position: relative;
+            border: 4px solid black;
+            background: white;
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: underline;
+            color: rgb(0, 0, 255);
+        }
+
+        a:hover {
+            text-shadow: 0 0 5px #ff0000;
+        }
+
+        .top-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+        }
+
+        .page-number {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: black;
+            z-index: 10;
+        }
+
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            border-top: 4px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: white;
+        }
+
+        .nav-button {
+            background: white;
+            border: 3px solid black;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-button:hover {
+            background: #f0f0f0;
+            scale: 96%;
+        }
+
+        .nav-button:active {
+            background: #e0e0e0;
+        }
+
+        .enter-button {
+            margin: 0 auto;
+        }
+
+        .left-nav {
+            margin-right: auto;
+        }
+
+        .right-nav {
+            margin-left: auto;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content-text {
+            font-size: 1.5rem;
+            text-align: left;
+            padding: 25px;
+            max-width: 900px;
+            line-height: 1.6;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
+        }
+
+        .content-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            outline: 4px solid black;
+            min-height: 100%;
+        }
+
+        /* New hover trigger styles */
+        #sentence-container {
+            font-size: 4rem;
+            text-align: center;
+            line-height: 1.6;
+            max-width: 90%;
+        }
+
+        .hover-trigger {
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 0, 0, 0.3);
+            transition: text-decoration-color 0.3s ease;
+        }
+
+        .hover-trigger:hover {
+            text-decoration-color: rgba(0, 0, 0, 1);
+        }
+
+        .hover-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .hover-image.show {
+            animation: bounceIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .hover-image img {
+            width: 200px;
+            height: 200px;
+            border: 4px solid black;
+            background: white;
+        }
+
+        .wtf-button {
+            position: absolute;
+            bottom: 80px;
+            right: 100px;
+            background: white;
+            border: 2px solid red;
+            color: red;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            animation: rotateBackForth 2s ease-in-out infinite;
+            z-index: 20;
+        }
+
+        .wtf-button:hover {
+            background: #ffe6e6;
+            transform: scale(1.05);
+        }
+
+        @keyframes rotateBackForth {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+        /* Custom Popup Modal */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        .popup-overlay.hidden {
+            display: none;
+        }
+
+        .popup-content {
+            background: white;
+            border: 3px solid black;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-text {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            color: black;
+        }
+
+        .popup-button {
+            background: white;
+            border: 2px solid black;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .popup-button:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .popup-button:active {
+            background: #e0e0e0;
+        }
+
+        .secondary {
+            font-size: 3rem;
+            line-height: 1.2;
+        }
+
+        .split-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: stretch;
+        }
+
+        .split-text {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .split-video {
+            flex: 1;
+            outline: solid black 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .split-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            outline: 4px solid black;
+        }
+
+        .page-header {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            font-weight: bold;
+            color: black;
+            z-index: 10;
+        }
+
+        .content-video-inset {
+            width: calc(100% - 450px);
+            height: calc(100% - 200px);
+            object-fit: cover;
+            border: 4px solid black;
+            background: white;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                border: 4px solid black;
+            }
+
+            .top-content {
+                bottom: 70px;
+            }
+
+            .nav-bar {
+                border-top: 4px solid black;
+                height: 70px;
+                padding: 0 15px;
+            }
+
+            .nav-button {
+                border: 3px solid black;
+                padding: 10px 15px;
+                font-size: 1rem;
+                min-width: 50px;
+            }
+
+            .page-number {
+                font-size: 1.5rem;
+                top: 15px;
+                left: 15px;
+            }
+
+            .top-content {
+                padding: 0px;
+            }
+
+            .content-text {
+                font-size: 1.2rem;
+            }
+
+            .content-image {
+                border: 3px solid black;
+            }
+
+            #sentence-container {
+                font-size: 1.6rem;
+            }
+
+            .hover-image img {
+                max-width: 300px;
+                max-height: 300px;
+                border: 3px solid black;
+            }
+
+            .wtf-button {
+                bottom: 85px;
+                right: 15px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+            .split-container {
+                flex-direction: column;
+            }
+            
+            .split-video video {
+                outline: 3px solid black;
+            }
+
+            .content-video-inset {
+                width: calc(100% - 60px);
+                height: calc(100% - 60px);
+                border: 3px solid black;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                border: 3px solid black;
+            }
+
+            .top-content {
+                bottom: 60px;
+            }
+
+            .nav-bar {
+                border-top: 3px solid black;
+                height: 60px;
+                padding: 0 10px;
+            }
+
+            .nav-button {
+                border: 2px solid black;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                min-width: 40px;
+            }
+
+            .page-number {
+                font-size: 1.2rem;
+                top: 10px;
+                left: 10px;
+            }
+
+            .top-content {
+                padding: 0px;
+            }
+
+            .content-text {
+                font-size: 1rem;
+            }
+
+            .content-image {
+                border: 2px solid black;
+            }
+
+            #sentence-container {
+                font-size: 1.3rem;
+            }
+
+            .hover-image img {
+                max-width: 250px;
+                max-height: 250px;
+                border: 2px solid black;
+            }
+
+            .wtf-button {
+                bottom: 75px;
+                right: 10px;
+                font-size: 0.7rem;
+                padding: 6px 10px;
+            }
+
+            .content-video-inset {
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+                border: 2px solid black;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .popup-content {
+                padding: 25px;
+                border-radius: 10px;
+                border: 2px solid black;
+            }
+            
+            .popup-text {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
+            
+            .popup-button {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .popup-content {
+                padding: 20px;
+                border-radius: 8px;
+            }
+            
+            .popup-text {
+                font-size: 1rem;
+                margin-bottom: 18px;
+            }
+            
+            .popup-button {
+                font-size: 0.8rem;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing" class="page">
+        <div class="top-content">
+            <div class="video-container">
+                <video autoplay loop muted playsinline>
+                    <source src="images/landing-video.mp4" type="video/mp4">
+                    <source src="images/landing-video.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <button class="nav-button enter-button" onclick="goToPage(1)">ENTER</button>
+        </div>
+    </div>
+
+    <!-- Page 1 -->
+    <div id="page1" class="page hidden">
+      <div class="top-content">
+          <div class="page-number">1</div>
+          <div id="sentence-container">
+              <span>Hi! I'm </span>
+              <span class="hover-trigger" data-image="ryan">Ryan</span>
+              <span>— a</span>
+              <span class="hover-trigger" data-image="designer">graphic designer</span>
+              <span>focused on</span><br>
+              <span class="hover-trigger" data-image="motion">motion</span>
+              <span>and</span>
+              <span class="hover-trigger" data-image="interaction">interaction</span>
+              <span>,</span>
+              <span>building visual</span>
+              <span class="hover-trigger" data-image="world">worlds</span>
+              <span>that bring complex ideas to life.</span>
+          </div>
+          <!-- Multiple hover images -->
+          <div id="hover-image-ryan" class="hover-image hidden">
+              <img src="images/profile-photo.jpeg" alt="Ryan Image">
+          </div>
+          <div id="hover-image-designer" class="hover-image hidden">
+              <img src="images/figma.avif" alt="Designer Image">
+          </div>
+          <div id="hover-image-graphics" class="hover-image hidden">
+              <img src="images/risd.jpg" alt="Graphics Image">
+          </div>
+          <div id="hover-image-motion" class="hover-image hidden">
+            <img src="images/motion.gif" alt="Motion Image">
+         </div>
+          <div id="hover-image-interaction" class="hover-image hidden">
+            <img src="images/interaction.gif" alt="Motion Image">
+          </div>
+          <div id="hover-image-world" class="hover-image hidden">
+            <img src="images/world.gif" alt="Motion Image">
+          </div>
+          <button class="wtf-button" onclick="handleWTFClick()">... WORLDS ??</button>
+      </div>
+      <div class="nav-bar">
+          <button class="nav-button right-nav" onclick="goToPage(2)">What does that look like? ></button>
+      </div>
+  </div>
+
+    <!-- Page 2 -->
+<div id="page2" class="page hidden">
+    <div class="top-content">
+        <div class="page-number">2</div>
+        <div class="split-container">
+            <div class="split-text">
+                <div id="sentence-container"> 
+                    <span>I design brands that are kinetic and story-driven — built to move, respond, and connect on a deeply human level.</span>
+                </div>
+            </div>
+            <div class="split-video">
+                <video autoplay loop muted playsinline>
+                    <source src="images/tidelands-primary.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <button class="nav-button left-nav" onclick="goToPage(1)"><</button>
+        <button class="nav-button right-nav" onclick="goToPage(3)">SHOW, DON't TELL ></button>
+    </div>
+</div>
+
+    <!-- Page 3 -->
+    <div id="page3" class="page hidden">
+        <div class="top-content">
+            <div class="page-number">3</div>
+            <video autoplay loop muted playsinline class="content-video-inset">
+                <source src="images/reel.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button class="wtf-button" onclick="handleWhatIsThisClick()">What is all this?</button>
+        </div>
+        <div class="nav-bar">
+            <button class="nav-button left-nav" onclick="goToPage(2)"><</button>
+            <button class="nav-button right-nav" onclick="goToPage(4)">SO WHAT? ></button>
+        </div>
+    </div>
+
+    <!-- Page 4 (Final Page) -->
+    <div id="page4" class="page hidden">
+        <div class="top-content">
+            <div class="page-number">4</div>
+            <div id="sentence-container"> 
+                <span>As Figma expands across disciplines, its visual system can evolve in playful, expressive ways. I see potential to build a 
+                    <span class="hover-trigger" data-image="figma">“Figma-verse”:</span>
+                    <span>a connected set of experiences that bring Figma’s values into the world through design, play, and story.</span>
+                    
+            </div>
+            <button class="wtf-button" onclick="handleLikeWhatClick()">Like What?</button>
+            <div id="hover-image-figma" class="hover-image hidden">
+                <img src="images/fig-universe.gif" alt="Motion Image">
+            </div>
+        </div>
+        <div class="nav-bar">
+            <button class="nav-button left-nav" onclick="goToPage(3)"><</button>
+            <button class="nav-button right-nav" onclick="goToPage(5)">LET'S DO IT! ></button>
+        </div>
+    </div>
+
+    <!-- Page 5 (Final Page) -->
+    <div id="page5" class="page hidden">
+        <div class="top-content">
+            <div class="page-number">5</div>
+            <div id="sentence-container"> 
+                <span>That's the kind of work I'd love to do with your team— let’s make something great together!<br><br> <a href="tel:9493005681">Text</a> or <a href="mailto:ryanlettieri@icloud.com">email me</a> — I’d love to chat.<br></span>
+                <span>(Still deciding? Check out my <a href="https://www.ryanlettieri.com">case studies.</a>)</span>        
+                    
+            </div>
+        </div>
+        <div class="nav-bar">
+            <button class="nav-button left-nav" onclick="goToPage(4)"><</button>
+        </div>
+    </div>
+
+    <!-- Custom Popup Modal -->
+    <div id="wtf-popup" class="popup-overlay hidden">
+        <div class="popup-content">
+            <div class="popup-text">
+                Yes! I have always been drawn to brand design as a storytelling device. An identity is not composed of flat visual systems, but layers of visual interventions that all work together to bring an entire universe to life.
+            </div>
+            <button class="popup-button" onclick="closeWTFPopup()">OKAY</button>
+        </div>
+    </div>
+
+    <div id="what-is-this-popup" class="popup-overlay hidden">
+        <div class="popup-content">
+            <div class="popup-text">
+                In the last year alone I've built story-first, user-driven microsites (like this one!), designed viral-ready merch drops, crafted titles for a nostalgia-soaked music video, and even made bug spray feel covetable through a tactile, Gen-Z-savvy brand system.
+            </div>
+            <button class="popup-button" onclick="closeWhatIsThisPopup()">OKAY</button>
+        </div>
+    </div>
+
+    <div id="likeWhat-popup" class="popup-overlay hidden">
+        <div class="popup-content">
+            <div class="popup-text">
+                A line of plushies that personifies each of the Figma products, a microsite that turns a new feature into a nostalgic mini game, or even a... Fig-movie?? 
+            </div>
+            <button class="popup-button" onclick="closeLikeWhatPopup()">OKAY</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 'landing';
+
+        function goToPage(pageNumber) {
+            // Hide current page
+            document.getElementById(currentPage).classList.add('hidden');
+            
+            // Show new page
+            if (pageNumber === 'landing') {
+                currentPage = 'landing';
+                document.getElementById('landing').classList.remove('hidden');
+            } else {
+                currentPage = `page${pageNumber}`;
+                document.getElementById(currentPage).classList.remove('hidden');
+            }
+        }
+
+        function handleWTFClick() {
+            document.getElementById('wtf-popup').classList.remove('hidden');
+        }
+
+        function closeWTFPopup() {
+            document.getElementById('wtf-popup').classList.add('hidden');
+        }
+
+        function handleWhatIsThisClick() {
+            document.getElementById('what-is-this-popup').classList.remove('hidden');
+        }
+
+        function closeWhatIsThisPopup() {
+            document.getElementById('what-is-this-popup').classList.add('hidden');
+        }
+
+        function handleLikeWhatClick() {
+            document.getElementById('likeWhat-popup').classList.remove('hidden');
+        }
+
+        function closeLikeWhatPopup() {
+            document.getElementById('likeWhat-popup').classList.add('hidden');
+        }
+
+        // Handle keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (currentPage === 'landing') return;
+            
+            const pageNum = parseInt(currentPage.replace('page', ''));
+            
+            if (event.key === 'ArrowLeft' && pageNum > 1) {
+                goToPage(pageNum - 1);
+            } else if (event.key === 'ArrowRight' && pageNum < 4) {
+                goToPage(pageNum + 1);
+            }
+        });
+
+     // Hover image functionality with bounce effect
+     document.addEventListener('DOMContentLoaded', function() {
+          const triggers = document.querySelectorAll('.hover-trigger');
+          let hideTimeout;
+          
+          triggers.forEach(trigger => {
+              const imageType = trigger.getAttribute('data-image');
+              const hoverImage = document.getElementById(`hover-image-${imageType}`);
+              let hideTimeout;
+              let hideAnimationTimeout;
+              
+              if (hoverImage) {
+                  trigger.addEventListener('mouseenter', function() {
+                      // Clear any pending hide timeouts
+                      clearTimeout(hideTimeout);
+                      clearTimeout(hideAnimationTimeout);
+                      
+                      // Hide all other hover images first
+                      document.querySelectorAll('.hover-image').forEach(img => {
+                          img.classList.remove('show');
+                      });
+                      
+                      // Show the specific image with bounce
+                      hoverImage.classList.remove('hidden');
+                      setTimeout(() => {
+                          hoverImage.classList.add('show');
+                      }, 10);
+                  });
+                  
+                  trigger.addEventListener('mouseleave', function() {
+                      // Add a small delay before hiding
+                      hideTimeout = setTimeout(() => {
+                          // Double-check that we're not hovering again before hiding
+                          if (!trigger.matches(':hover')) {
+                              hoverImage.classList.remove('show');
+                              hideAnimationTimeout = setTimeout(() => {
+                                  hoverImage.classList.add('hidden');
+                              }, 600); // Wait for animation to complete
+                          }
+                      }, 100);
+                  });
+              }
+          });
+          
+          // Ensure video plays on mobile
+          const video = document.querySelector('video');
+          if (video) {
+              video.play().catch(function(error) {
+                  console.log('Video autoplay failed:', error);
+              });
+          }
+});
+
+    </script>
+</body>
+</html>
