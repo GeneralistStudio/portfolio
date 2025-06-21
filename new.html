@@ -53,10 +53,6 @@
             display: none; /* Safari and Chrome */
         }
 
-        .info-panel.stop-transitions {
-            transition: none !important;
-        }
-
         .container {
             margin: 0px 15px 15px 15px;
             display: grid;
@@ -159,7 +155,6 @@
             height: 100dvh;
             z-index: 2000;
             transform: translateY(calc(100dvh - 82px));
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             pointer-events: none;
@@ -170,6 +165,10 @@
 
         .info-panel.open {
             transform: translateY(20vh);
+        }
+
+        .info-panel.enable-transitions {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .info-content {
@@ -559,30 +558,12 @@
     <script>
         let infoOpen = false;
 
-    //     (function() { 
-    //     const classes = document.body.classList;
-    //     let timer = 0;
-    //     window.addEventListener('resize', function () {
-    //         if (timer) {
-    //             clearTimeout(timer);
-    //             timer = null;
-    //         }
-    //         else
-    //             classes.add('stop-transitions');
-
-    //         timer = setTimeout(() => {
-    //             classes.remove('stop-transitions');
-    //             timer = null;
-    //         }, 100);
-    //     });
-    // })();
-
         function toggleInfo() {
             const panel = document.getElementById('infoPanel');
             const infoText = document.getElementById('infoText');
             let timer = 0;
             infoOpen = !infoOpen;
-            panel.classList.remove('stop-transitions');
+            panel.classList.add('enable-transitions');
 
             if (infoOpen) {
                 panel.classList.add('open');
@@ -593,7 +574,7 @@
             }
 
             timer = setTimeout(() => {
-                panel.classList.add('stop-transitions');
+                panel.classList.remove('enable-transitions');
                 timer = null;
             }, 400);
         }
