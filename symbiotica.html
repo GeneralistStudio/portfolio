@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ryan Lettieri - Portfolio</title>
+    <title>Symbiotica - Ryan Lettieri</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -45,8 +45,8 @@
             color: var(--primary-color);
             transition: all 0.3s ease;
             overflow-x: hidden;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* Internet Explorer 10+ */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         .container {
@@ -68,26 +68,26 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 15px;
             z-index: 1000;
-            mix-blend-mode: difference; /* Apply to the container */
+            mix-blend-mode: difference;
         }
 
         .logo {
             grid-column: 1;
-            color: #ffffff; /* Use white color for difference blend */
+            color: #ffffff;
             text-decoration: none;
             font-weight: 400;
         }
 
         .email {
             grid-column: 2;
-            color: #ffffff; /* Use white color for difference blend */
+            color: #ffffff;
             text-decoration: none;
         }
 
         .copyright {
             grid-column: 5;
             text-align: right;
-            color: #ffffff; /* Use white color for difference blend */
+            color: #ffffff;
         }
 
         .content {
@@ -96,19 +96,75 @@
             padding-bottom: 150px;
         }
 
-        .project-container {
-            position: relative;
-            cursor: pointer;
+        /* Project Header Section */
+        .project-header {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            margin-bottom: 80px;
+        }
+
+        .project-title {
+            grid-column: 1 / 3;
+            font-size: 120px;
+            line-height: 0.9;
+            letter-spacing: -0.3rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        .title-line {
+            grid-column: 1 / 6;
+            height: 0.75px;
+            background-color: var(--label-color);
+            margin-bottom: 20px;
+        }
+
+        .project-subtitle {
+            grid-column: 1 / 3;
+            font-size: 28px;
+            color: var(--secondary-color);
+            margin-bottom: 40px;
+        }
+
+        .project-description {
+            grid-column: 4 / 6;
+            font-size: 15px;
+            color: var(--secondary-color);
+            line-height: 1.4;
+            align-self: start;
+        }
+
+        .project-type {
+            grid-column: 1;
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--label-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 40px;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            margin: 0 0 0 0;
+            margin-bottom: 0;
         }
 
         .project-image {
             width: 100%;
             height: 1080px;
             background: var(--label-color);
-            border-radius: 10px;
-            margin-bottom: 30px;
             overflow: hidden;
             position: relative;
+        }
+
+        .project-image:first-child {
+            border-radius: 10px 10px 0 0;
+        }
+
+        .project-image:last-child {
+            border-radius: 0 0 10px 10px;
         }
 
         .project-image img,
@@ -119,10 +175,6 @@
             object-position: center;
         }
 
-        .project-image video {
-            background: var(--label-color);
-        }
-
         .project-image.placeholder {
             display: flex;
             align-items: center;
@@ -131,57 +183,53 @@
             font-size: 18px;
         }
 
-        .project-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 15px;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-            font-weight: normal;
-            transition: color 0.3s ease;
+        /* Footer */
+        .footer {
+            background-color: var(--hover-color);
+            padding: 15px 15px 200px 15px;
+            width: calc(100% + 30px);
         }
 
-        .project-description {
-            font-size: 15px;
-            color: var(--label-color);
-            margin-bottom: 75px;
-            transition: color 0.3s ease;
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 40px;
         }
 
-        /* Custom Tooltip Styles */
-        .tooltip {
-            outline: 0.75px solid var(--label-color);
-            position: fixed;
-            padding: 12px 16px;
-            background: var(--info-bg);
+        .footer-section {
             color: var(--primary-color);
-            border-radius: 5px;
+        }
+
+        .footer-label {
             font-family: 'Space Mono', monospace;
-            font-size: 13px;
-            font-weight: 400;
-            pointer-events: none;
-            z-index: 3000;
-            opacity: 0;
-            transform: translate(10%, 80%) translateY(-12px);
-            transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            white-space: nowrap;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            font-size: 15px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
         }
 
-        .tooltip.show {
-            opacity: 1;
+        .footer-text {
+            color: var(--secondary-color);
+            font-size: 15px;
+            line-height: 1.4;
         }
 
-        .tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-top-color: var(--primary-color);
+        .footer-role {
+            grid-column: 1;
         }
 
-        /* New unified info panel structure */
+        .footer-info {
+            grid-column: 2 / 4;
+        }
+
+        .footer-credits {
+            grid-column: 5;
+        }
+
+        .credit-name {
+            margin-bottom: 5px;
+        }
+
+        /* Info Panel - Same as homepage */
         .info-panel {
             position: fixed;
             bottom: 0;
@@ -198,12 +246,12 @@
             -webkit-backdrop-filter: blur(20px);
         }
 
-        .info-panel.open {
-            transform: translateY(20vh);
-        }
-
         .info-panel.enable-transitions {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .info-panel.open {
+            transform: translateY(20vh);
         }
 
         .info-content {
@@ -221,7 +269,7 @@
             justify-content: space-between;
             padding: 0 15px;
             cursor: pointer;
-            transition: all 0.2s ease; /* Changed from just background-color */
+            transition: all 0.2s ease;
             flex-shrink: 0;
             pointer-events: auto;
         }
@@ -262,12 +310,6 @@
 
         .toggle-button.dark .toggle-circle {
             transform: translateX(27px);
-        }
-
-        .info-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
         }
 
         .info-section {
@@ -312,14 +354,13 @@
             display: inline-block;
             margin-top: 20px;
             transition: all 0.3s ease;
-            transition: background-color 0.2s ease;
             border: none;
             cursor: pointer;
             width: fit-content;
         }
 
         .cv-button:hover {
-          background-color: var(--label-color);
+            background-color: var(--label-color);
         }
 
         .index-section {
@@ -361,68 +402,98 @@
             transition: color 0.3s ease;
         }
 
-        .project-type {
+        .project-type-index {
             font-size: 15px;
             color: var(--secondary-color);
             transition: color 0.3s ease;
         }
+
+        @media (max-width: 768px) {
+            .project-title {
+                font-size: 60px;
+            }
+            
+            .project-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-title,
+            .title-line,
+            .project-subtitle,
+            .project-description,
+            .project-type {
+                grid-column: 1;
+            }
+            
+            .project-description {
+                margin-top: 30px;
+            }
+        }
     </style>
 </head>
-<body data-theme="light">
+<body>
     <div class="header">
-        <a href="#" class="logo">RYAN LETTIERI</a>
+        <a href="new.html" class="logo">RYAN LETTIERI</a>
         <a href="mailto:ryanlettieri@icloud.com" class="email">@EMAIL</a>
         <div class="copyright">©2025</div>
     </div>
 
     <div class="container">
         <div class="content">
-            <div class="project-container" data-tooltip="SYMBIOTICA">
+            <div class="project-header">
+                <div class="project-title">Symbiotica</div>
+                <div class="title-line"></div>
+                <div class="project-subtitle">Brand identity and digital experience</div>
+                <div class="project-description">
+                    Symbiotica is a premium wellness brand that creates science-backed nutritional supplements. The brand identity system explores the intersection of nature and technology, using organic forms paired with precise typography to communicate both efficacy and elegance. The digital experience emphasizes education and transparency, allowing customers to understand the science behind each product.
+                </div>
+                <div class="project-type">Brand, Digital</div>
+            </div>
+
+            <div class="image-gallery">
                 <div class="project-image">
                     <video autoplay muted loop playsinline>
-                        <source src="images/symbiotica-cover.mp4" type="video/mp4">
+                        <source src="images/symbiotica-1.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
-                <div class="project-title">SYMBIOTICA</div>
-                <div class="project-description">Brand identity and digital experience</div>
-            </div>
-
-            <div class="project-container" data-tooltip="TIDELANDS">
-                <div class="project-image">
-                  <video autoplay muted loop playsinline>
-                    <source src="images/tidelands-primary.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <div class="project-image placeholder">
+                    PROJECT IMAGE 2
                 </div>
-                <div class="project-title">TIDELANDS 2100</div>
-                <div class="project-description">Interactive climate visualization</div>
-            </div>
-
-            <div class="project-container" data-tooltip="ALCHEMY">
-                <div class="project-image">
-                    <video autoplay muted loop playsinline>
-                        <source src="images/ojahara-primary.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                <div class="project-image placeholder">
+                    PROJECT IMAGE 3
                 </div>
-                <div class="project-title">ALCHEMY</div>
-                <div class="project-description">Experimental design system</div>
-            </div>
-
-            <div class="project-container" data-tooltip="SWARM">
                 <div class="project-image placeholder">
                     PROJECT IMAGE 4
                 </div>
-                <div class="project-title">SWARM</div>
-                <div class="project-description">Generative art installation</div>
+                <div class="project-image placeholder">
+                    PROJECT IMAGE 5
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Custom Tooltip -->
-    <div class="tooltip" id="tooltip"></div>
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section footer-role">
+                <div class="footer-label">Project Role</div>
+                <div class="footer-text">Graphic Designer</div>
+            </div>
+            <div class="footer-section footer-info">
+                <div class="footer-label">More Info</div>
+                <div class="footer-text">This project was developed over 6 months, focusing on creating a cohesive brand system that could scale across digital and physical touchpoints. The identity draws inspiration from cellular structures and organic growth patterns.</div>
+            </div>
+            <div class="footer-section footer-credits">
+                <div class="footer-label">Credits</div>
+                <div class="footer-text">
+                    <div class="credit-name">Zoe Lee</div>
+                    <div class="credit-name">Annie Chen</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Info Panel - Same as homepage -->
     <div class="info-panel" id="infoPanel" onclick="toggleInfo()">
         <div class="info-bar">
             <div class="info-text" id="infoText">MENU</div>
@@ -446,19 +517,19 @@
                 <div class="index-title">INDEX</div>
                 <div class="project-item" onclick="goToProject('symbiotica')">
                     <div class="project-name">SYMBIOTICA</div>
-                    <div class="project-type">BRAND, WEB</div>
+                    <div class="project-type-index">BRAND, WEB</div>
                 </div>
                 <div class="project-item" onclick="goToProject('tidelands')">
                     <div class="project-name">TIDELANDS 2100</div>
-                    <div class="project-type">DATA VIZ, WEB</div>
+                    <div class="project-type-index">DATA VIZ, WEB</div>
                 </div>
                 <div class="project-item" onclick="goToProject('alchemy')">
                     <div class="project-name">ALCHEMY</div>
-                    <div class="project-type">SYSTEM, PRINT</div>
+                    <div class="project-type-index">SYSTEM, PRINT</div>
                 </div>
                 <div class="project-item" onclick="goToProject('swarm')">
                     <div class="project-name">SWARM</div>
-                    <div class="project-type">INSTALLATION, CODE</div>
+                    <div class="project-type-index">INSTALLATION, CODE</div>
                 </div>
             </div>
         </div>
@@ -467,44 +538,16 @@
     <script>
         let infoOpen = false;
 
-        // Tooltip functionality
-        const tooltip = document.getElementById('tooltip');
-        const projectImages = document.querySelectorAll('.project-image');
+        // Check for saved theme preference or default to light mode
         const savedTheme = localStorage.getItem('theme') || 'light';
         const body = document.body;
         const toggleButton = document.getElementById('toggleButton');
 
+        // Apply saved theme on page load
         body.setAttribute('data-theme', savedTheme);
         if (savedTheme === 'dark') {
             toggleButton.classList.add('dark');
         }
-
-
-        projectImages.forEach(image => {
-            const container = image.closest('.project-container');
-            const tooltipText = container.getAttribute('data-tooltip');
-            
-            image.addEventListener('mouseenter', (e) => {
-                if (infoOpen) return; // Don't show tooltip when info panel is open
-                
-                tooltip.textContent = tooltipText;
-                tooltip.classList.add('show');
-            });
-
-            image.addEventListener('mousemove', (e) => {
-                if (infoOpen) return;
-                
-                const x = e.clientX;
-                const y = e.clientY;
-                
-                tooltip.style.left = x + 'px';
-                tooltip.style.top = y + 'px';
-            });
-
-            image.addEventListener('mouseleave', () => {
-                tooltip.classList.remove('show');
-            });
-        });
 
         function toggleInfo() {
             const panel = document.getElementById('infoPanel');
@@ -516,7 +559,6 @@
             if (infoOpen) {
                 panel.classList.add('open'); // Enable transitions if panel is opened
                 infoText.textContent = 'CLOSE';
-                tooltip.classList.remove('show'); // Hide tooltip when info panel opens
             } else {
                 panel.classList.remove('open');
                 infoText.textContent = 'MENU';
@@ -535,20 +577,19 @@
             if (body.getAttribute('data-theme') === 'light') {
                 body.setAttribute('data-theme', 'dark');
                 button.classList.add('dark');
-                localStorage.setItem('theme', 'dark'); // Add this line
+                localStorage.setItem('theme', 'dark');
             } else {
                 body.setAttribute('data-theme', 'light');
                 button.classList.remove('dark');
-                localStorage.setItem('theme', 'light'); // Add this line
+                localStorage.setItem('theme', 'light');
             }
         }
 
         function goToProject(projectName) {
-            // Navigate to project page
             window.location.href = `${projectName}.html`;
         }
 
-        //Close info panel when clicking outside
+        // Close info panel when clicking outside
         document.addEventListener('click', function(event) {
             const panel = document.getElementById('infoPanel');
             
