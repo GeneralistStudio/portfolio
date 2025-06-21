@@ -53,12 +53,16 @@
             display: none; /* Safari and Chrome */
         }
 
+        body.stop-transitions * {
+            transition: none !important;
+        }
+
         .container {
             margin: 0px 15px 15px 15px;
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 0;
-            min-height: calc(100vh - 76px);
+            min-height: calc(100dvh - 76px);
         }
 
         .header {
@@ -152,9 +156,9 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 100vh;
+            height: 100dvh;
             z-index: 2000;
-            transform: translateY(calc(100vh - 82px));
+            transform: translateY(calc(100dvh - 82px));
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
@@ -373,7 +377,7 @@
             }
 
             .info-panel {
-                transform: translateY(calc(100vh - 82px));
+                transform: translateY(calc(100dvh - 82px));
             }
 
             .info-panel.open {
@@ -554,6 +558,24 @@
 
     <script>
         let infoOpen = false;
+
+        (function() { 
+        const classes = document.body.classList;
+        let timer = 0;
+        window.addEventListener('resize', function () {
+            if (timer) {
+                clearTimeout(timer);
+                timer = null;
+            }
+            else
+                classes.add('stop-transitions');
+
+            timer = setTimeout(() => {
+                classes.remove('stop-transitions');
+                timer = null;
+            }, 100);
+        });
+    })();
 
         function toggleInfo() {
             const panel = document.getElementById('infoPanel');
