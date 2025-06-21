@@ -53,7 +53,7 @@
             display: none; /* Safari and Chrome */
         }
 
-        body.stop-transitions * {
+        .info-panel.stop-transitions {
             transition: none !important;
         }
 
@@ -559,29 +559,31 @@
     <script>
         let infoOpen = false;
 
-        (function() { 
-        const classes = document.body.classList;
-        let timer = 0;
-        window.addEventListener('resize', function () {
-            if (timer) {
-                clearTimeout(timer);
-                timer = null;
-            }
-            else
-                classes.add('stop-transitions');
+    //     (function() { 
+    //     const classes = document.body.classList;
+    //     let timer = 0;
+    //     window.addEventListener('resize', function () {
+    //         if (timer) {
+    //             clearTimeout(timer);
+    //             timer = null;
+    //         }
+    //         else
+    //             classes.add('stop-transitions');
 
-            timer = setTimeout(() => {
-                classes.remove('stop-transitions');
-                timer = null;
-            }, 100);
-        });
-    })();
+    //         timer = setTimeout(() => {
+    //             classes.remove('stop-transitions');
+    //             timer = null;
+    //         }, 100);
+    //     });
+    // })();
 
         function toggleInfo() {
             const panel = document.getElementById('infoPanel');
             const infoText = document.getElementById('infoText');
+            let timer = 0;
             infoOpen = !infoOpen;
-            
+            panel.classList.remove('stop-transitions');
+
             if (infoOpen) {
                 panel.classList.add('open');
                 infoText.textContent = 'CLOSE';
@@ -589,6 +591,11 @@
                 panel.classList.remove('open');
                 infoText.textContent = 'MENU';
             }
+
+            timer = setTimeout(() => {
+                panel.classList.add('stop-transitions');
+                timer = null;
+            }, 400);
         }
 
         function toggleTheme(event) {
