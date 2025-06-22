@@ -181,25 +181,20 @@
             border-top-color: var(--primary-color);
         }
 
-        /* New unified info panel structure */
+        /* New unified info panel structure with Safari fix */
         .info-panel {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 100vh;
             z-index: 2000;
-            transform: translateY(calc(100vh - 82px));
             display: flex;
             flex-direction: column;
             pointer-events: none;
             background-color: var(--info-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-        }
-
-        .info-panel.open {
-            transform: translateY(20vh);
+            /* Use JavaScript to set height and transform to handle Safari properly */
         }
 
         .info-panel.enable-transitions {
@@ -368,6 +363,11 @@
         }
 
         @media (max-width: 768px) {
+            
+            body{
+              overflow-x: hidden;
+            }
+
             .container {
                 grid-template-columns: 1fr;
             }
@@ -401,18 +401,11 @@
             .project-image {
                 height: 50vh;
                 min-height: 300px;
+                margin-bottom: 20px;
             }
 
             .project-description {
                 margin-bottom: 50px;
-            }
-
-            .info-panel {
-                transform: translateY(calc(100dvh - 82px));
-            }
-
-            .info-panel.open {
-                transform: translateY(60px); /* Just below header */
             }
 
             .info-section {
@@ -468,10 +461,6 @@
             .project-image {
                 height: 70vh;
                 min-height: 400px;
-            }
-
-            .info-panel.open {
-                transform: translateY(15vh);
             }
 
             .info-section {
@@ -609,6 +598,35 @@
             toggleButton.classList.add('dark');
         }
 
+        // Safari viewport height fix
+        function setInfoPanelHeight() {
+            const panel = document.getElementById('infoPanel');
+            const actualViewportHeight = window.innerHeight;
+            
+            // Set the panel height to actual viewport height
+            panel.style.height = `${actualViewportHeight}px`;
+            
+            // Calculate the closed position (showing only the info bar)
+            const closedPosition = actualViewportHeight - 82;
+            
+            if (!infoOpen) {
+                panel.style.transform = `translateY(${closedPosition}px)`;
+            } else {
+                // When open, calculate based on screen size
+                const isMobile = window.innerWidth <= 768;
+                const openPosition = isMobile ? 60 : actualViewportHeight * 0.2;
+                panel.style.transform = `translateY(${openPosition}px)`;
+            }
+        }
+
+        // Call on load and resize
+        setInfoPanelHeight();
+        window.addEventListener('resize', setInfoPanelHeight);
+        
+        // Also call when viewport changes (Safari UI changes)
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setInfoPanelHeight, 100);
+        });
 
         projectImages.forEach(image => {
             const container = image.closest('.project-container');
@@ -647,9 +665,18 @@
                 panel.classList.add('open'); // Enable transitions if panel is opened
                 infoText.textContent = 'CLOSE';
                 tooltip.classList.remove('show'); // Hide tooltip when info panel opens
+                
+                // Set open position
+                const isMobile = window.innerWidth <= 768;
+                const openPosition = isMobile ? 60 : window.innerHeight * 0.2;
+                panel.style.transform = `translateY(${openPosition}px)`;
             } else {
                 panel.classList.remove('open');
                 infoText.textContent = 'MENU';
+                
+                // Set closed position
+                const closedPosition = window.innerHeight - 82;
+                panel.style.transform = `translateY(${closedPosition}px)`;
             }
             timer = setTimeout(() => {
                 panel.classList.remove('enable-transitions'); // Disable transitions after 0.4s
