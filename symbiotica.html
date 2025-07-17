@@ -49,6 +49,15 @@
             -ms-overflow-style: none;
         }
 
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover{
+            color: var(--toggle-bg);
+        }
+
         .container {
             padding: 15px;
             display: grid;
@@ -67,7 +76,7 @@
             gap: 0;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 15px;
-            z-index: 1000;
+            z-index: 3000;
             mix-blend-mode: difference;
         }
 
@@ -88,6 +97,70 @@
             grid-column: 5;
             text-align: right;
             color: #ffffff;
+        }
+
+        /* Mobile Menu Button */
+        .menu-button {
+            display: none;
+            background: #383838;
+            color: black;
+            width: 70px;
+            height: 30px;
+            border-radius: 25px;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-family: 'Space Grotesk', sans-serif;
+            mix-blend-mode: difference;
+            color: #ffffff;
+        }
+
+        .menu-button:hover {
+            background-color: var(--label-color);
+        }
+
+        /* Floating Theme Toggle */
+        .floating-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 64px;
+            height: 37px;
+            background: var(--toggle-bg);
+            border-radius: 18.5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+            z-index: 1500;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .floating-toggle .toggle-circle {
+            width: 29px;
+            height: 29px;
+            background: var(--toggle-circle);
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .floating-toggle.dark .toggle-circle {
+            transform: translateX(27px);
+        }
+
+        /* Menu open state - hide floating toggle behind menu */
+        .info-panel.open ~ .floating-toggle {
+            z-index: 1500;
+        }
+
+        .info-panel:not(.open) .info-content {
+            opacity: 0;
         }
 
         .content {
@@ -153,7 +226,7 @@
 
         .project-image {
             width: 100%;
-            height: 1080px;
+            height: 981px;
             background: var(--label-color);
             overflow: hidden;
             position: relative;
@@ -187,7 +260,7 @@
         .footer {
             background-color: var(--hover-color);
             padding: 15px 15px 200px 15px;
-            width: calc(100% + 30px);
+            width: 100%;
         }
 
         .footer-content {
@@ -229,15 +302,13 @@
             margin-bottom: 5px;
         }
 
-        /* Info Panel - Same as homepage */
+        /* Info Panel - Desktop */
         .info-panel {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 100vh;
             z-index: 2000;
-            transform: translateY(calc(100vh - 82px));
             display: flex;
             flex-direction: column;
             pointer-events: none;
@@ -250,15 +321,12 @@
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .info-panel.open {
-            transform: translateY(20vh);
-        }
-
         .info-content {
             flex: 1;
             display: flex;
             flex-direction: column;
             pointer-events: auto;
+            transition: opacity 0.4s ease;
         }
 
         .info-bar {
@@ -383,10 +451,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            cursor: pointer;
-            border-radius: 5px;
             padding: 20px;
+            cursor: pointer;
             margin: 0 -20px;
             transition: background-color 0.3s ease;
         }
@@ -408,13 +474,157 @@
             transition: color 0.3s ease;
         }
 
+        .project-container[data-project="swarm"] {
+            cursor: not-allowed;
+        }
+
+        .project-container[data-project="swarm"]:hover {
+            cursor: not-allowed;
+        }
+
+        .project-item[onclick*="swarm"] {
+            cursor: not-allowed;
+        }
+
+        .project-item[onclick*="swarm"]:hover {
+            cursor: not-allowed;
+            background: var(--hover-color); /* Keep the hover background effect */
+        }
+
         @media (max-width: 768px) {
-          
-            body{
-              overflow-x: hidden;
+            body {
+                overflow-x: hidden;
             }
+
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 100vw;
+            }
+
+            /* Mobile Header */
+            .header {
+                left: 15px;
+                right: 15px;
+                top: 15px;
+                grid-template-columns: 1fr auto;
+                gap: 15px;
+            }
+
+            .logo {
+                grid-column: 1;
+            }
+
+            .email,
+            .copyright {
+                display: none; /* Hide email and copyright on mobile */
+            }
+
+            .menu-button {
+                display: block;
+                grid-column: 2;
+            }
+
+            /* Show floating toggle on mobile */
+            .floating-toggle {
+                display: block;
+            }
+
+            /* Hide desktop toggle in info panel */
+            .info-panel .toggle-button {
+                display: none;
+            }
+
+            .content {
+                margin-top: 80px;
+                padding-bottom: 120px;
+            }
+
+            .project-image {
+                height: 250px;
+            }
+
+            .project-description {
+                margin-bottom: 50px;
+            }
+
+            /* Mobile Info Panel - from top */
+            .info-panel {
+                top: 0;
+                bottom: auto;
+                height: 100vh;
+                transform: translateY(-100vh);
+            }
+
+            .info-panel.open {
+                transform: translateY(0);
+            }
+
+            .info-bar {
+                display: none; /* Hide the info bar on mobile */
+            }
+
+            .info-content {
+                height: 100vh;
+                overflow-y: hidden;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+                padding: 80px 15px 40px 15px;
+                min-height: auto;
+                border-bottom: none;
+            }
+
+            .info-description {
+                grid-column: 1;
+                margin-bottom: 40px;
+            }
+
+            .info-links {
+                grid-column: 1;
+                flex-direction: row;
+                gap: 20px;
+                align-items: flex-start;
+                margin-bottom: 0px;
+            }
+
+            .info-links a {
+                font-size: 15px;
+            }
+
+            /* Hide CV button on mobile */
+            .cv-button {
+                display: none;
+            }
+
+            .index-section {
+                overflow: hidden;
+                padding: 0 15px 40px 15px;
+                background: transparent;
+            }
+
+            .index-title {
+                margin-top: 0;
+            }
+
+            .project-name {
+                font-size: 24px;
+            }
+
+            .project-item {
+                padding: 20px;
+                margin: 0 -20px;
+                border-bottom: 0.75px solid var(--label-color);
+            }
+
+            .project-item:last-child {
+                border-bottom: none;
+            }
+
+            /* Symbiotica-specific mobile styles */
             .project-title {
                 font-size: 60px;
+                word-break: break-word;
             }
             
             .project-header {
@@ -432,122 +642,22 @@
             .project-description {
                 margin-top: 30px;
             }
-            .container {
+
+            .footer-content {
                 grid-template-columns: 1fr;
-            }
-
-            .header {
-                left: 10px;
-                right: 10px;
-                top: 10px;
-                grid-template-columns: 1fr auto auto;
-                gap: 15px;
-            }
-
-            .logo {
-                grid-column: 1;
-            }
-
-            .email {
-                grid-column: 2;
-            }
-
-            .copyright {
-                grid-column: 3;
-                text-align: right;
-            }
-
-            .content {
-                margin-top: 80px;
-                padding-bottom: 120px;
-            }
-
-            .project-image {
-                height: 50vh;
-                min-height: 300px;
-            }
-
-            .project-description {
-                margin-bottom: 50px;
-            }
-
-            .info-panel {
-                transform: translateY(calc(100dvh - 82px));
-            }
-
-            .info-panel.open {
-                transform: translateY(60px); /* Just below header */
-            }
-
-            .info-section {
-                grid-template-columns: 1fr;
-                padding: 30px 15px 20px 15px;
-                min-height: auto;
-            }
-
-            .info-description {
-                grid-column: 1;
-                margin-bottom: 25px;
-            }
-
-            .info-links {
-                grid-column: 1;
-                flex-direction: row;
-                flex-wrap: wrap;
                 gap: 20px;
-                align-items: center;
             }
 
-            .cv-button {
-                margin-top: 0;
-                margin-left: auto;
-            }
-
-            .project-name {
-                font-size: 24px;
-            }
-
-            .project-item {
-                padding: 15px;
-                margin: 0 -15px;
-            }
-
-            .index-section {
-                padding: 15px;
-            }
-
+            .footer-role,
+            .footer-info,
             .footer-credits {
-                grid-column: 1/5;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 20px;
-                align-items: center;
+                grid-column: 1;
             }
-
-            .credit-name {
-              grid-column: 1/5;
-              flex-direction: row;
-              flex-wrap: wrap;
-              gap: 20px;
-              align-items: center;
-            }
-
-           .footer-role {
-                grid-column: 1 /3;
-            }
-
-            .footer-info {
-                grid-column: 1/5;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 20px;
-                align-items: center;
-            }
-
         }
+
         /* Tablet specific adjustments */
         @media (min-width: 769px) and (max-width: 1024px) {
-          .project-title {
+            .project-title {
                 font-size: 60px;
             }
             
@@ -586,10 +696,6 @@
                 min-height: 400px;
             }
 
-            .info-panel.open {
-                transform: translateY(15vh);
-            }
-
             .info-section {
                 grid-template-columns: 2fr 1fr 1fr;
                 padding: 35px 15px;
@@ -612,7 +718,6 @@
                 margin-left: auto;
             }
         }
-
     </style>
 </head>
 <body>
@@ -620,6 +725,7 @@
         <a href="new.html" class="logo">RYAN LETTIERI</a>
         <a href="mailto:ryanlettieri@icloud.com" class="email">@EMAIL</a>
         <div class="copyright">©2025</div>
+        <button class="menu-button" id="menuButton" onclick="toggleInfo(event)">MENU</button>
     </div>
 
     <div class="container">
@@ -627,31 +733,46 @@
             <div class="project-header">
                 <div class="project-title">Symbiotica</div>
                 <div class="title-line"></div>
-                <div class="project-subtitle">Brand identity and digital experience</div>
+                <div class="project-subtitle">A brand identity & website for a climate podcast</div>
                 <div class="project-description">
-                    Symbiotica is a premium wellness brand that creates science-backed nutritional supplements. The brand identity system explores the intersection of nature and technology, using organic forms paired with precise typography to communicate both efficacy and elegance. The digital experience emphasizes education and transparency, allowing customers to understand the science behind each product.
+                    SYMBIOTICA is the newest project out of Beam, a research studio tackling the climate transition. As both a platform for themselves and their community members, Symbiotica’s guest list spans the width of Beam’s community collaborators — from biotechnologists to artists, activists, and designers.
                 </div>
                 <div class="project-type">Brand, Digital</div>
             </div>
 
             <div class="image-gallery">
                 <div class="project-image">
+                    <img src="images/symbiotica-row9.webp"></image>
+                </div>
+                <div class="project-image">
+                    <img src="images/symbiotica-03.png"></image>
+                </div>
+                <div class="project-image">
                     <video autoplay muted loop playsinline>
-                        <source src="images/symbiotica-1.mp4" type="video/mp4">
+                        <source src="images/symbiotica-01.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
-                <div class="project-image placeholder">
-                    PROJECT IMAGE 2
+                <div class="project-image">
+                    <img src="images/symbiotica-08.webp"></image>
                 </div>
-                <div class="project-image placeholder">
-                    PROJECT IMAGE 3
+                <div class="project-image">
+                    <img src="images/symbiotica-row8.webp"></image>
                 </div>
-                <div class="project-image placeholder">
-                    PROJECT IMAGE 4
+                <div class="project-image">
+                    <img src="images/symbiotica-row7.webp"></image>
                 </div>
-                <div class="project-image placeholder">
-                    PROJECT IMAGE 5
+                <div class="project-image">
+                    <img src="images/symbiotica-04.webp"></image>
+                </div>
+                <div class="project-image">
+                    <img src="images/symbiotica-05.webp"></image>
+                </div>
+                <div class="project-image">
+                    <img src="images/symbiotica-06.webp"></image>
+                </div>
+                <div class="project-image">
+                    <img src="images/symbiotica-10.webp"></image>
                 </div>
             </div>
         </div>
@@ -665,7 +786,10 @@
             </div>
             <div class="footer-section footer-info">
                 <div class="footer-label">More Info</div>
-                <div class="footer-text">This project was developed over 6 months, focusing on creating a cohesive brand system that could scale across digital and physical touchpoints. The identity draws inspiration from cellular structures and organic growth patterns.</div>
+                <div class="footer-text">This project was developed in collaboration with BEAM over the course of 6 months. The world of Symbiotica is influenced by the texture of classical scientific photography and analog music mechanisms, overlaid with our distinctly digital interfaces.<br><br>
+
+                In addition to my direction and branding work, I designed and implemented Symbiotica’s bespoke website, which takes inspiration from analog hi-fi (music) technology with the help of AI tools like Claude and ChatGPT to bring my work to life.
+                    </div>
             </div>
             <div class="footer-section footer-credits">
                 <div class="footer-label">Credits</div>
@@ -677,7 +801,7 @@
         </div>
     </div>
 
-    <!-- Info Panel - Same as homepage -->
+    <!-- Info Panel -->
     <div class="info-panel" id="infoPanel" onclick="toggleInfo()">
         <div class="info-bar">
             <div class="info-text" id="infoText">MENU</div>
@@ -719,6 +843,11 @@
         </div>
     </div>
 
+    <!-- Floating Theme Toggle for Mobile -->
+    <button class="floating-toggle" id="floatingToggle" onclick="toggleTheme(event)">
+        <div class="toggle-circle"></div>
+    </button>
+
     <script>
         let infoOpen = false;
 
@@ -726,45 +855,122 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         const body = document.body;
         const toggleButton = document.getElementById('toggleButton');
+        const floatingToggle = document.getElementById('floatingToggle');
 
-        // Apply saved theme on page load
+        // Apply saved theme to both toggles
         body.setAttribute('data-theme', savedTheme);
         if (savedTheme === 'dark') {
-            toggleButton.classList.add('dark');
+            if (toggleButton) toggleButton.classList.add('dark');
+            if (floatingToggle) floatingToggle.classList.add('dark');
         }
 
-        function toggleInfo() {
+        // Update the setInfoPanelHeight function for mobile
+        function setInfoPanelHeight() {
+            const panel = document.getElementById('infoPanel');
+            const actualViewportHeight = window.innerHeight;
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Mobile: panel comes from top
+                panel.style.height = `${actualViewportHeight}px`;
+                
+                if (!infoOpen) {
+                    panel.style.transform = 'translateY(-100vh)';
+                } else {
+                    panel.style.transform = 'translateY(0)';
+                }
+            } else {
+                // Desktop: original behavior
+                panel.style.height = `${actualViewportHeight}px`;
+                
+                const closedPosition = actualViewportHeight - 82;
+                
+                if (!infoOpen) {
+                    panel.style.transform = `translateY(${closedPosition}px)`;
+                } else {
+                    const openPosition = actualViewportHeight * 0.2;
+                    panel.style.transform = `translateY(${openPosition}px)`;
+                }
+            }
+        }
+
+        // Call on load and resize
+        setInfoPanelHeight();
+        window.addEventListener('resize', setInfoPanelHeight);
+        
+        // Also call when viewport changes (Safari UI changes)
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setInfoPanelHeight, 100);
+        });
+
+        function toggleInfo(event) {
+            if (event) event.stopPropagation();
+            
             const panel = document.getElementById('infoPanel');
             const infoText = document.getElementById('infoText');
-            let timer = 0;
+            const menuButton = document.getElementById('menuButton');
+            const isMobile = window.innerWidth <= 768;
+            
             infoOpen = !infoOpen;
             panel.classList.add('enable-transitions');
             
             if (infoOpen) {
-                panel.classList.add('open'); // Enable transitions if panel is opened
-                infoText.textContent = 'CLOSE';
+                panel.classList.add('open');
+                
+                // Prevent background scrolling on mobile only
+                if (isMobile) {
+                    document.body.style.overflow = 'hidden';
+                    menuButton.textContent = 'CLOSE';
+                } else {
+                    infoText.textContent = 'CLOSE';
+                }
+                
+                if (isMobile) {
+                    panel.style.transform = 'translateY(0)';
+                } else {
+                    const openPosition = window.innerHeight * 0.2;
+                    panel.style.transform = `translateY(${openPosition}px)`;
+                }
             } else {
                 panel.classList.remove('open');
-                infoText.textContent = 'MENU';
+                
+                // Re-enable background scrolling on mobile only
+                if (isMobile) {
+                    document.body.style.overflow = '';
+                    menuButton.textContent = 'MENU';
+                } else {
+                    infoText.textContent = 'MENU';
+                }
+                
+                if (isMobile) {
+                    panel.style.transform = 'translateY(-100vh)';
+                } else {
+                    const closedPosition = window.innerHeight - 82;
+                    panel.style.transform = `translateY(${closedPosition}px)`;
+                }
             }
-            timer = setTimeout(() => {
-                panel.classList.remove('enable-transitions'); // Disable transitions after 0.4s
-                timer = null;
+            
+            setTimeout(() => {
+                panel.classList.remove('enable-transitions');
             }, 400);
         }
 
+        // Update toggleTheme to work with floating button
         function toggleTheme(event) {
             event.stopPropagation();
             const body = document.body;
-            const button = document.getElementById('toggleButton');
+            const desktopButton = document.getElementById('toggleButton');
+            const floatingButton = document.getElementById('floatingToggle');
             
             if (body.getAttribute('data-theme') === 'light') {
                 body.setAttribute('data-theme', 'dark');
-                button.classList.add('dark');
+                if (desktopButton) desktopButton.classList.add('dark');
+                if (floatingButton) floatingButton.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
             } else {
                 body.setAttribute('data-theme', 'light');
-                button.classList.remove('dark');
+                if (desktopButton) desktopButton.classList.remove('dark');
+                if (floatingButton) floatingButton.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
             }
         }
@@ -773,12 +979,29 @@
             window.location.href = `${projectName}.html`;
         }
 
+        function goToProject(projectName) {
+            // Prevent navigation for incomplete projects
+            if (projectName === 'swarm') {
+                return false;
+            }
+            
+            window.location.href = `${projectName}.html`;
+        }
+
+
         // Close info panel when clicking outside
         document.addEventListener('click', function(event) {
             const panel = document.getElementById('infoPanel');
+            const isMobile = window.innerWidth <= 768;
             
             if (infoOpen && !panel.contains(event.target)) {
-               toggleInfo();
+                // Re-enable scrolling when closing menu via click outside
+                if (isMobile) {
+                    document.body.style.overflow = '';
+                    const menuButton = document.getElementById('menuButton');
+                    menuButton.textContent = 'MENU';
+                }
+                toggleInfo();
             }
         });
     </script>

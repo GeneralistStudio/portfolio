@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alchemy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FFFFFF;
+            --primary-color: #000000;
+            --secondary-color: #383838;
+            --label-color: #747474;
+            --hover-color: #ECECEC;
+            --toggle-bg:  #D0D0D0;
+            --toggle-circle: #FFFFFF;
+            --info-bg: rgba(255, 255, 255, 0.7);
+            --index-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --primary-color: #FFFFFF;
+            --secondary-color: #B1B1B1;
+            --label-color: #747474;
+            --hover-color: #363636;
+            --toggle-bg: #333333;
+            --toggle-circle: #757575;
+            --info-bg: rgba(0, 0, 0, 0.7);
+            --index-bg: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover{
+            color: var(--toggle-bg);
+        }
+
+        .container {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            min-height: calc(100vh - 76px);
+        }
+
+        .header {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            z-index: 3000;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            grid-column: 1;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 400;
+        }
+
+        .email {
+            grid-column: 2;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .copyright {
+            grid-column: 5;
+            text-align: right;
+            color: #ffffff;
+        }
+
+        /* Mobile Menu Button */
+        .menu-button {
+            display: none;
+            background: #383838;
+            color: black;
+            width: 70px;
+            height: 30px;
+            border-radius: 25px;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-family: 'Space Grotesk', sans-serif;
+            mix-blend-mode: difference;
+            color: #ffffff;
+        }
+
+        .menu-button:hover {
+            background-color: var(--label-color);
+        }
+
+        /* Floating Theme Toggle */
+        .floating-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 64px;
+            height: 37px;
+            background: var(--toggle-bg);
+            border-radius: 18.5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+            z-index: 1500;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .floating-toggle .toggle-circle {
+            width: 29px;
+            height: 29px;
+            background: var(--toggle-circle);
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .floating-toggle.dark .toggle-circle {
+            transform: translateX(27px);
+        }
+
+        /* Menu open state - hide floating toggle behind menu */
+        .info-panel.open ~ .floating-toggle {
+            z-index: 1500;
+        }
+
+        .info-panel:not(.open) .info-content {
+            opacity: 0;
+        }
+
+        .content {
+            grid-column: 1 / -1;
+            margin-top: 120px;
+            padding-bottom: 150px;
+        }
+
+        /* Project Header Section */
+        .project-header {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            margin-bottom: 80px;
+        }
+
+        .project-title {
+            grid-column: 1 / 3;
+            font-size: 120px;
+            line-height: 0.9;
+            letter-spacing: -0.3rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        .title-line {
+            grid-column: 1 / 6;
+            height: 0.75px;
+            background-color: var(--label-color);
+            margin-bottom: 20px;
+        }
+
+        .project-subtitle {
+            grid-column: 1 / 3;
+            font-size: 28px;
+            color: var(--secondary-color);
+            margin-bottom: 40px;
+        }
+
+        .project-description {
+            grid-column: 4 / 6;
+            font-size: 15px;
+            color: var(--secondary-color);
+            line-height: 1.4;
+            align-self: start;
+        }
+
+        .project-type {
+            grid-column: 1;
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--label-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 40px;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            margin: 0 0 0 0;
+            margin-bottom: 0;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 981px;
+            background: var(--bg-color);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image:first-child {
+            border-radius: 10px 10px 0 0;
+        }
+
+        .project-image:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+
+        .project-image img,
+        .project-image video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .project-image.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-color);
+            font-size: 18px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--hover-color);
+            padding: 15px 15px 200px 15px;
+            width: 100%;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 40px;
+        }
+
+        .footer-section {
+            color: var(--primary-color);
+        }
+
+        .footer-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 15px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            color: var(--secondary-color);
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .footer-role {
+            grid-column: 1;
+        }
+
+        .footer-info {
+            grid-column: 2 / 4;
+        }
+
+        .footer-credits {
+            grid-column: 5;
+        }
+
+        .credit-name {
+            margin-bottom: 5px;
+        }
+
+        /* Info Panel - Desktop */
+        .info-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+            background-color: var(--info-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .info-panel.enable-transitions {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .info-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            pointer-events: auto;
+            transition: opacity 0.4s ease;
+        }
+
+        .info-bar {
+            height: 82px;
+            border-top: 0.75px solid var(--label-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+
+        .info-bar:hover .info-text {
+            color: var(--label-color);
+        }
+
+        .info-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 15px;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        .toggle-button {
+            width: 64px;
+            height: 37px;
+            background: var(--toggle-bg);
+            border-radius: 18.5px;
+            border: none;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+        }
+
+        .toggle-circle {
+            width: 29px;
+            height: 29px;
+            background: var(--toggle-circle);
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-button.dark .toggle-circle {
+            transform: translateX(27px);
+        }
+
+        .info-section {
+            padding: 0px 15px 40px 15px;
+            display: grid;
+            grid-template-columns: 1.5fr 0.5fr 1fr 1fr 1fr;
+            gap: 0;
+            border-bottom: 0.75px solid var(--label-color);
+            transition: background-color 0.3s ease;
+            min-height: 200px;
+        }
+
+        .info-description {
+            grid-column: 1;
+            font-size: 15px;
+            color: var(--secondary-color);
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+
+        .info-links {
+            grid-column: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .cv-button {
+            background: var(--toggle-bg);
+            color: var(--primary-color);
+            padding: 6px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 15px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        .cv-button:hover {
+            background-color: var(--label-color);
+        }
+
+        .index-section {
+            flex: 1;
+            background: var(--bg-color);
+            padding: 20px 15px 40px 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .index-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 15px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            margin-top: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            cursor: pointer;
+            margin: 0 -20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .project-item:hover {
+            background: var(--hover-color);
+        }
+
+        .project-name {
+            font-size: 30px;
+            font-weight: normal;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        .project-type-index {
+            font-size: 15px;
+            color: var(--secondary-color);
+            transition: color 0.3s ease;
+        }
+
+        .project-container[data-project="swarm"] {
+            cursor: not-allowed;
+        }
+
+        .project-container[data-project="swarm"]:hover {
+            cursor: not-allowed;
+        }
+
+        .project-item[onclick*="swarm"] {
+            cursor: not-allowed;
+        }
+
+        .project-item[onclick*="swarm"]:hover {
+            cursor: not-allowed;
+            background: var(--hover-color); /* Keep the hover background effect */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 100vw;
+            }
+
+            /* Mobile Header */
+            .header {
+                left: 15px;
+                right: 15px;
+                top: 15px;
+                grid-template-columns: 1fr auto;
+                gap: 15px;
+            }
+
+            .logo {
+                grid-column: 1;
+            }
+
+            .email,
+            .copyright {
+                display: none; /* Hide email and copyright on mobile */
+            }
+
+            .menu-button {
+                display: block;
+                grid-column: 2;
+            }
+
+            /* Show floating toggle on mobile */
+            .floating-toggle {
+                display: block;
+            }
+
+            /* Hide desktop toggle in info panel */
+            .info-panel .toggle-button {
+                display: none;
+            }
+
+            .content {
+                margin-top: 80px;
+                padding-bottom: 120px;
+            }
+
+            .project-image {
+                height: 250px;
+            }
+
+            .project-description {
+                margin-bottom: 50px;
+            }
+
+            /* Mobile Info Panel - from top */
+            .info-panel {
+                top: 0;
+                bottom: auto;
+                height: 100vh;
+                transform: translateY(-100vh);
+            }
+
+            .info-panel.open {
+                transform: translateY(0);
+            }
+
+            .info-bar {
+                display: none; /* Hide the info bar on mobile */
+            }
+
+            .info-content {
+                height: 100vh;
+                overflow-y: hidden;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+                padding: 80px 15px 40px 15px;
+                min-height: auto;
+                border-bottom: none;
+            }
+
+            .info-description {
+                grid-column: 1;
+                margin-bottom: 40px;
+            }
+
+            .info-links {
+                grid-column: 1;
+                flex-direction: row;
+                gap: 20px;
+                align-items: flex-start;
+                margin-bottom: 0px;
+            }
+
+            .info-links a {
+                font-size: 15px;
+            }
+
+            /* Hide CV button on mobile */
+            .cv-button {
+                display: none;
+            }
+
+            .index-section {
+                overflow: hidden;
+                padding: 0 15px 40px 15px;
+                background: transparent;
+            }
+
+            .index-title {
+                margin-top: 0;
+            }
+
+            .project-name {
+                font-size: 24px;
+            }
+
+            .project-item {
+                padding: 20px;
+                margin: 0 -20px;
+                border-bottom: 0.75px solid var(--label-color);
+            }
+
+            .project-item:last-child {
+                border-bottom: none;
+            }
+
+            /* Symbiotica-specific mobile styles */
+            .project-title {
+                font-size: 60px;
+                word-break: break-word;
+            }
+            
+            .project-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-title,
+            .title-line,
+            .project-subtitle,
+            .project-description,
+            .project-type {
+                grid-column: 1;
+            }
+            
+            .project-description {
+                margin-top: 30px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .footer-role,
+            .footer-info,
+            .footer-credits {
+                grid-column: 1;
+            }
+        }
+
+        /* Tablet specific adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .project-title {
+                font-size: 60px;
+            }
+            
+            .project-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-title,
+            .title-line,
+            .project-subtitle,
+            .project-description,
+            .project-type {
+                grid-column: 1;
+            }
+            
+            .project-description {
+                margin-top: 30px;
+            }
+
+            .container {
+                margin: 12px;
+            }
+
+            .header {
+                left: 12px;
+                right: 12px;
+                top: 12px;
+            }
+
+            .content {
+                margin-top: 100px;
+            }
+
+            .project-image {
+                height: 70vh;
+                min-height: 400px;
+            }
+
+            .info-section {
+                grid-template-columns: 2fr 1fr 1fr;
+                padding: 35px 15px;
+            }
+
+            .info-description {
+                grid-column: 1 / 3;
+                margin-bottom: 20px;
+            }
+
+            .info-links {
+                grid-column: 1 / 4;
+                flex-direction: row;
+                gap: 25px;
+                align-items: center;
+            }
+
+            .cv-button {
+                margin-top: 0;
+                margin-left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="new.html" class="logo">RYAN LETTIERI</a>
+        <a href="mailto:ryanlettieri@icloud.com" class="email">@EMAIL</a>
+        <div class="copyright">©2025</div>
+        <button class="menu-button" id="menuButton" onclick="toggleInfo(event)">MENU</button>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <div class="project-header">
+                <div class="project-title">Alchemy</div>
+                <div class="title-line"></div>
+                <div class="project-subtitle">Interactive identity for NYC band Ojahara</div>
+                <div class="project-description">
+                    In conjunction with the release of their debut EP and the single<a href="https://open.spotify.com/artist/3BNo7uSTzbfwGOHvalwuSC" target="_blank"> “Alchemy,”</a> I brought the band Ojahara's vision to life through a cohesive visual system spanning a new music video, album graphics, merchandise, and an interactive launch website.
+
+                    
+                </div>
+                <div class="project-type">Web, Brand</div>
+            </div>
+
+            <div class="image-gallery">
+                <div class="project-image">
+                <video autoplay muted loop playsinline>
+                    <source src="images/ojahara-primary.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                </div>
+                <div class="project-image">
+                  <video autoplay muted loop playsinline>
+                      <source src="images/ojahara-03.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+                  </div>
+                  <div class="project-image">
+                    <video autoplay muted loop playsinline>
+                        <source src="images/ojahara-01.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    </div>
+                <div class="project-image">
+                    <video autoplay muted loop playsinline>
+                        <source src="images/ojahara-row3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="project-image">
+                  <video autoplay muted loop playsinline>
+                      <source src="images/ojahara-row4.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+              </div>
+              <div class="project-image">
+                <video autoplay muted loop playsinline>
+                    <source src="images/ojahara-row1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+                <div class="project-image">
+                  <video autoplay muted loop playsinline>
+                      <source src="images/ojahara-primary2.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+              </div>
+              <div class="project-image">
+                <video autoplay muted loop playsinline>
+                    <source src="images/ojahara-row8.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="project-image">
+                <img src="images/ojahara-05.webp"></image>
+            </div>
+            <div class="project-image">
+              <video autoplay muted loop playsinline>
+                  <source src="images/ojahara-04.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+          </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section footer-role">
+                <div class="footer-label">Project Role</div>
+                <div class="footer-text">Brand Designer</div>
+            </div>
+            <div class="footer-section footer-info">
+                <div class="footer-label">More Info</div>
+                <div class="footer-text">Ben and Charlie, together as Ojahara, whisk you back in time with classic sounds from nearly every decade, with an unmistakably modern charm. Together, they’re on a rip-roaring, deeply unserious adventure throughout space and time.<br><br>
+
+                    When we met, Ojahara was oozing these retro vibes, but had no platform to share them. In collaboration with the band and a team of other designers, I built a cohesive identity system that imbues nostalgic technology with a fantastical energy.<br><br>
+                    
+                    I designed graphics and effects for the music video "Alchemy," created a launch-website from scratch, a library of social media graphics, merchandise graphics, and album covers.
+
+                    </div>
+            </div>
+            <div class="footer-section footer-credits">
+                <div class="footer-label">Credits</div>
+                <div class="footer-text">
+                    <div class="credit-name">Louis Hand</div>
+                    <div class="credit-name">Zoe Lee</div>
+                    <div class="credit-name">Mayuko Kobayashi</div>
+                    <div class="credit-name">Bella Borough</div>
+                    <div class="credit-name">Lindsay Ju</div>
+                    <div class="credit-name">Ali Lee</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel" id="infoPanel" onclick="toggleInfo()">
+        <div class="info-bar">
+            <div class="info-text" id="infoText">MENU</div>
+            <button class="toggle-button" id="toggleButton" onclick="toggleTheme(event)">
+                <div class="toggle-circle"></div>
+            </button>
+        </div>
+        <div class="info-content">
+            <div class="info-section">
+                <div class="info-description">
+                    Ryan Lettieri is a designer based in Providence, RI with a background in graphic design. He creates immersive design systems that expand abstract ideas into rich, explorable worlds. Through visuals, motion, and interaction, he shapes experiences that feel cohesive and emotionally grounded.
+                </div>
+                <div class="info-links">
+                    <a href="#">@INSTAGRAM</a>
+                    <a href="#">@LINKEDIN</a>
+                    <a href="#">@ARE.NA</a>
+                    <a href="cv.html" class="cv-button">CV.HTML</a>
+                </div>
+            </div>
+            <div class="index-section">
+                <div class="index-title">INDEX</div>
+                <div class="project-item" onclick="goToProject('symbiotica')">
+                    <div class="project-name">SYMBIOTICA</div>
+                    <div class="project-type-index">BRAND, WEB</div>
+                </div>
+                <div class="project-item" onclick="goToProject('tidelands')">
+                    <div class="project-name">TIDELANDS 2100</div>
+                    <div class="project-type-index">DATA VIZ, WEB</div>
+                </div>
+                <div class="project-item" onclick="goToProject('alchemy')">
+                    <div class="project-name">ALCHEMY</div>
+                    <div class="project-type-index">SYSTEM, PRINT</div>
+                </div>
+                <div class="project-item" onclick="goToProject('swarm')">
+                    <div class="project-name">SWARM</div>
+                    <div class="project-type-index">INSTALLATION, CODE</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Theme Toggle for Mobile -->
+    <button class="floating-toggle" id="floatingToggle" onclick="toggleTheme(event)">
+        <div class="toggle-circle"></div>
+    </button>
+
+    <script>
+        let infoOpen = false;
+
+        // Check for saved theme preference or default to light mode
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const body = document.body;
+        const toggleButton = document.getElementById('toggleButton');
+        const floatingToggle = document.getElementById('floatingToggle');
+
+        // Apply saved theme to both toggles
+        body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            if (toggleButton) toggleButton.classList.add('dark');
+            if (floatingToggle) floatingToggle.classList.add('dark');
+        }
+
+        // Update the setInfoPanelHeight function for mobile
+        function setInfoPanelHeight() {
+            const panel = document.getElementById('infoPanel');
+            const actualViewportHeight = window.innerHeight;
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Mobile: panel comes from top
+                panel.style.height = `${actualViewportHeight}px`;
+                
+                if (!infoOpen) {
+                    panel.style.transform = 'translateY(-100vh)';
+                } else {
+                    panel.style.transform = 'translateY(0)';
+                }
+            } else {
+                // Desktop: original behavior
+                panel.style.height = `${actualViewportHeight}px`;
+                
+                const closedPosition = actualViewportHeight - 82;
+                
+                if (!infoOpen) {
+                    panel.style.transform = `translateY(${closedPosition}px)`;
+                } else {
+                    const openPosition = actualViewportHeight * 0.2;
+                    panel.style.transform = `translateY(${openPosition}px)`;
+                }
+            }
+        }
+
+        // Call on load and resize
+        setInfoPanelHeight();
+        window.addEventListener('resize', setInfoPanelHeight);
+        
+        // Also call when viewport changes (Safari UI changes)
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setInfoPanelHeight, 100);
+        });
+
+        function toggleInfo(event) {
+            if (event) event.stopPropagation();
+            
+            const panel = document.getElementById('infoPanel');
+            const infoText = document.getElementById('infoText');
+            const menuButton = document.getElementById('menuButton');
+            const isMobile = window.innerWidth <= 768;
+            
+            infoOpen = !infoOpen;
+            panel.classList.add('enable-transitions');
+            
+            if (infoOpen) {
+                panel.classList.add('open');
+                
+                // Prevent background scrolling on mobile only
+                if (isMobile) {
+                    document.body.style.overflow = 'hidden';
+                    menuButton.textContent = 'CLOSE';
+                } else {
+                    infoText.textContent = 'CLOSE';
+                }
+                
+                if (isMobile) {
+                    panel.style.transform = 'translateY(0)';
+                } else {
+                    const openPosition = window.innerHeight * 0.2;
+                    panel.style.transform = `translateY(${openPosition}px)`;
+                }
+            } else {
+                panel.classList.remove('open');
+                
+                // Re-enable background scrolling on mobile only
+                if (isMobile) {
+                    document.body.style.overflow = '';
+                    menuButton.textContent = 'MENU';
+                } else {
+                    infoText.textContent = 'MENU';
+                }
+                
+                if (isMobile) {
+                    panel.style.transform = 'translateY(-100vh)';
+                } else {
+                    const closedPosition = window.innerHeight - 82;
+                    panel.style.transform = `translateY(${closedPosition}px)`;
+                }
+            }
+            
+            setTimeout(() => {
+                panel.classList.remove('enable-transitions');
+            }, 400);
+        }
+
+        // Update toggleTheme to work with floating button
+        function toggleTheme(event) {
+            event.stopPropagation();
+            const body = document.body;
+            const desktopButton = document.getElementById('toggleButton');
+            const floatingButton = document.getElementById('floatingToggle');
+            
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                if (desktopButton) desktopButton.classList.add('dark');
+                if (floatingButton) floatingButton.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                if (desktopButton) desktopButton.classList.remove('dark');
+                if (floatingButton) floatingButton.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function goToProject(projectName) {
+            window.location.href = `${projectName}.html`;
+        }
+
+        function goToProject(projectName) {
+            // Prevent navigation for incomplete projects
+            if (projectName === 'swarm') {
+                return false;
+            }
+            
+            window.location.href = `${projectName}.html`;
+        }
+
+        // Close info panel when clicking outside
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('infoPanel');
+            const isMobile = window.innerWidth <= 768;
+            
+            if (infoOpen && !panel.contains(event.target)) {
+                // Re-enable scrolling when closing menu via click outside
+                if (isMobile) {
+                    document.body.style.overflow = '';
+                    const menuButton = document.getElementById('menuButton');
+                    menuButton.textContent = 'MENU';
+                }
+                toggleInfo();
+            }
+        });
+    </script>
+</body>
+</html>

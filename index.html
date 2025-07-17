@@ -1,2260 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="https://use.typekit.net/beg7yli.css">
-  <link rel="stylesheet" href="https://use.typekit.net/beg7yli.css">
-  <title>Ryan Lettieri's Portfolio</title>
-  <style>
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-text-size-adjust: 100%; /* Prevent iOS font scaling */
-    }
-
-    :root {
-      --font-primary: "cofo-sans-pixel", sans-serif;
-      --font-secondary: "argent-pixel-cf", sans-serif;
-    }
-    
-    body {
-      background: linear-gradient(-45deg, #1cbbff, #0033ff);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      font-family: var(--font-primary);
-    }
-    
-    @keyframes gradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-    .loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #0000FF;
-      color: white;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .loading-text {
-      margin: 20px;
-      font-family: monospace;
-      font-size: 16px;
-      line-height: 1.5;
-    }
-
-    .loading-text div {
-      opacity: 0; /* Initially hidden */
-    }
-
-    /* Fade out animation */
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; visibility: hidden; }
-    }
-
-    .content-loading-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      backdrop-filter: blur(15px); /* Creates blur effect */
-      background-color: rgba(38, 0, 255, 0.3); /* Slight gray tint */
-      z-index: 100;
-      transition: all 0.5s;
-    }
-    
-    .main-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      position: relative;
-    }
-    
-    .slideshow {
-      width: 1000px;
-      height: 600px;
-      position: relative;
-    }
-    
-    .slideshow img,
-    .slideshow video {
-      border-radius: 5px;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      opacity: 0;
-      transition: opacity 0s;
-    }
-
-    .slideshow img.active,
-    .slideshow video.active {
-      opacity: 1;
-    }
-    
-    .title {
-      font-size: 25px;
-      color: white;
-      margin-top: 20px;
-      padding-left: 20vw;
-      padding-right: 20vw;
-      text-align: center;
-      font-family: "argent-pixel-cf", sans-serif;
-      font-weight: 400;
-      font-style: normal;
-    }
-    
-    .nav-bar {
-      height: 45px;
-      background-color: #D0D2D3;
-      display: flex;
-      align-items: center;
-      position: relative;
-      z-index: 100;
-    }
-    
-    .button {
-      background-color: #D0D2D3;
-      color: black;
-      padding: 5px 30px;
-      height: 100%;
-      border-width: 4px;
-      border-style: solid;
-      border-color: #ffffff #999999 #999999 #ffffff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .button:hover {
-      background-color: #414042;
-      color: white;
-      border-color: #666666 #222222 #222222 #666666;
-    }
-
-    .button:active {
-      background-color: #D0D2D3;
-      color: black;
-      border-color: #6b6b6b #afafaf #afafaf #6b6b6b;
-    }
-
-    .button.pressed {
-      background-color: rgb(231, 231, 231);
-      background-image: 
-        url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0h2v2h-2v-2ZM2,2h2v2h-2v-2Z' fill='%23D0D2D3'/%3E%3Cpath d='M2,0h2v2h-2v-2ZM0,2h2v2h-2v-2Z' fill='%23E7E7E7'/%3E%3C/svg%3E");
-      color: black;
-      border-color: #6b6b6b #afafaf #afafaf #6b6b6b
-    }
-
-    .button.pressed:active {
-      background-color: rgb(179, 179, 179);
-      background-image: 
-        url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0h2v2h-2v-2ZM2,2h2v2h-2v-2Z' fill='%23FFFFFF'/%3E%3Cpath d='M2,0h2v2h-2v-2ZM0,2h2v2h-2v-2Z' fill='%23A7A9AC'/%3E%3C/svg%3E");
-      color: black;
-      border-color: #999999 #EEEEEE #EEEEEE #999999;
-    }
-    
-    .work-menu {
-      position: absolute;
-      bottom: 45px;
-      left: 0;
-      background-color: #BCBEC0;
-      display: none;
-      flex-direction: column;
-      z-index: 200;
-    }
-    
-    .menu-header {
-      height: 25px;
-      background-color: #0700B1;
-      display: flex;
-      align-items: center;
-      padding-left: 25px;
-      color: white;
-    }
-    
-    .menu-footer {
-      height: 25px;
-      background-color: #D0D2D3;
-    }
-    
-    .menu-item {
-      height: 50px;
-      width: 300px;
-      display: flex;
-      align-items: center;
-      padding-left: 25px;
-      font-weight: bold;
-      text-transform: uppercase;
-      cursor: pointer;
-      font-family: var(--font-secondary);
-      font-weight: 400;
-      font-size: 25px;
-    }
-    
-    .menu-item:hover {
-      background-color: #D0D2D3;
-      color: #0000FF;
-    }
-    
-    .menu-item.active {
-      background-color: #0000FF;
-      color: white;
-    }
-
-    
-    .work-page {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 45px;
-      background-color: #D0D2D3;
-      display: none;
-      flex-direction: column;
-      z-index: 50;
-      overflow: hidden;
-    }
-    
-    .page-header {
-      height: 40px;
-      background-color: #0700B1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 10px;
-      color: white;
-    }
-    
-    .close-button {
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-      font-size: 20px;
-    }
-    
-    .page-content-wrapper {
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-      flex: 1;
-      padding: 5px 5px 0 5px;
-      overflow: hidden;
-      height: 100%;
-    }
-    
-    .page-content {
-      height: 100%;
-      color: white;
-      overflow-y: auto;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding: 100px 20vw;
-      gap: 50px; /* Space between sections */
-    }
-    
-    .page-content img.logo {
-      max-width: 400px;
-      margin-bottom: 10px;
-    }
-    
-    .page-content img.main-image {
-      width: 100%;
-      max-width: 700px;
-      border-radius: 5px;
-      height: auto;
-      margin-bottom: 20px;
-    }
-
-    .page-content img.main-image {
-      width: 100%;
-      max-width: 700px;
-      border-radius: 5px;
-      height: auto;
-      margin-bottom: 20px;
-    }
-    
-    .page-content .text {
-      width: 100%;
-      max-width: 600px;
-      margin-bottom: 20px;
-      line-height: 1.8;
-      font-size: 18px;
-    }
-
-    .page-content-container {
-      margin: 100px 150px 100px 150px;
-      border: 1px solid white;
-      padding: 0;
-    }
-
-    .content-section {
-      border: 1px solid white;
-      margin: 0;
-      padding: 35px;
-      box-sizing: border-box;
-    }
-
-    .content-section.image-section {
-      position: relative;
-      padding: 0;
-    }
-
-    .content-section img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .content-section video {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .content-label-section {
-      display: flex;
-      justify-content: space-between;
-      margin-top: -25px;
-      margin-bottom: 25px;
-      color: white;
-    }
-
-    .left-column {
-      text-align: left;
-    }
-
-    .right-column {
-      text-align: right;
-    }
-
-    .split-image-section {
-      display: flex;
-      gap: 20px; /* Space between the two image boxes */
-      margin: 0;
-      padding: 0;
-      background: none;
-      border: none; /* Remove the border from the container */
-    }
-
-    .image-box {
-      flex: 1; /* Each box takes equal space */
-      border: 1px solid white; /* Add border to each individual box */
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    .image-box img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .title-section h2 {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-
-    .text-block {
-      max-width: 55ch;
-      font-size: 16px;
-      margin-top: 20px;
-      line-height: 1.6;
-    }
-    
-    .image-row {
-      display: flex;
-      width: 100%;
-      max-width: 600px;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .image-row img {
-      width: calc(50% - 5px);
-      height: auto;
-    }
-
-    .page-content.project-1 {
-      background: linear-gradient(0deg, #012e91, #000037);
-    }
-    
-    .page-content.project-2 {
-      background-image: url('images/bg.gif');
-      background-repeat: repeat;  /* Tiling in both directions */
-      background-size: auto; /* Keeps the original size of the GIF */
-    }
-    
-    .page-content.project-3 {
-      background: linear-gradient(135deg, #006600, #003300);
-    }
-    
-    .page-content.project-4 {
-      background-color: rgb(20, 20, 61);
-    }
-    
-    .page-content.project-5 {
-      background: linear-gradient(135deg, #990000, #660000);
-    }
-    
-    .tabs {
-      display: flex;
-      height: 100%;
-      flex-wrap: nowrap;
-      overflow: hidden;
-      flex: 1; /* Take remaining space */
-      max-width: calc(100% - 300px); /* Hard limit to prevent overflow */
-    }
-
-    .tab {
-      background-color: #D0D2D3;
-      color: black;
-      height: 100%;
-      border-width: 4px;
-      border-style: solid;
-      border-color: #EEEEEE #999999 #999999 #EEEEEE;
-      cursor: pointer;
-      display: block; /* Change from flex to block */
-      line-height: 37px; /* Center text vertically (45px - 8px borders) */
-      text-align: center; /* Center text horizontally */
-      font-size: 18px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      box-sizing: border-box;
-      padding: 0 15px; /* Simple horizontal padding */
-      min-width: 30px;
-    }
-
-    .tab:hover {
-      background-color: #414042;
-      color: white;
-      border-color: #666666 #222222 #222222 #666666;
-    }
-
-    .tab:active {
-      background-color: #D0D2D3;
-      color: black;
-      border-color: #6b6b6b #afafaf #afafaf #6b6b6b;
-    }
-
-    .tab.pressed {
-      background-color: rgb(231, 231, 231);
-      background-image: 
-        url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0h2v2h-2v-2ZM2,2h2v2h-2v-2Z' fill='%23D0D2D3'/%3E%3Cpath d='M2,0h2v2h-2v-2ZM0,2h2v2h-2v-2Z' fill='%23E7E7E7'/%3E%3C/svg%3E");
-      color: black;
-      border-color: #6b6b6b #afafaf #afafaf #6b6b6b;
-    }
-
-    .tab.pressed:active {
-      background-color: rgb(179, 179, 179);
-      background-image: 
-        url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0h2v2h-2v-2ZM2,2h2v2h-2v-2Z' fill='%23FFFFFF'/%3E%3Cpath d='M2,0h2v2h-2v-2ZM0,2h2v2h-2v-2Z' fill='%23A7A9AC'/%3E%3C/svg%3E");
-      color: black;
-      border-color: #999999 #EEEEEE #EEEEEE #999999;
-    }
-    
-    .clock {
-      margin-left: auto;
-      padding: 0 10px;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .about-menu {
-      position: absolute;
-      bottom: 45px;
-      left: 0;
-      background-color: #BCBEC0;
-      display: none;
-      flex-direction: column;
-      z-index: 200;
-      width: 500px;
-    }
-
-    .about-section {
-      padding: 15px;
-    }
-
-    .about-header-image {
-      width: 75%;
-      height: auto;
-      margin-bottom: 15px;
-    }
-
-    .about-content {
-      display: flex;
-      gap: 15px;
-    }
-
-    .about-image {
-      width: 200px;
-      height: 200px;
-    }
-
-    .about-text {
-      line-height: 1.4;
-      flex: 1;
-    }
-
-    .about-text p {
-      margin-bottom: 10px;
-    }
-
-    .colophon-section {
-      padding: 15px;
-    }
-
-    .colophon-section p {
-      margin-bottom: 5px;
-    }
-
-    .page-link-container {
-      position: absolute;
-      top: 15px; /* Margin from top */
-      left: 15px; /* Margin from left */
-      z-index: 10; /* Make sure it's above the image */
-    }
-
-    /* Modify your project-link style to include the hover animation */
-    .project-link {
-      display: inline-block;
-      padding: 8px 15px;
-      border: 1px solid white;
-      background: rgba(0, 0, 0, 0.406);
-      text-decoration: none;
-      font-family: var(--font-primary);
-      font-size: 16px;
-      letter-spacing: 1px;
-      border-radius: 4px;
-      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    .project-link:hover {
-      transform: scale(0.9);
-      cursor: ne-resize;
-    }
-
-    /* Different solid colors for each project */
-    .link-color-1 { color: #fadf9e; border-color: #fadf9e; }
-    .link-color-2 { color: #ffffff; border-color: #ffffff; }
-    .link-color-3 { color: #ffffff; border-color: #ffffff; }
-    .link-color-4 { color: #ff66cc; border-color: #ff66cc; }
-    .link-color-5 { color: #ff3333; border-color: #ff3333; }
-
-    .project-navigation {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 50px;
-    }
-
-    .project-nav-button {
-      padding: 12px 24px;
-      background: transparent;
-      border: 1px solid white;
-      color: white;
-      font-family: var(--font-primary);
-      font-size: 16px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: background-color 0.3s;
-    }
-
-    .project-nav-button:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .project-nav-button.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .desktop-icons {
-      position: absolute;
-      left: 50px;
-      top: 200px; /* Fixed position instead of transform */
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      z-index: 10;
-    }
-
-    .desktop-icon {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      transition: transform 0.1s ease;
-      position: absolute;
-    }
-
-    .desktop-icon:hover {
-      transform: scale(1.05);
-    }
-
-    .desktop-icon.dragging {
-      z-index: 1000;
-      transition: none;
-    }
-
-    .desktop-icon img {
-      width: 48px;
-      height: 48px;
-      border-radius: 4px;
-      margin-bottom: 5px;
-      pointer-events: none;
-    }
-
-    .desktop-icon span {
-      color: white;
-      font-size: 12px;
-      text-align: center;
-      max-width: 60px;
-      line-height: 1.2;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-      pointer-events: none;
-    }
-
-    /* Mobile Responsive Styles */
-    @media screen and (max-width: 768px) {
-
-      body {
-        height: 100vh;
-        height: 100dvh; /* Dynamic viewport height for mobile browsers */
-      }
-
-      .clock {
-        display: none; /* Hide clock on mobile */
-      }
-      
-      .main-content {
-        flex: none;
-        height: auto;
-        padding: 10px;
-        justify-content: flex-start;
-        padding-top: 5vh;
-      }
-      
-      .slideshow {
-        width: 90vw;
-        height: 50vh;
-        max-width: none;
-      }
-      
-      .title {
-        font-size: 18px;
-        margin-top: 15px;
-        padding-left: 5vw;
-        padding-right: 5vw;
-        line-height: 1.4;
-      }
-
-      .desktop-icons {
-        position: static;
-        transform: none;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        margin: 10px 0px;
-        gap: 40px;
-        width: 100%;
-      }
-      
-      .desktop-icon {
-        position: static;
-        transform: none;
-        flex-shrink: 0; /* Prevent shrinking */
-        width: 60px; /* Fixed width to maintain space */
-      }
-    
-      .nav-bar {
-        height: 50px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-      }
-      
-      .button {
-        padding: 5px 20px;
-        font-size: 16px;
-        min-width: 80px;
-      }
-      
-      .work-menu {
-        bottom: 50px;
-        width: 100vw;
-        left: 0;
-        right: 0;
-      }
-      
-      .menu-item {
-        height: 60px;
-        font-size: 20px;
-        width: 100%;
-      }
-      
-      .about-menu {
-        bottom: 50px;
-        width: 100vw;
-        left: 0;
-        right: 0;
-        max-height: calc(100vh - 50px);
-        overflow-y: auto;
-      }
-      
-      .about-section {
-        padding: 15px;
-      }
-      
-      .about-content {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .about-header-image {
-        max-height: 80px;
-        width: auto;
-        object-fit: contain;
-      }
-      
-      .about-image {
-        width: 120px;
-        height: auto;
-        align-self: center;
-      }
-      
-      .colophon-section {
-        padding: 15px;
-      }
-      
-      .work-page {
-        bottom: 50px;
-      }
-      
-      .page-header {
-        height: 50px;
-        font-size: 18px;
-      }
-      
-      .close-button {
-        font-size: 24px;
-        padding: 5px 10px;
-      }
-      
-      .page-content {
-        padding: 30px 15px;
-        gap: 15px; /* Reduced gap between sections */
-      }
-      
-      .page-content-container {
-        margin: 20px 10px;
-      }
-      
-      .content-section {
-        padding: 20px;
-        margin-bottom: 0; /* Remove default margin */
-      }
-      
-      /* Specific spacing for content sections */
-      .content-section.image-section {
-        margin-bottom: 8px; /* Small gap after images */
-      }
-      
-      .content-label-section {
-        margin-top: -5px; /* Pull labels closer to images */
-        margin-bottom: 20px; /* More space before next content */
-        font-size: 12px;
-        flex-direction: column;
-        gap: 5px;
-        text-align: left;
-      }
-      
-      .content-section.title-section {
-        margin-top: 10px; /* Small gap before text sections */
-      }
-      
-      .title-section h2 {
-        font-size: 18px;
-        margin-bottom: 15px;
-      }
-      
-      .text-block {
-        font-size: 16px; /* Increased from 14px */
-        line-height: 1.6;
-        max-width: none;
-        margin-top: 0;
-      }
-      
-      .right-column {
-        text-align: left;
-      }
-      
-      /* Keep split images side by side on mobile */
-      .split-image-section {
-        display: flex;
-        gap: 10px;
-        margin: 0;
-        padding: 0;
-        background: none;
-        border: none;
-        margin-bottom: 8px;
-      }
-
-      .image-box {
-        flex: 1;
-        border: 1px solid white;
-        padding: 0 !important;
-        margin: 0 !important;
-        box-sizing: border-box;
-        overflow: hidden;
-        position: relative;
-        line-height: 0;
-        font-size: 0;
-      }
-
-      .image-box img,
-      .image-box video {
-        width: 100% !important;
-        height: auto !important;
-        display: block !important;
-        border: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        vertical-align: top !important;
-        line-height: 0 !important;
-        font-size: 0 !important;
-        object-fit: cover;
-      }
-      
-      /* Override any inherited content-section styling for image boxes */
-      .content-section.image-box {
-        padding: 0 !important;
-        border: 1px solid white;
-        line-height: 0;
-        font-size: 0;
-      }
-
-      
-      .page-link-container {
-        top: 10px;
-        left: 10px;
-      }
-      
-      .project-link {
-        padding: 10px 15px;
-        font-size: 14px;
-      }
-      
-      .tabs {
-        flex: 1; /* Take up all remaining space */
-        max-width: none; /* Remove width constraint */
-        flex-wrap: nowrap; /* Changed from wrap */
-        overflow: hidden; /* Hide overflow instead of wrapping */
-      }
-      
-      .tab {
-        min-width: 60px; /* Set minimum width */
-        font-size: 14px;
-        padding: 5px 10px; /* Smaller padding on mobile */
-        flex-shrink: 1; /* Allow shrinking on mobile */
-      }
-    }
-
-    /* Extra small mobile devices */
-    @media screen and (max-width: 480px) {
-      .slideshow {
-        width: 95vw;
-        height: 40vh;
-      }
-      
-      .title {
-        font-size: 16px;
-        padding-left: 3vw;
-        padding-right: 3vw;
-      }
-      
-      .button {
-        padding: 5px 15px;
-        font-size: 14px;
-        min-width: 70px;
-      }
-      
-      .clock {
-        display: none;
-      }
-      
-      .tabs {
-        flex: 1;
-        max-width: none;
-      }
-      
-      .menu-item {
-        font-size: 18px;
-        height: 55px;
-      }
-      
-      .page-content {
-        padding: 20px 10px;
-      }
-      
-      .content-section {
-        padding: 15px;
-      }
-      
-      .text-block {
-        font-size: 15px; /* Slightly smaller on very small screens */
-      }
-      
-      .project-link {
-        font-size: 12px;
-        padding: 8px 12px;
-      }
-      
-      .about-image {
-        width: 100px; /* Smaller on tiny screens */
-      }
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryan Lettieri - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FFFFFF;
+            --primary-color: #000000;
+            --secondary-color: #383838;
+            --label-color: #747474;
+            --hover-color: #ECECEC;
+            --toggle-bg:  #D0D0D0;
+            --toggle-circle: #FFFFFF;
+            --info-bg: rgba(255, 255, 255, 0.7);
+            --index-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --primary-color: #FFFFFF;
+            --secondary-color: #B1B1B1;
+            --label-color: #747474;
+            --hover-color: #363636;
+            --toggle-bg: #333333;
+            --toggle-circle: #757575;
+            --info-bg: rgba(0, 0, 0, 0.7);
+            --index-bg: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer 10+ */
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover{
+            color: var(--toggle-bg);
+        }
+
+        .container {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            min-height: calc(100vh - 76px);
+        }
+
+        .header {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            z-index: 3000;
+            mix-blend-mode: difference; /* Apply to the container */
+        }
+
+        .logo {
+            grid-column: 1;
+            color: #ffffff; /* Use white color for difference blend */
+            text-decoration: none;
+            font-weight: 400;
+        }
+
+        .email {
+            grid-column: 2;
+            color: #ffffff; /* Use white color for difference blend */
+            text-decoration: none;
+        }
+
+        .copyright {
+            grid-column: 5;
+            text-align: right;
+            color: #ffffff; /* Use white color for difference blend */
+        }
+
+        /* Mobile Menu Button */
+        .menu-button {
+            display: none;
+            background: #383838;
+            color: black;
+            width: 70px;
+            height: 30px;
+            border-radius: 25px;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-family: 'Space Grotesk', sans-serif;
+            mix-blend-mode: difference;
+            color: #ffffff;
+        }
+
+        .menu-button:hover {
+            background-color: var(--label-color);
+        }
+
+        /* Floating Theme Toggle */
+        .floating-toggle {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            width: 64px;
+            height: 37px;
+            background: var(--toggle-bg);
+            border-radius: 18.5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+            z-index: 1500;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .floating-toggle .toggle-circle {
+            width: 29px;
+            height: 29px;
+            background: var(--toggle-circle);
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .floating-toggle.dark .toggle-circle {
+            transform: translateX(27px);
+        }
+
+        /* Menu open state - hide floating toggle behind menu */
+        .info-panel.open ~ .floating-toggle {
+            z-index: 1500;
+        }
+        
+        .info-panel:not(.open) .info-content {
+            opacity: 0;
+        }
+
+        .content {
+            grid-column: 1 / -1;
+            margin-top: 120px;
+            padding-bottom: 150px;
+        }
+
+        .project-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 1080px;
+            background: var(--label-color);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img,
+        .project-image video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .project-image video {
+            background: var(--label-color);
+        }
+
+        .project-image.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-color);
+            font-size: 18px;
+        }
+
+        .project-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-weight: normal;
+            transition: color 0.3s ease;
+        }
+
+        .project-description {
+            font-size: 15px;
+            color: var(--label-color);
+            margin-bottom: 75px;
+            transition: color 0.3s ease;
+        }
+
+        /* Custom Tooltip Styles */
+        .tooltip {
+            outline: 0.75px solid var(--label-color);
+            position: fixed;
+            padding: 12px 16px;
+            background: var(--info-bg);
+            color: var(--primary-color);
+            border-radius: 5px;
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            font-weight: 400;
+            pointer-events: none;
+            z-index: 3000;
+            opacity: 0;
+            transform: translate(10%, 80%) translateY(-12px);
+            transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-top-color: var(--primary-color);
+        }
+
+        /* New unified info panel structure with Safari fix */
+        .info-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+            background-color: var(--info-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            /* Use JavaScript to set height and transform to handle Safari properly */
+        }
+
+        .info-panel.enable-transitions {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .info-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            pointer-events: auto;
+            transition: opacity 0.4s ease;
+        }
+
+        .info-bar {
+            height: 82px;
+            border-top: 0.75px solid var(--label-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            cursor: pointer;
+            transition: all 0.2s ease; /* Changed from just background-color */
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+
+        .info-bar:hover .info-text {
+            color: var(--label-color);
+        }
+
+        .info-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 15px;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        .toggle-button {
+            width: 64px;
+            height: 37px;
+            background: var(--toggle-bg);
+            border-radius: 18.5px;
+            border: none;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+        }
+
+        .toggle-circle {
+            width: 29px;
+            height: 29px;
+            background: var(--toggle-circle);
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-button.dark .toggle-circle {
+            transform: translateX(27px);
+        }
+
+        .info-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-section {
+            padding: 0px 15px 40px 15px;
+            display: grid;
+            grid-template-columns: 1.5fr 0.5fr 1fr 1fr 1fr;
+            gap: 0;
+            border-bottom: 0.75px solid var(--label-color);
+            transition: background-color 0.3s ease;
+            min-height: 200px;
+        }
+
+        .info-description {
+            grid-column: 1;
+            font-size: 15px;
+            color: var(--secondary-color);
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+
+        .info-links {
+            grid-column: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .cv-button {
+            background: var(--toggle-bg);
+            color: var(--primary-color);
+            padding: 6px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 15px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            transition: background-color 0.2s ease;
+            border: none;
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        .cv-button:hover {
+          background-color: var(--label-color);
+        }
+
+        .index-section {
+            flex: 1;
+            background: var(--bg-color);
+            padding: 20px 15px 40px 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .index-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 15px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            margin-top: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            cursor: pointer;
+            margin: 0 -20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .project-item:hover {
+            background: var(--hover-color);
+        }
+
+        .project-name {
+            font-size: 30px;
+            font-weight: normal;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        .project-type {
+            font-size: 15px;
+            color: var(--secondary-color);
+            transition: color 0.3s ease;
+        }
+
+        .project-container[data-project="swarm"] {
+            cursor: not-allowed;
+        }
+
+        .project-container[data-project="swarm"]:hover {
+            cursor: not-allowed;
+        }
+
+        .project-item[onclick*="swarm"] {
+            cursor: not-allowed;
+        }
+
+        .project-item[onclick*="swarm"]:hover {
+            cursor: not-allowed;
+            background: var(--hover-color); /* Keep the hover background effect */
+        }
+
+        @media (max-width: 768px) {
+            
+            body{
+              overflow-x: hidden;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            /* Mobile Header */
+            .header {
+                left: 15px;
+                right: 15px;
+                top: 15px;
+                grid-template-columns: 1fr auto;
+                gap: 15px;
+            }
+
+            .logo {
+                grid-column: 1;
+            }
+
+            .email,
+            .copyright {
+                display: none; /* Hide email and copyright on mobile */
+            }
+
+            .menu-button {
+                display: block;
+                grid-column: 2;
+            }
+
+            /* Show floating toggle on mobile */
+            .floating-toggle {
+                display: block;
+            }
+
+            /* Hide desktop toggle in info panel */
+            .info-panel .toggle-button {
+                display: none;
+            }
+
+            .content {
+                margin-top: 80px;
+                padding-bottom: 120px;
+            }
+
+            .project-image {
+                height: 35vh;
+                min-height: 250x;
+            }
+
+            .project-description {
+                margin-bottom: 50px;
+            }
+
+            /* Mobile Info Panel - from top */
+            .info-panel {
+                top: 0;
+                bottom: auto;
+                height: 100vh;
+                transform: translateY(-100vh);
+            }
+
+            .info-panel.open {
+                transform: translateY(0);
+            }
+
+            .info-bar {
+                display: none; /* Hide the info bar on mobile */
+            }
+
+            .info-content {
+                height: 100vh;
+                overflow-y: hidden;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+                padding: 80px 15px 40px 15px;
+                min-height: auto;
+                border-bottom: none;
+            }
+
+            .info-description {
+                grid-column: 1;
+                margin-bottom: 40px;
+            }
+
+            .info-links {
+                grid-column: 1;
+                flex-direction: row;
+                gap: 20px;
+                align-items: flex-start;
+                margin-bottom: 0px;
+            }
+
+            .info-links a {
+                font-size: 15px;
+            }
+
+            /* Hide CV button on mobile */
+            .cv-button {
+                display: none;
+            }
+
+            .index-section {
+                overflow: hidden;
+                padding: 0 15px 40px 15px;
+                background: transparent;
+            }
+
+            .index-title {
+                margin-top: 0;
+            }
+
+            .project-name {
+                font-size: 24px;
+            }
+
+            .project-item {
+                padding: 20px;
+                margin: 0 -20px;
+                border-bottom: 0.75px solid var(--label-color);
+            }
+
+            .project-item:last-child {
+                border-bottom: none;
+            }
+
+            .tooltip {
+                display: none;
+            }
+        }
+
+        /* Tablet specific adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+
+            .header {
+                left: 12px;
+                right: 12px;
+                top: 12px;
+            }
+
+            .content {
+                margin-top: 100px;
+            }
+
+            .project-image {
+                height: 70vh;
+                min-height: 400px;
+            }
+
+            .info-section {
+                grid-template-columns: 2fr 1fr 1fr;
+                padding: 35px 15px;
+            }
+
+            .info-description {
+                grid-column: 1 / 3;
+                margin-bottom: 20px;
+            }
+
+            .info-links {
+                grid-column: 1 / 4;
+                flex-direction: row;
+                gap: 25px;
+                align-items: center;
+            }
+
+            .cv-button {
+                margin-top: 0;
+                margin-left: auto;
+            }
+        }
+    </style>
 </head>
-<body>
-
-  <div class="loading-screen">
-    <div class="loading-text">
-      <div id="copyright">copyright (c) 2025, ryan lettieri</div>
-      <div id="update">last update : fri may 26 2025</div>
-      <div id="path">//ryanlettieri-portfolio-25</div>
-      <div id="progress">loading : <span id="percentage">1</span>%</div>
+<body data-theme="light">
+    <div class="header">
+        <a href="#" class="logo">RYAN LETTIERI</a>
+        <a href="mailto:ryanlettieri@icloud.com" class="email">@EMAIL</a>
+        <div class="copyright">©2025</div>
+        <button class="menu-button" id="menuButton" onclick="toggleInfo(event)">MENU</button>
     </div>
-  </div>
 
-  <div class="main-content">
-    <div class="slideshow">
-      <video src="images/symbiotica-cover.mp4" data-project="1" data-title="SYMBIOTICA" autoplay muted loop playsinline class="active"></video>
-      <video src="images/tidelands-primary.mp4" alt="Slideshow Video 2" data-project="4" data-title="TIDELANDS" autoplay muted loop playsinline></video>
-      <video src="images/ojahara-row8.mp4" alt="Slideshow Video 3" data-project="2" data-title="OJAHARA" autoplay muted loop playsinline></video>
-      <video src="images/tidelands-row10.mp4" alt="Slideshow Video 4" data-project="4" data-title="TIDELANDS" autoplay muted loop playsinline></video>
-      <video src="images/symbiotica-primary.mp4" alt="Slideshow Video 5" data-project="1" data-title="SYMBIOTICA" autoplay muted loop playsinline></video>
+    <div class="container">
+        <div class="content">
+            <div class="project-container" data-tooltip="DIGITAL BRAND" data-project="symbiotica">
+                <div class="project-image">
+                    <video autoplay muted loop playsinline>
+                        <source src="images/symbiotica-cover.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="project-title">SYMBIOTICA</div>
+                <div class="project-description">Brand identity and digital experience</div>
+            </div>
+
+            <div class="project-container" data-tooltip="WEBSITE" data-project="tidelands">
+                <div class="project-image">
+                  <video autoplay muted loop playsinline>
+                    <source src="images/tidelands-primary.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                </div>
+                <div class="project-title">TIDELANDS 2100</div>
+                <div class="project-description">Interactive climate visualization</div>
+            </div>
+
+            <div class="project-container" data-tooltip="IDENTITY & VIDEO" data-project="alchemy">
+                <div class="project-image">
+                    <video autoplay muted loop playsinline>
+                        <source src="images/ojahara-01.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="project-title">ALCHEMY</div>
+                <div class="project-description">Experimental design system</div>
+            </div>
+
+            <div class="project-container" data-tooltip="PACKAGING & BRAND" data-project="swarm">
+                <div class="project-image">
+                    <img src="images/swarm-row1.webp">
+                </div>
+                <div class="project-title">SWARM</div>
+                <div class="project-description">Generative art installation</div>
+            </div>
+        </div>
     </div>
-    <h2 class="title">Ryan Lettieri is a visual designer that builds rich, explorable worlds through motion, visuals, and interaction.</h2>
-  </div>
 
-  <div class="desktop-icons">
-    <!-- Icons will be generated by JavaScript -->
-  </div>
-  
-  <div class="nav-bar">
-    <div class="button work">work</div>
-    <div class="button about">about</div>
-    <div class="tabs"></div>
-    <div class="clock">00:00:00 AM</div>
-  </div>
-  
-  <div class="work-menu">
-    <div class="menu-header">work</div>
-    <div class="menu-item" data-id="4">&#128031 TIDELANDS</div>
-    <div class="menu-item" data-id="2">&#127925 OJAHARA</div>
-    <div class="menu-item" data-id="1">&#128192 SYMBIOTICA</div>
-    <div class="menu-item" data-id="3">&#128193 ARCHIVE</div>
-    <div class="menu-footer"></div>
-  </div>
-  
-  <script>
+    <!-- Custom Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
 
-        // Loading screen animation
-    function startLoadingAnimation() {
-      const TOTAL_DURATION = 2000; // Total animation duration in ms (2 seconds)
-      
-      // Timing configuration (in percentages of total duration)
-      const TIMING = {
-        copyright: 5,      // When copyright text appears
-        update: 10,        // When update text appears
-        path: 15,          // When path text appears
-        progressStart: 20, // When loading progress starts
-        progressEnd: 80,   // When loading progress reaches 100%
-        fadeOut: 95        // When fade out begins
-      };
-      
-      // Convert percentage timings to actual milliseconds
-      const getTime = (percentage) => TOTAL_DURATION * (percentage / 100);
-      
-      // Get elements
-      const loadingScreen = document.querySelector('.loading-screen');
-      const copyright = document.getElementById('copyright');
-      const update = document.getElementById('update');
-      const path = document.getElementById('path');
-      const progress = document.getElementById('progress');
-      const percentage = document.getElementById('percentage');
-      
-      // Show elements sequentially
-      setTimeout(() => { copyright.style.opacity = 1; }, getTime(TIMING.copyright));
-      setTimeout(() => { update.style.opacity = 1; }, getTime(TIMING.update));
-      setTimeout(() => { path.style.opacity = 1; }, getTime(TIMING.path));
-      setTimeout(() => { progress.style.opacity = 1; }, getTime(TIMING.progressStart));
-      
-      // Handle progress percentage
-      const progressDuration = getTime(TIMING.progressEnd) - getTime(TIMING.progressStart);
-      const startTime = getTime(TIMING.progressStart);
-      let progressInterval;
-      
-      setTimeout(() => {
-        let count = 1;
-        progressInterval = setInterval(() => {
-          percentage.textContent = count;
-          if (count >= 100) clearInterval(progressInterval);
-          count++;
-        }, progressDuration / 100);
-      }, startTime);
-      
-      // Fade out loading screen
-      setTimeout(() => {
-        loadingScreen.style.animation = 'fadeOut 0.1s forwards';
-      }, getTime(TIMING.fadeOut));
-      
-      // Remove loading screen after animation completes
-      setTimeout(() => {
-        loadingScreen.style.display = 'none';
-      }, TOTAL_DURATION);
-    }
-
-    // Clock functionality
-    function updateClock() {
-      const clockElement = document.querySelector('.clock');
-      
-      function updateTime() {
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        hours = hours.toString().padStart(2, '0');
-        
-        clockElement.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
-      }
-      
-      // Update immediately when function is called
-      updateTime();
-      
-      // Then update every second
-      setInterval(updateTime, 1000);
-    }
-
-    // Content loading animation for work pages
-    function showContentLoading(contentWrapper) {
-      // Create simple blur overlay for just the content area
-      const loadingOverlay = document.createElement('div');
-      loadingOverlay.className = 'content-loading-overlay';
-      contentWrapper.appendChild(loadingOverlay);
-      
-      // Return function to remove the loading overlay
-      return function hideLoading() {
-        // Create transition effect
-        loadingOverlay.style.opacity = '0';
-        setTimeout(() => {
-          if (contentWrapper.contains(loadingOverlay)) {
-            contentWrapper.removeChild(loadingOverlay);
-          }
-        }, 500); // Fade out time
-      };
-    }
-
-    // Slideshow functionality
-    function startSlideshow() {
-      const slides = document.querySelectorAll('.slideshow img, .slideshow video'); // Select both images and videos
-      let currentIndex = 0;
-      
-      // Start playing videos when they become active
-      const playActiveVideo = () => {
-        const activeSlide = slides[currentIndex];
-        if (activeSlide.tagName === 'VIDEO') {
-          activeSlide.play();
-        }
-      };
-      
-      setInterval(() => {
-        slides[currentIndex].classList.remove('active');
-        // Pause video if leaving it
-        if (slides[currentIndex].tagName === 'VIDEO') {
-          slides[currentIndex].pause();
-        }
-        
-        currentIndex = (currentIndex + 1) % slides.length;
-        slides[currentIndex].classList.add('active');
-        
-        // Play video if entering it
-        playActiveVideo();
-      }, 2500);
-      
-      // Play the first video if it starts with one
-      playActiveVideo();
-    }
-    
-    // Navigation buttons functionality
-    function setupNavigation() {
-      const workButton = document.querySelector('.button.work');
-      const workMenu = document.querySelector('.work-menu');
-      
-      workButton.addEventListener('click', () => {
-        if (workMenu.style.display === 'flex') {
-          workMenu.style.display = 'none';
-          workButton.classList.remove('pressed');
-        } else {
-          workMenu.style.display = 'flex';
-          setActiveButton(workButton);
-          // Hide about menu if it's open
-          document.querySelector('.about-menu').style.display = 'none';
-        }
-      });
-      
-      // Close menu when clicking elsewhere
-      document.addEventListener('click', (event) => {
-        if (!event.target.closest('.work-menu') && 
-            !event.target.closest('.button.work')) {
-          workMenu.style.display = 'none';
-          workButton.classList.remove('pressed');
-        }
-      });
-    }
-    
-    function setActiveButton(button) {
-      document.querySelectorAll('.button').forEach(btn => {
-        btn.classList.remove('pressed');
-      });
-      button.classList.add('pressed');
-    }
-
-      // Add this to your existing JavaScript, near where you set up the navigation buttons
-
-      function setupAboutMenu() {
-      const aboutButton = document.querySelector('.button.about');
-      const aboutMenu = document.createElement('div');
-      aboutMenu.className = 'about-menu';
-      aboutMenu.style.display = 'none';
-      aboutMenu.innerHTML = `
-        <div class="menu-header">about</div>
-        <div class="about-section">
-          <img class="about-header-image" src="images/about-header.webp" alt="About Header">
-          <div class="about-content">
-            <img class="about-image" src="images/profile-photo.webp" alt="About Image">
-            <div class="about-text">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.</p>
-              <p>Vivamus at risus eget ligula vulputate commodo. Donec eget libero eu dolor egestas consequat. Sed vel nulla vel eros gravida pellentesque.</p>
-              <p>Praesent auctor metus in semper scelerisque. Morbi ut dui non sapien venenatis faucibus.</p>
+    <div class="info-panel" id="infoPanel" onclick="toggleInfo()">
+        <div class="info-bar">
+            <div class="info-text" id="infoText">MENU</div>
+            <button class="toggle-button" id="toggleButton" onclick="toggleTheme(event)">
+                <div class="toggle-circle"></div>
+            </button>
+        </div>
+        <div class="info-content">
+            <div class="info-section">
+                <div class="info-description">
+                    Ryan Lettieri is a designer based in Providence, RI with a background in graphic design. He creates immersive design systems that expand abstract ideas into rich, explorable worlds. Through visuals, motion, and interaction, he shapes experiences that feel cohesive and emotionally grounded.
+                </div>
+                <div class="info-links">
+                    <a href="#">@INSTAGRAM</a>
+                    <a href="#">@LINKEDIN</a>
+                    <a href="#">@ARE.NA</a>
+                    <a href="cv.html" class="cv-button">CV.HTML</a>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="menu-header">colophon</div>
-        <div class="colophon-section">
-          <p>This website was custom designed and coded</p>
-          <p>Fonts: Argent Pixel CF & CoFo Sans Pixel</p>
-          <p>Friends & collaborators:</p>
-          <p>Zoe Lee, Gary Li, Annie Chen, Louis Hand, Kai Geitzen, Lindsay Ju.</p>
-        </div>
-        <div class="menu-footer">
-          <div class="footer-border"></div>
-        </div>
-      `;
-      
-  document.body.appendChild(aboutMenu);
-  
-  // Update the about button click handler
-  aboutButton.addEventListener('click', () => {
-    if (aboutMenu.style.display === 'flex') {
-      aboutMenu.style.display = 'none';
-      aboutButton.classList.remove('pressed');
-    } else {
-      aboutMenu.style.display = 'flex';
-      setActiveButton(aboutButton);
-      // Hide work menu if it's open
-      document.querySelector('.work-menu').style.display = 'none';
-    }
-  });
-  
-  // Close menu when clicking elsewhere
-  document.addEventListener('click', (event) => {
-    if (!event.target.closest('.about-menu') && 
-        !event.target.closest('.button.about')) {
-      aboutMenu.style.display = 'none';
-      aboutButton.classList.remove('pressed');
-    }
-  });
-}
-
-// Modify your existing setupNavigation function to remove the about button handler
-function setupNavigation() {
-  const homeButton = document.querySelector('.button.home');
-  const workButton = document.querySelector('.button.work');
-  const workMenu = document.querySelector('.work-menu');
-  
-  homeButton.addEventListener('click', () => {
-    setActiveButton(homeButton);
-    hideAllPages();
-    workMenu.style.display = 'none';
-    document.querySelector('.about-menu').style.display = 'none';
-    // Reset all tabs to unpressed state
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.classList.remove('pressed');
-    });
-    // Immediately return home button to unpressed state after action
-    setTimeout(() => {
-      homeButton.classList.remove('pressed');
-    }, 100);
-  });
-  
-  workButton.addEventListener('click', () => {
-    if (workMenu.style.display === 'flex') {
-      workMenu.style.display = 'none';
-      workButton.classList.remove('pressed');
-    } else {
-      workMenu.style.display = 'flex';
-      setActiveButton(workButton);
-      // Hide about menu if it's open
-      document.querySelector('.about-menu').style.display = 'none';
-    }
-  });
-  
-  // Close menu when clicking elsewhere
-  document.addEventListener('click', (event) => {
-    if (!event.target.closest('.work-menu') && 
-        !event.target.closest('.button.work')) {
-      workMenu.style.display = 'none';
-      workButton.classList.remove('pressed');
-    }
-  });
-}
-
-    // Add this to your CSS styles// Add this to your existing JavaScript, near where you set up the navigation buttons
-
-    function setupAboutMenu() {
-      const aboutButton = document.querySelector('.button.about');
-      const aboutMenu = document.createElement('div');
-      aboutMenu.className = 'about-menu';
-      aboutMenu.style.display = 'none';
-      aboutMenu.innerHTML = `
-        <div class="menu-header">about</div>
-        <div class="about-section">
-          <img class="about-header-image" src="images/about-header.webp" alt="About Header">
-          <div class="about-content">
-            <img class="about-image" src="images/profile-photo.webp" alt="About Image">
-            <div class="about-text">
-              <p>Ryan Lettieri is a designer based in Providence, RI with a background in graphic design.</p>
-                <p>He creates immersive design systems that expand abstract ideas into rich, explorable worlds. Through visuals, motion, and interaction, he shapes experiences that feel cohesive and emotionally grounded.</p>
+            <div class="index-section">
+                <div class="index-title">INDEX</div>
+                <div class="project-item" onclick="goToProject('symbiotica')">
+                    <div class="project-name">SYMBIOTICA</div>
+                    <div class="project-type">BRAND, WEB</div>
+                </div>
+                <div class="project-item" onclick="goToProject('tidelands')">
+                    <div class="project-name">TIDELANDS 2100</div>
+                    <div class="project-type">DATA VIZ, WEB</div>
+                </div>
+                <div class="project-item" onclick="goToProject('alchemy')">
+                    <div class="project-name">ALCHEMY</div>
+                    <div class="project-type">SYSTEM, PRINT</div>
+                </div>
+                <div class="project-item" onclick="goToProject('swarm')">
+                    <div class="project-name">SWARM</div>
+                    <div class="project-type">INSTALLATION, CODE</div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="menu-header">colophon</div>
-        <div class="colophon-section">
-          <p>This website was custom designed and coded</p>
-          <p>Fonts: Argent Pixel CF & CoFo Sans Pixel</p>
-          <p>Friends & collaborators:</p>
-          <p><a href="https://zoemiyako.com/">Zoe Lee,</a> <a href="https://garyjli.squarespace.com/">Gary Li,</a> <a href="https://www.beamstudio.earth/">Annie Chen,</a> <a href="https://louishand.squarespace.com/">Louis Hand,</a> <a href="https://kaigietzen.com/">Kai Geitzen,</a> <a href="https://lindsayxju.cargo.site/">Lindsay Ju.</a></p>
-        </div>
-        <div class="menu-footer">
-          <div class="footer-border"></div>
-        </div>
-      `;
-      
-      document.body.appendChild(aboutMenu);
-      
-      // About button click handler
-      aboutButton.addEventListener('click', () => {
-        if (aboutMenu.style.display === 'flex') {
-          aboutMenu.style.display = 'none';
-          aboutButton.classList.remove('pressed');
-        } else {
-          aboutMenu.style.display = 'flex';
-          aboutButton.classList.add('pressed');
-          // Hide work menu if it's open
-          document.querySelector('.work-menu').style.display = 'none';
-          document.querySelector('.button.work').classList.remove('pressed');
-        }
-      });
-      
-      // Close menu when clicking elsewhere
-      document.addEventListener('click', (event) => {
-        if (!event.target.closest('.about-menu') && 
-            !event.target.closest('.button.about')) {
-          aboutMenu.style.display = 'none';
-          aboutButton.classList.remove('pressed');
-        }
-      });
-    }
+    </div>
 
-// Modify your existing setupNavigation function to remove the about button handler
-    function setupNavigation() {
-      const workButton = document.querySelector('.button.work');
-      const workMenu = document.querySelector('.work-menu');
-      
-      workButton.addEventListener('click', () => {
-        if (workMenu.style.display === 'flex') {
-          workMenu.style.display = 'none';
-          workButton.classList.remove('pressed');
-        } else {
-          workMenu.style.display = 'flex';
-          workButton.classList.add('pressed');
-          // Hide about menu if it's open
-          const aboutMenu = document.querySelector('.about-menu');
-          if (aboutMenu) {
-            aboutMenu.style.display = 'none';
-            document.querySelector('.button.about').classList.remove('pressed');
-          }
-        }
-      });
-      
-      // Close menu when clicking elsewhere
-      document.addEventListener('click', (event) => {
-        if (!event.target.closest('.work-menu') && 
-            !event.target.closest('.button.work')) {
-          workMenu.style.display = 'none';
-          workButton.classList.remove('pressed');
-        }
-      });
-    }
-    // Work pages functionality
-    function setupWorkPages() {
-      const menuItems = document.querySelectorAll('.menu-item');
-      
-      menuItems.forEach(item => {
-        item.addEventListener('click', () => {
-          const id = item.getAttribute('data-id');
-          const title = item.textContent;
-          
-          openWorkPage(id, title);
-          document.querySelector('.work-menu').style.display = 'none';
-          // Set work button to unpressed when menu item is selected
-          document.querySelector('.button.work').classList.remove('pressed');
+    <!-- Floating Theme Toggle for Mobile -->
+    <button class="floating-toggle" id="floatingToggle" onclick="toggleTheme(event)">
+        <div class="toggle-circle"></div>
+    </button>
+
+    <script>
+        let infoOpen = false;
+
+        // Add click handlers for project navigation - UPDATED TO USE data-project
+        document.querySelectorAll('.project-container').forEach(container => {
+            container.addEventListener('click', (e) => {
+                const projectName = container.getAttribute('data-project');
+                
+                // Prevent navigation for incomplete projects
+                if (projectName === 'swarm') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                
+                goToProject(projectName);
+            });
         });
-      });
-    }
-    
-        function openWorkPage(id, title) {
-      // Check if page already exists
-      let page = document.querySelector(`.work-page[data-id="${id}"]`);
-      
-      if (!page) {
-        // Create new page
-        page = createWorkPage(id, title);
-        document.body.appendChild(page);
+
+        // Tooltip functionality
+        const tooltip = document.getElementById('tooltip');
+        const projectImages = document.querySelectorAll('.project-image');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const body = document.body;
+        const toggleButton = document.getElementById('toggleButton');
+        const floatingToggle = document.getElementById('floatingToggle');
+
+        // Apply saved theme to both toggles
+        body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            if (toggleButton) toggleButton.classList.add('dark');
+            if (floatingToggle) floatingToggle.classList.add('dark');
+        }
+
+        // Safari viewport height fix - Updated for mobile
+        function setInfoPanelHeight() {
+            const panel = document.getElementById('infoPanel');
+            const actualViewportHeight = window.innerHeight;
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Mobile: panel comes from top
+                panel.style.height = `${actualViewportHeight}px`;
+                
+                if (!infoOpen) {
+                    panel.style.transform = 'translateY(-100vh)';
+                } else {
+                    panel.style.transform = 'translateY(0)';
+                }
+            } else {
+                // Desktop: original behavior
+                panel.style.height = `${actualViewportHeight}px`;
+                
+                const closedPosition = actualViewportHeight - 82;
+                
+                if (!infoOpen) {
+                    panel.style.transform = `translateY(${closedPosition}px)`;
+                } else {
+                    const openPosition = actualViewportHeight * 0.2;
+                    panel.style.transform = `translateY(${openPosition}px)`;
+                }
+            }
+        }
+
+        // Call on load and resize
+        setInfoPanelHeight();
+        window.addEventListener('resize', setInfoPanelHeight);
         
-        // Get the content wrapper element
-        const contentWrapper = page.querySelector('.page-content-wrapper');
-        
-        // Show loading animation
-        const hideLoading = showContentLoading(contentWrapper);
-        
-        // Much simpler loading - just wait a short time then hide
-        setTimeout(() => {
-          hideLoading();
-          contentWrapper.focus();
-        }, 200); // Fixed 800ms loading time
-      }
-      
-      // Show this page, hide others
-      hideAllPages();
-      page.style.display = 'flex';
-      
-      // Create or activate tab
-      activateTab(id, title);
-    }
-    
-    function createWorkPage(id, title) {
-      const page = document.createElement('div');
-      page.className = 'work-page';
-      page.setAttribute('data-id', id);
-      
-      const header = document.createElement('div');
-      header.className = 'page-header';
-      header.innerHTML = `
-        <div>${title}</div>
-        <button class="close-button">×</button>
-      `;
-  
-  const contentWrapper = document.createElement('div');
-  contentWrapper.className = 'page-content-wrapper';
-  
-  const content = document.createElement('div');
-  content.className = `page-content project-${id}`; // Add project-specific class here
-  
-  // Different content based on project ID
-  let projectContent = '';
-  
-  switch(id) {
-    case '1':
-      projectContent = `
-          <div class="content-section image-section">
-            <div class="page-link-container">
-              <a href="https://generaliststudio.github.io/alchemy/" target="_blank" class="project-link link-color-2">VIEW LIVE PROJECT</a>
-            </div>
-            <video autoplay muted loop playsinline>
-              <source src="images/symbiotica-cover.mp4" type="video/mp4">
-            </video>
-          </div>
-          
-          <div class="content-label-section">
-            <div class="left-column">Architecture Project</div>
-            <div class="right-column">2023</div>
-          </div>
-          
-          <div class="content-section title-section">
-            <h2>SYMBIOTICA</h2>
-            <div class="text-block">A modern residential complex featuring sustainable design principles and innovative use of space. This award-winning project incorporates green roofs, solar panels, and rainwater harvesting systems.</div>
-          </div>
-          
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/symbiotica-primary.mp4" type="video/mp4">
-            </video>
-          </div>
-
-           <div class="split-image-section">
-            <div class="content-section image-box">
-            <video autoplay muted loop playsinline>
-              <source src="images/symbiotica-row1.mp4" type="video/mp4">
-            </video>
-            </div>
-            <div class="content-section image-box">
-            <video autoplay muted loop playsinline>
-              <source src="images/symbiotica-row2.mp4" type="video/mp4">
-            </video>
-            </div>
-          </div>
-          
-          <div class="content-section title-section">
-            <h2>Environmental Impact</h2>
-            <div class="text-block">Completed in 2023, this project has set new standards for urban residential development with its focus on community spaces and environmental impact.</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/symbiotica-row3.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/symbiotica-row4.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row7.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row8.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row9.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row10.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row11.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row12.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row13.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row14.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/symbiotica-row15.webp" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="project-navigation">
-            <div class="project-nav-button" onclick="openWorkPage('2', '&#127925 OJAHARA')">← PREVIOUS PROJECT</div>
-            <div class="project-nav-button" onclick="openWorkPage('3', '&#128193 ARCHIVE')">NEXT PROJECT →</div>
-          </div>
-      `;
-      break;
-    
-    case '2':
-      projectContent = `
-     <div class="content-section image-section">
-        <div class="page-link-container">
-          <a href="https://generaliststudio.github.io/alchemy/" target="_blank" class="project-link link-color-1">VIEW LIVE PROJECT</a>
-        </div>
-        <img src="images/ojahara-logo.gif" alt="Ojahara Logo">
-      </div>
-          
-          <div class="content-label-section">
-            <div class="left-column">Role: Creative Director, Motion Designer, Web Designer</div>
-            <div class="right-column">2023-2024</div>
-          </div>
-          
-          <div class="content-section title-section">
-            <h2>OVERVIEW</h2>
-            <div class="text-block">To mark the release of Alchemy—a fantasy-laced single by the band Ojahara—I developed a cohesive visual system spanning a music video, launch graphics, and an interactive website.
-              </div>
-          </div>
-
-          <div class="split-image-section">
-            <div class="content-section image-box">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row10.mp4" type="video/mp4">
-            </video>
-            </div>
-            <div class="content-section image-box">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row11.mp4" type="video/mp4">
-            </video>
-            </div>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Alchemy's music video</div>
-          </div>
-
-          <div class="content-section image-section">
-           <video autoplay muted loop playsinline>
-              <source src="images/ojahara-primary.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="split-image-section">
-            <div class="content-section image-box">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-split1.mp4" type="video/mp4">
-            </video>
-            </div>
-            <div class="content-section image-box">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-split2.mp4" type="video/mp4">
-            </video>
-            </div>
-          </div>
-
-          <div class="content-section image-section">
-           <video autoplay muted loop playsinline>
-              <source src="images/ojahara-primary2.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Interactive launch-site</div>
-          </div>
-          
-          <div class="content-section title-section">
-            <h2>VISUAL IDENTITY</h2>
-            <div class="text-block">Ben and Charlie, together as Ojahara, blend classic influences from nearly every decade into something unmistakably modern—cheeky, cinematic, and deeply unserious. When we met, they had a distinct sonic identity but no platform to express it visually. I helped change that.<br><br>
-              
-            Working alongside the band and a small team of collaborators, I led the development of a flexible, immersive identity system—one that channels the warmth of analog tech and vintage media through a lens of fantastical play.
-              </div>
-          </div>
-
-            <div class="split-image-section">
-            <div class="content-section image-box">
-              <img src="images/ojahara-split2_1.jpg" alt="Exterior View">
-            </div>
-            <div class="content-section image-box">
-              <img src="images/ojahara-split2_2.jpg" alt="Interior Common Area">
-            </div>
-          </div>
-
-           <div class="content-section image-section">
-           <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row7.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">"Analog-ing" the video</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row2.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Layering type on the video: After Effects</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row0.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row8.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Additional video expiriments for social media: After Effects</div>
-          </div>
-
-          <div class="content-section title-section">
-            <h2>WEB INTEGRATION</h2>
-            <div class="text-block">Ben and Charlie, together as Ojahara, blend classic influences from nearly every decade into something unmistakably modern—cheeky, cinematic, and deeply unserious. When we met, they had a distinct sonic identity but no platform to express it visually. I helped change that.
-              </div>
-          </div>
-          
-          <div class="content-section image-section">
-            <img src="images/ojahara-row5.jpg" alt="Ojahara Primary Image">
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Digital sketch of the website: Figma, Illustrator</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row6.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Prototyping JS card logic: GPT 4.0</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row1.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row4.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">High-fidelity website motion graphics: After Effects</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/ojahara-row3.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Custom tarot-card game</div>
-          </div>
-
-          <div class="content-section title-section">
-            <h2>REFLECTION</h2>
-            <div class="text-block">Ben and Charlie, together as Ojahara, blend classic influences from nearly every decade into something unmistakably modern—cheeky, cinematic, and deeply unserious. When we met, they had a distinct sonic identity but no platform to express it visually. I helped change that.<br><br>
-              
-            Working alongside the band and a small team of collaborators, I led the development of a flexible, immersive identity system—one that channels the warmth of analog tech and vintage media through a lens of fantastical play.
-            </div>
-          </div>
-
-          <div class="project-navigation">
-            <div class="project-nav-button" onclick="openWorkPage('4', '&#128031 TIDELANDS')">← PREVIOUS PROJECT</div>
-            <div class="project-nav-button" onclick="openWorkPage('1', '&#128192 SYMBIOTICA ')">NEXT PROJECT →</div>
-          </div>
-
-          </div>
-      `;
-      break;
-      
-    case '3':
-      projectContent = `
-        
-          <div class="content-section title-section">
-            <h2>FROM THE ARCHIVES...</h2>
-            <div class="text-block">Here you will find (in no particular order) projects, ideas, and expiriments that didn't make the cut, but are still near and dear to me.</div>
-          </div>
-          
-          <div class="content-section image-section">
-            <img src="images/chart.png" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/swarm-row1.webp" alt="Swarm Chart">
-          </div>
-          
-          <div class="content-section title-section">
-            <h2>SWARM BUG REPELLENT</h2>
-            <div class="text-block">Designed branding graphics for the world of Swarm, a bug repellent built for Gen Z consumers, taking clues from modern skincare and vintage camping gear.</div>
-          </div>
-
-          <div class="split-image-section">
-            <div class="content-section image-box">
-              <img src="images/orka-row1.webp" alt="Exterior View">
-            </div>
-            <div class="content-section image-box">
-              <img src="images/orka-row2.webp" alt="Interior Common Area">
-            </div>
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/orka-row4.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/orka-row3.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section title-section">
-            <h2>ORKA BEVERAGE CO.</h2>
-            <div class="text-block">Designed apparel graphics and custom-made jersey for Orka Beverage Company, an energy drink startup with viral marketing. The world I paint combines classic sports ephemera and the absurdity of Adult Swim cartoons.</div>
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/generalist-row1.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/generalist-row2.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/generalist-row3.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section title-section">
-            <h2>GENERALIST.ONLINE</h2>
-            <div class="text-block">With the help of some friends, I started a small design and apparel business to support some our ambitious creative endeavours. I designed and implimented a custom shop and studio website, taking clues from street wear to A24.</div>
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/nads-row1.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/nads-row2.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/nads-row3.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/nads-row4.webp" alt="Swarm Chart">
-          </div>
-
-          <div class="content-section title-section">
-            <h2>NADS: THE DOCUMENTARY</h2>
-            <div class="text-block">Designed graphics and merchandise for the most attended party is RISD's recent history. I also currently serve as a producer and designer for the Nads Documentary, most recently designing the film's website. GO NADS!</div>
-          </div>
-
-          <div class="project-navigation">
-            <div class="project-nav-button" onclick="openWorkPage('1', '&#128192 SYMBIOTICA')">← PREVIOUS PROJECT</div>
-            <div class="project-nav-button" onclick="openWorkPage('4', '&#128031 TIDELANDS')">NEXT PROJECT →</div>
-          </div>
-      `;
-      break;
-      
-    case '4':
-      projectContent = `
-          <div class="content-section image-section">
-             <div class="page-link-container">
-              <a href="https://tidelands.earth" target="_blank" class="project-link link-color-3">VIEW LIVE PROJECT</a>
-            </div>
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-primary.mp4" type="video/mp4">
-            </video>
-          </div>
-          
-          <div class="content-label-section">
-            <div class="left-column">Role: Web Designer, Futurist, Worldbuilder</div>
-            <div class="right-column">2025</div>
-          </div>
-          
-          <div class="content-section title-section">
-            <h2>OVERVIEW</h2>
-            <div class="text-block">TIDELANDS 2100 explores a speculative climate future in Potter’s Pond, RI—reimagined as a resilient coastal community adapting to rising seas.<br><br>Tidelands.earth is its narrative home: a web platform layering flood data, modular aesthetics, and interactive cues as groundwork for a forthcoming XR world.
-          </div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-row1.mp4" type="video/mp4">
-            </video>
-          </div>
-          
-          <div class="split-image-section">
-            <div class="content-section image-box">
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-row2.mp4" type="video/mp4">
-            </video>
-            </div>
-            <div class="content-section image-box">
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-row3.mp4" type="video/mp4">
-            </video>
-            </div>
-          </div>
-          
-          <div class="content-section title-section">
-            <h2>PROCESS</h2>
-            <div class="text-block">I shaped the platform from sketch to prototype to final build—designing interactions, refining visuals, and ensuring mobile responsiveness for a stable, immersive experience.</div>
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/tidelands-row8.png" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Napkin Sketch</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-row7.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Prototyping Interaction: GPT 4.0</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-row4.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Translating to high fidelity mockup: Illustrator, Claude Artifacts</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-row5.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-label-section">
-            <div class="left-column">Bug fixes with mobility compatibility: Claude Sonnet</div>
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-row9.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-section title-section">
-            <h2>NEXT STEPS</h2>
-            <div class="text-block">To begin building the world of TIDELANDS 2100, I'm starting in intentional low-res.<br><br>
-            Using real topographic data, I rendered a 1:1 model of Potter’s Pond in Minecraft—a speculative scaffold for the VR environment to come.
-            Its modular logic is a tool for spatial thinking: prototyping narrative architecture, testing ecological logics, and staying open to iteration.
-            </div>
-          </div>
-
-          <div class="content-section image-section">
-            <img src="images/tidelands-row11.gif" alt="Tidelands Walkthrough">
-          </div>
-
-          <div class="content-section image-section">
-            <video autoplay muted loop playsinline>
-              <source src="images/tidelands-row10.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="content-section title-section">
-            <h2>REFLECTION</h2>
-            <div class="text-block">
-            </div>
-          </div>
-
-        <div class="project-navigation">
-          <div class="project-nav-button" onclick="openWorkPage('3', '&#128193 ARCHIVE')">← PREVIOUS PROJECT</div>
-          <div class="project-nav-button" onclick="openWorkPage('2', '&#127925 OJAHARA')">NEXT PROJECT →</div>
-        </div>
-
-      `;
-      break;
-      
-    default:
-      projectContent = `
-          <div class="content-section image-section">
-            <img src="/api/placeholder/600/450" alt="Project ${id} Main Image">
-          </div>
-          
-          <div class="content-label-section">
-            <div class="left-column">Creative Project</div>
-            <div class="right-column">2024</div>
-          </div>
-          
-          <div class="content-section title-section">
-            <h2>PROJECT ${id}</h2>
-            <div class="text-block">This is a detailed description of project ${id}. This project showcases various techniques and approaches to design and development.</div>
-          </div>
-          
-          <div class="content-section split-image-section">
-            <img src="/api/placeholder/600/400" alt="Project ${id} Detail 1">
-            <img src="/api/placeholder/600/400" alt="Project ${id} Detail 2">
-          </div>
-      `;
-  }
-  
-  content.innerHTML = projectContent;
-  contentWrapper.appendChild(content);
-  page.appendChild(header);
-  page.appendChild(contentWrapper);
-  
-  // Set up close button
-  const closeButton = header.querySelector('.close-button');
-  closeButton.addEventListener('click', () => {
-    closePage(id);
-  });
-  
-  return page;
-}
-    
-    function hideAllPages() {
-      document.querySelectorAll('.work-page').forEach(page => {
-        page.style.display = 'none';
-      });
-    }
-    
-    function activateTab(id, title) {
-      const tabsContainer = document.querySelector('.tabs');
-      
-      // Deactivate all tabs
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('pressed');
-      });
-      
-      // Check if tab already exists
-      let tab = document.querySelector(`.tab[data-id="${id}"]`);
-      
-      if (!tab) {
-        // Create new tab
-        tab = document.createElement('div');
-        tab.className = 'tab';
-        tab.setAttribute('data-id', id);
-        tab.textContent = title;
-        tab.setAttribute('data-full-title', title); // Store full title
-        
-        tab.addEventListener('click', () => {
-          openWorkPage(id, title);
+        // Also call when viewport changes (Safari UI changes)`
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setInfoPanelHeight, 100);
         });
-        
-        // Insert tab at the beginning of tabs container
-        if (tabsContainer.firstChild) {
-          tabsContainer.insertBefore(tab, tabsContainer.firstChild);
-        } else {
-          tabsContainer.appendChild(tab);
-        }
-        
-        // Resize tabs after adding new one
-        resizeTabs();
-      }
-      
-      // Activate this tab
-      tab.classList.add('pressed');
-    }
-    
-    function closePage(id) {
-      // Remove page
-      const page = document.querySelector(`.work-page[data-id="${id}"]`);
-      if (page) {
-        page.remove();
-      }
-      
-      // Remove tab
-      const tab = document.querySelector(`.tab[data-id="${id}"]`);
-      if (tab) {
-        tab.remove();
-        // Resize remaining tabs after removal
-        resizeTabs();
-      }
-      
-      // Show next available page or return to main content
-      const nextPage = document.querySelector('.work-page');
-      if (nextPage) {
-        nextPage.style.display = 'flex';
-        const nextId = nextPage.getAttribute('data-id');
-        document.querySelector(`.tab[data-id="${nextId}"]`).classList.add('pressed');
-      } else {
-        // No more pages open - show main content and clear all button states
-        hideAllPages();
-        document.querySelectorAll('.button').forEach(btn => {
-          btn.classList.remove('pressed');
+
+        projectImages.forEach(image => {
+            const container = image.closest('.project-container');
+            const tooltipText = container.getAttribute('data-tooltip');
+            
+            image.addEventListener('mouseenter', (e) => {
+                if (infoOpen) return; // Don't show tooltip when info panel is open
+                
+                tooltip.textContent = tooltipText;
+                tooltip.classList.add('show');
+            });
+
+            image.addEventListener('mousemove', (e) => {
+                if (infoOpen) return;
+                
+                const x = e.clientX;
+                const y = e.clientY;
+                
+                tooltip.style.left = x + 'px';
+                tooltip.style.top = y + 'px';
+            });
+
+            image.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('show');
+            });
         });
-        document.querySelector('.work-menu').style.display = 'none';
-        document.querySelector('.about-menu').style.display = 'none';
-      }
-    }
 
-    function resizeTabs() {
-      const allTabs = document.querySelectorAll('.tab');
-      const tabsContainer = document.querySelector('.tabs');
-      
-      if (allTabs.length === 0) return;
-      
-      // Get the actual available width of the tabs container
-      const availableWidth = tabsContainer.offsetWidth;
-      
-      // Reset tabs to auto width first
-      allTabs.forEach(tab => {
-        tab.style.width = 'auto';
-      });
-      
-      // Check total natural width
-      let totalWidth = 0;
-      allTabs.forEach(tab => {
-        totalWidth += tab.offsetWidth;
-      });
-      
-      // Only resize if needed
-      if (totalWidth > availableWidth) {
-        const tabWidth = Math.floor(availableWidth / allTabs.length);
-        allTabs.forEach(tab => {
-          tab.style.width = Math.max(30, tabWidth) + 'px';
-        });
-      }
-    }
-
-    // Slideshow click functionality
-    function setupSlideshowClick() {
-      const slideshow = document.querySelector('.slideshow');
-      
-      slideshow.addEventListener('click', () => {
-        console.log('Slideshow clicked!'); // Debug log
-        
-        // Find active element (could be img or video)
-        const activeElement = document.querySelector('.slideshow .active');
-        console.log('Active element:', activeElement); // Debug log
-        
-        if (activeElement) {
-          const projectId = activeElement.getAttribute('data-project');
-          const projectTitle = activeElement.getAttribute('data-title');
-          
-          console.log('Project ID:', projectId, 'Project Title:', projectTitle); // Debug log
-          
-          if (projectId && projectTitle) {
-            console.log('Calling openWorkPage...'); // Debug log
-            openWorkPage(projectId, projectTitle);
-          } else {
-            console.log('Missing project data attributes');
-          }
-        } else {
-          console.log('No active element found');
-        }
-      });
-      
-      // Add cursor pointer style to indicate clickability
-      slideshow.style.cursor = 'pointer';
-    }
-
-    const desktopIcons = [
-      {
-        name: 'Instagram',
-        image: 'images/Heart.ico',
-        link: 'https://www.instagram.com/rettieri/'
-      },
-      {
-        name: 'Are.na',
-        image: 'images/chrome-star.ico',
-        link: 'https://www.are.na/ryan-lettieri'
-      },
-      {
-        name: 'Email',
-        image: 'images/Book_and_Quill.ico',
-        link: 'mailto:ryanlettieri@icloud.com'
-      },
-      {
-        name: 'CV',
-        image: 'images/vaporwave-disc.ico',
-        link: 'cv.html'
-      }
-    ];
-
-    function initializeDesktopIcons() {
-      const iconsContainer = document.querySelector('.desktop-icons');
-      
-      desktopIcons.forEach((iconData, index) => {
-        const iconElement = createDesktopIcon(iconData, index);
-        iconsContainer.appendChild(iconElement);
-      });
-      
-      setupIconDragging();
-    }
-
-    function createDesktopIcon(iconData, index) {
-      const icon = document.createElement('div');
-      icon.className = 'desktop-icon';
-      icon.setAttribute('data-index', index);
-      
-      // Position icons vertically with spacing
-      icon.style.top = (index * 80) + 'px'; // 80px spacing between icons
-      icon.style.left = '0px';
-      
-      icon.innerHTML = `
-        <img src="${iconData.image}" alt="${iconData.name}">
-        <span>${iconData.name}</span>
-      `;
-      
-      // Click handler for navigation
-      icon.addEventListener('click', (e) => {
-        if (!icon.classList.contains('dragging')) {
-          if (iconData.link.startsWith('mailto:')) {
-            window.location.href = iconData.link;
-          } else {
-            window.open(iconData.link, '_blank');
-          }
-        }
-      });
-      
-      return icon;
-    }
-
-    function setupIconDragging() {
-      let draggedIcon = null;
-      let isDragging = false;
-      let hasDragged = false; // Track if actual dragging occurred
-      let startX, startY, offsetX, offsetY;
-      
-      // Mouse events
-      document.addEventListener('mousedown', startDrag);
-      document.addEventListener('mousemove', drag);
-      document.addEventListener('mouseup', endDrag);
-      
-      // Touch events for mobile
-      document.addEventListener('touchstart', startDrag, { passive: false });
-      document.addEventListener('touchmove', drag, { passive: false });
-      document.addEventListener('touchend', endDrag);
-      
-      function startDrag(e) {
-        const target = e.target.closest('.desktop-icon');
-        if (!target) return;
-        
-        draggedIcon = target;
-        isDragging = false;
-        hasDragged = false; // Reset drag state
-        
-        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-        
-        startX = clientX;
-        startY = clientY;
-        
-        // Get the icon's position relative to the viewport
-        const rect = draggedIcon.getBoundingClientRect();
-        
-        // Calculate offset from mouse to top-left of icon
-        offsetX = clientX - rect.left;
-        offsetY = clientY - rect.top;
-        
-        // Only prevent default if we're actually starting to drag
-        // Don't prevent it immediately to allow clicks to work
-      }
-      
-      function drag(e) {
-        if (!draggedIcon) return;
-        
-        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-        
-        const deltaX = clientX - startX;
-        const deltaY = clientY - startY;
-        
-        // Start dragging if moved more than 5px
-        if (!isDragging && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
-          isDragging = true;
-          hasDragged = true; // Mark that actual dragging occurred
-          draggedIcon.classList.add('dragging');
-          draggedIcon.style.position = 'fixed';
-          draggedIcon.style.zIndex = '1000';
-          e.preventDefault(); // Now prevent default since we're dragging
-        }
-        
-        if (isDragging) {
-          const newLeft = clientX - offsetX;
-          const newTop = clientY - offsetY;
-          
-          draggedIcon.style.left = newLeft + 'px';
-          draggedIcon.style.top = newTop + 'px';
-          e.preventDefault();
-        }
-      }
-      
-      function endDrag(e) {
-        if (draggedIcon) {
-          if (hasDragged) {
-            // If we actually dragged, clean up with a delay
+        // Updated toggleInfo function for mobile
+        function toggleInfo(event) {
+            if (event) event.stopPropagation();
+            
+            const panel = document.getElementById('infoPanel');
+            const infoText = document.getElementById('infoText');
+            const menuButton = document.getElementById('menuButton');
+            const isMobile = window.innerWidth <= 768;
+            
+            infoOpen = !infoOpen;
+            panel.classList.add('enable-transitions');
+            
+            if (infoOpen) {
+                panel.classList.add('open');
+                
+                // Prevent background scrolling on mobile only
+                if (isMobile) {
+                    document.body.style.overflow = 'hidden';
+                    menuButton.textContent = 'CLOSE';
+                } else {
+                    infoText.textContent = 'CLOSE';
+                }
+                
+                tooltip.classList.remove('show'); // Hide tooltip when info panel opens
+                
+                if (isMobile) {
+                    panel.style.transform = 'translateY(0)';
+                } else {
+                    const openPosition = window.innerHeight * 0.2;
+                    panel.style.transform = `translateY(${openPosition}px)`;
+                }
+            } else {
+                panel.classList.remove('open');
+                
+                // Re-enable background scrolling on mobile only
+                if (isMobile) {
+                    document.body.style.overflow = '';
+                    menuButton.textContent = 'MENU';
+                } else {
+                    infoText.textContent = 'MENU';
+                }
+                
+                if (isMobile) {
+                    panel.style.transform = 'translateY(-100vh)';
+                } else {
+                    const closedPosition = window.innerHeight - 82;
+                    panel.style.transform = `translateY(${closedPosition}px)`;
+                }
+            }
+            
             setTimeout(() => {
-              if (draggedIcon) {
-                draggedIcon.classList.remove('dragging');
-              }
-            }, 50); // Reduced timeout
-          } else {
-            // If we didn't drag, remove dragging class immediately
-            draggedIcon.classList.remove('dragging');
-          }
-          
-          draggedIcon = null;
-          isDragging = false;
-          hasDragged = false;
+                panel.classList.remove('enable-transitions');
+            }, 400);
         }
-      }
-    }
-    
-    // Initialize everything when DOM is loaded
-      document.addEventListener('DOMContentLoaded', () => {
-        startLoadingAnimation();
-        startSlideshow();
-        updateClock();
-        setupNavigation();
-        setupWorkPages();
-        setupAboutMenu();
-        setupSlideshowClick();
-        initializeDesktopIcons();
-      });
 
-      window.addEventListener('resize', () => {
-        resizeTabs();
-      });
+        // Updated toggleTheme to work with floating button
+        function toggleTheme(event) {
+            event.stopPropagation();
+            const body = document.body;
+            const desktopButton = document.getElementById('toggleButton');
+            const floatingButton = document.getElementById('floatingToggle');
+            
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                if (desktopButton) desktopButton.classList.add('dark');
+                if (floatingButton) floatingButton.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                if (desktopButton) desktopButton.classList.remove('dark');
+                if (floatingButton) floatingButton.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
 
-  </script>
+        function goToProject(projectName) {
+            // Prevent navigation for incomplete projects
+            if (projectName === 'swarm') {
+                return false;
+            }
+            
+            window.location.href = `${projectName}.html`;
+        }
+
+        //Close info panel when clicking outside
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('infoPanel');
+            const isMobile = window.innerWidth <= 768;
+            
+            if (infoOpen && !panel.contains(event.target)) {
+                // Re-enable scrolling when closing menu via click outside
+                if (isMobile) {
+                    document.body.style.overflow = '';
+                    const menuButton = document.getElementById('menuButton');
+                    menuButton.textContent = 'MENU';
+                }
+                toggleInfo();
+            }
+        });
+    </script>
 </body>
 </html>
