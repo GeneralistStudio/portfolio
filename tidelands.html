@@ -99,6 +99,22 @@
             color: #ffffff;
         }
 
+        /* New scroll text element */
+        .scroll-text {
+            grid-column: 3;
+            z-index: 3000;
+            mix-blend-mode: difference;
+            opacity: 1;
+            color: #ffffff; /* Use white color for difference blend */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .scroll-text.hidden {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
         /* Mobile Menu Button */
         .menu-button {
             display: none;
@@ -594,6 +610,12 @@
                 font-size: 24px;
             }
 
+            /* Hide scroll text on mobile */
+            .scroll-text {
+            display: none;
+            }
+            
+
             .project-item {
                 padding: 20px;
                 margin: 0 -20px;
@@ -707,6 +729,7 @@
     <div class="header">
         <a href="index.html" class="logo">RYAN LETTIERI</a>
         <a href="mailto:ryanlettieri@icloud.com" class="email">@EMAIL</a>
+        <div class="scroll-text" id="scrollText">I'm a graphic, motion, and interaction designer specializing in brand and web systems for innovative digital products. </div>
         <div class="copyright">©2025</div>
         <button class="menu-button" id="menuButton" onclick="toggleInfo(event)">MENU</button>
     </div>
@@ -839,6 +862,41 @@
 
     <script>
         let infoOpen = false;
+        let lastScrollTop = 0;
+
+        // Scroll functionality for the scroll text
+        function handleScroll() {
+            const scrollText = document.getElementById('scrollText');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Show/hide based on scroll direction and position
+            if (scrollTop > 50) { // Start hiding after 50px scroll
+                if (scrollTop > lastScrollTop) {
+                    // Scrolling down
+                    scrollText.classList.add('hidden');
+                } else {
+                    // Scrolling up
+                    scrollText.classList.remove('hidden');
+                }
+            } else {
+                // At top of page
+                scrollText.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+        }
+
+        // Add scroll event listener with throttling for better performance
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    handleScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
 
         // Check for saved theme preference or default to light mode
         const savedTheme = localStorage.getItem('theme') || 'light';
