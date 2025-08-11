@@ -490,6 +490,23 @@
             transition: color 0.3s ease;
         }
 
+        .project-container[data-project="swarm"] {
+            cursor: not-allowed;
+        }
+
+        .project-container[data-project="swarm"]:hover {
+            cursor: not-allowed;
+        }
+
+        .project-item[onclick*="swarm"] {
+            cursor: not-allowed;
+        }
+
+        .project-item[onclick*="swarm"]:hover {
+            cursor: not-allowed;
+            background: var(--hover-color); /* Keep the hover background effect */
+        }
+
         @media (max-width: 768px) {
             body {
                 overflow-x: hidden;
@@ -847,6 +864,10 @@
                 <div class="project-item" onclick="goToProject('alchemy')">
                     <div class="project-name">ALCHEMY</div>
                     <div class="project-type-index">IDENTITY, VIDEO</div>
+                </div>
+                <div class="project-item" onclick="goToProject('swarm')">
+                    <div class="project-name">BEAM</div>
+                    <div class="project-type-index">WEB, BRAND, STRATEGY</div>
                 </div>
                 <div class="project-item" onclick="goToProject('swarm')">
                     <div class="project-name">SWARM</div>
